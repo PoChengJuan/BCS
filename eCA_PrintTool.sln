@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "eCA_PrintTool", "eCA_PrintTool\eCA_PrintTool.vbproj", "{74243434-DA14-45EE-9ED9-0385FDBDBCCB}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "eCA_HttpTool", "..\eCA_HttpTool\eCA_HttpTool\eCA_HttpTool.vbproj", "{84B16A73-48EC-4D38-87CA-51EF803A7125}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74243434-DA14-45EE-9ED9-0385FDBDBCCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74243434-DA14-45EE-9ED9-0385FDBDBCCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74243434-DA14-45EE-9ED9-0385FDBDBCCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74243434-DA14-45EE-9ED9-0385FDBDBCCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84B16A73-48EC-4D38-87CA-51EF803A7125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84B16A73-48EC-4D38-87CA-51EF803A7125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84B16A73-48EC-4D38-87CA-51EF803A7125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84B16A73-48EC-4D38-87CA-51EF803A7125}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A7D06D0-9076-42FC-A020-54B425C54449}
+	EndGlobalSection
+EndGlobal
