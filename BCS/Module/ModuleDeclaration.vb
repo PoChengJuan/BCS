@@ -49,6 +49,12 @@ Public Module ModuleDeclaration
   Public strIncoming As String
 
   Public RS232 As SerialPort
+
+  Public Input_Cnt = 0
+
+  '掃描頁面變數
+  Public int_PlatForm = 0
+
   'Public PRINTER_NAME_CarrierLabel As String
 
 

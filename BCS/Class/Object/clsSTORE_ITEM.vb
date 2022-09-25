@@ -4,10 +4,10 @@
   Private _gid As String
   Private _PlatForm As String '平台 
   Private _LotNo As String '賣場 
-  Private _Store_ID As String '店代號 
   Private _BarCode1 As String '條碼1 
   Private _BarCode2 As String '條碼2 
   Private _BarCode3 As String '條碼3 
+  Private _BarCode4 As String '條碼4
   Private _CreateTime As String '建立時間 
 
 
@@ -35,14 +35,7 @@
       _LotNo = value
     End Set
   End Property
-  Public Property Store_ID() As String
-    Get
-      Return _Store_ID
-    End Get
-    Set(ByVal value As String)
-      _Store_ID = value
-    End Set
-  End Property
+
   Public Property BarCode1() As String
     Get
       Return _BarCode1
@@ -67,6 +60,14 @@
       _BarCode3 = value
     End Set
   End Property
+  Public Property BarCode4() As String
+    Get
+      Return _BarCode4
+    End Get
+    Set(ByVal value As String)
+      _BarCode4 = value
+    End Set
+  End Property
   Public Property CreateTime() As String
     Get
       Return _CreateTime
@@ -78,17 +79,17 @@
 
 
   '物件建立時執行的事件
-  Public Sub New(ByVal PlatForm As String, ByVal LotNo As String, ByVal Store_ID As String, ByVal BarCode1 As String, ByVal BarCode2 As String, ByVal BarCode3 As String, ByVal CreateTime As String)
+  Public Sub New(ByVal PlatForm As String, ByVal LotNo As String, ByVal BarCode1 As String, ByVal BarCode2 As String, ByVal BarCode3 As String, ByVal BarCode4 As String, ByVal CreateTime As String)
     MyBase.New()
     Try
-      Dim key As String = Get_Combination_Key(PlatForm, LotNo, Store_ID)
+      Dim key As String = ""
       _gid = key
       _PlatForm = PlatForm
       _LotNo = LotNo
-      _Store_ID = Store_ID
       _BarCode1 = BarCode1
       _BarCode2 = BarCode2
       _BarCode3 = BarCode3
+      _BarCode4 = BarCode4
       _CreateTime = CreateTime
     Catch ex As Exception
       SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
@@ -106,9 +107,9 @@
 
   '=================Public Function=======================
   '傳入指定參數取得Key值
-  Public Shared Function Get_Combination_Key(ByVal PlatForm As String, ByVal LotNo As String, ByVal Store_ID As String) As String
+  Public Shared Function Get_Combination_Key() As String
     Try
-      Dim key As String = PlatForm & LinkKey & LotNo & LinkKey & Store_ID
+      Dim key As String = ""
       Return key
     Catch ex As Exception
       SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)

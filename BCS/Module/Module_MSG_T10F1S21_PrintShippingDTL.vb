@@ -50,12 +50,12 @@
       'Dim EXPORT_TYPE As Double = PrintEnable
 
 
-      'Dim ret_dicAdd_EXPORT As New Dictionary(Of String, eCA_PrintTool.clsEXPORT)
-      'Dim ret_dicAdd_EXPORT_DTL As New Dictionary(Of String, eCA_PrintTool.clsEXPORT_DTL)
+      'Dim ret_dicAdd_EXPORT As New Dictionary(Of String, BCS.clsEXPORT)
+      'Dim ret_dicAdd_EXPORT_DTL As New Dictionary(Of String, BCS.clsEXPORT_DTL)
 
 
       ''建立列印資訊
-      'Dim New_objExport As New eCA_PrintTool.clsEXPORT(EXPORT_ID, SAMPLE_FILE_NAME, CREATE_TIME, FINISH_TIME, EXPORT_TYPE, PRINTER_NO)
+      'Dim New_objExport As New BCS.clsEXPORT(EXPORT_ID, SAMPLE_FILE_NAME, CREATE_TIME, FINISH_TIME, EXPORT_TYPE, PRINTER_NO)
       'If ret_dicAdd_EXPORT.ContainsKey(New_objExport.gid) = False Then
       '	ret_dicAdd_EXPORT.Add(New_objExport.gid, New_objExport)
       'End If
@@ -63,7 +63,7 @@
 
 
       ''組列印DTL
-      'Dim New_objExport_DTL As eCA_PrintTool.clsEXPORT_DTL = Nothing
+      'Dim New_objExport_DTL As BCS.clsEXPORT_DTL = Nothing
       'Dim TABLE_INDEX_1 As Double = 1 '第幾層 只目前支援三層(從1開始)
       'Dim TABLE_INDEX_2 As Double = 2 '第幾層 只目前支援三層(從1開始)
       'Dim SHEET_INDEX_1 As Double = 0 '第幾層(從1開始) '單層列印使用		
@@ -71,8 +71,8 @@
       'Dim VALUE As String = ""
       For Each objOrderInfo In Receive_Msg.Body.OrderList.OrderInfo
         'For Each objItemLabel In Receive_Msg.Body.LabelList.LabelInfo
-        Dim ret_dicAdd_EXPORT As New Dictionary(Of String, eCA_PrintTool.clsEXPORT)
-        Dim ret_dicAdd_EXPORT_DTL As New Dictionary(Of String, eCA_PrintTool.clsEXPORT_DTL)
+        Dim ret_dicAdd_EXPORT As New Dictionary(Of String, BCS.clsEXPORT)
+        Dim ret_dicAdd_EXPORT_DTL As New Dictionary(Of String, BCS.clsEXPORT_DTL)
         Dim EXPORT_ID As String = GetNewTime_DBFullTimeUUIDFormat()
         Dim SAMPLE_FILE_NAME As String = EnuPrintName.ShippingDetails.ToString
         'If PrintType = "A" Then
@@ -89,14 +89,14 @@
         Dim FINISH_TIME As String = ""
         Dim EXPORT_TYPE As Double = PrintEnable
         '建立列印資訊
-        Dim New_objExport As New eCA_PrintTool.clsEXPORT(EXPORT_ID, SAMPLE_FILE_NAME, CREATE_TIME, FINISH_TIME, EXPORT_TYPE, PRINTER_NO)
+        Dim New_objExport As New BCS.clsEXPORT(EXPORT_ID, SAMPLE_FILE_NAME, CREATE_TIME, FINISH_TIME, EXPORT_TYPE, PRINTER_NO)
         If ret_dicAdd_EXPORT.ContainsKey(New_objExport.gid) = False Then
           ret_dicAdd_EXPORT.Add(New_objExport.gid, New_objExport)
         End If
 
 
         '組列印DTL
-        Dim New_objExport_DTL As eCA_PrintTool.clsEXPORT_DTL = Nothing
+        Dim New_objExport_DTL As BCS.clsEXPORT_DTL = Nothing
         Dim TABLE_INDEX_1 As Double = 1 '第幾層 只目前支援三層(從1開始)
         Dim TABLE_INDEX_2 As Double = 2 '第幾層 只目前支援三層(從1開始)
         Dim SHEET_INDEX_1 As Double = 0 '第幾層(從1開始) '單層列印使用		
@@ -129,7 +129,7 @@
               Case 9 '製單日期
                 VALUE = objOrderInfo.TAG7
             End Select
-            New_objExport_DTL = New eCA_PrintTool.clsEXPORT_DTL(EXPORT_ID, TABLE_INDEX_1, SHEET_INDEX_1, VALUE_INDEX, VALUE)
+            New_objExport_DTL = New BCS.clsEXPORT_DTL(EXPORT_ID, TABLE_INDEX_1, SHEET_INDEX_1, VALUE_INDEX, VALUE)
             If ret_dicAdd_EXPORT_DTL.ContainsKey(New_objExport_DTL.gid) = False Then
               ret_dicAdd_EXPORT_DTL.Add(New_objExport_DTL.gid, New_objExport_DTL)
             End If
@@ -154,7 +154,7 @@
                 Case 6 '單位
                   VALUE = objOrderDTLInfo.D_TAG4
               End Select
-              New_objExport_DTL = New eCA_PrintTool.clsEXPORT_DTL(EXPORT_ID, TABLE_INDEX_2, SHEET_INDEX_1, VALUE_INDEX, VALUE)
+              New_objExport_DTL = New BCS.clsEXPORT_DTL(EXPORT_ID, TABLE_INDEX_2, SHEET_INDEX_1, VALUE_INDEX, VALUE)
               If ret_dicAdd_EXPORT_DTL.ContainsKey(New_objExport_DTL.gid) = False Then
                 ret_dicAdd_EXPORT_DTL.Add(New_objExport_DTL.gid, New_objExport_DTL)
               End If
@@ -172,7 +172,7 @@
             Return False
 
           Else '-不要列印-會只存成PDF文件
-            If eCA_PrintTool.ReportPDFFile(ret_dicAdd_EXPORT, ret_dicAdd_EXPORT_DTL, SamplePath, ExportPath, PrintFormatSettingPath, ret_reportfilename, User_ID, UUID, "1", ret_strResult_Message) = False Then
+            If BCS.ReportPDFFile(ret_dicAdd_EXPORT, ret_dicAdd_EXPORT_DTL, SamplePath, ExportPath, PrintFormatSettingPath, ret_reportfilename, User_ID, UUID, "1", ret_strResult_Message) = False Then
               ret_strResult_Message = ModifyStringApostrophe(ret_strResult_Message)
               Return False
             End If
@@ -186,7 +186,7 @@
 
         Else '-不要轉PDF
           If PrintEnable = "1" Then '1:要列印
-            If eCA_PrintTool.PrintStart(ret_dicAdd_EXPORT, ret_dicAdd_EXPORT_DTL, SamplePath, ExportPath, PrintFormatSettingPath, ret_reportfilename, User_ID, UUID, ret_strResult_Message, False) = False Then
+            If BCS.PrintStart(ret_dicAdd_EXPORT, ret_dicAdd_EXPORT_DTL, SamplePath, ExportPath, PrintFormatSettingPath, ret_reportfilename, User_ID, UUID, ret_strResult_Message, False) = False Then
               ret_strResult_Message = ModifyStringApostrophe(ret_strResult_Message)
               Return False
             Else
@@ -212,7 +212,7 @@
       '		Return False
 
       '	Else '-不要列印-會只存成PDF文件
-      '		If eCA_PrintTool.ReportPDFFile(ret_dicAdd_EXPORT, ret_dicAdd_EXPORT_DTL, SamplePath, ExportPath, PrintFormatSettingPath, ret_reportfilename, User_ID, UUID, ret_strResult_Message) = False Then
+      '		If BCS.ReportPDFFile(ret_dicAdd_EXPORT, ret_dicAdd_EXPORT_DTL, SamplePath, ExportPath, PrintFormatSettingPath, ret_reportfilename, User_ID, UUID, ret_strResult_Message) = False Then
       '			ret_strResult_Message = ModifyStringApostrophe(ret_strResult_Message)
       '			Return False
       '		End If
@@ -226,7 +226,7 @@
 
       'Else '-不要轉PDF
       '	If PrintEnable = "1" Then '1:要列印
-      '		If eCA_PrintTool.PrintStart(ret_dicAdd_EXPORT, ret_dicAdd_EXPORT_DTL, SamplePath, ExportPath, PrintFormatSettingPath, ret_reportfilename, User_ID, UUID, ret_strResult_Message, False) = False Then
+      '		If BCS.PrintStart(ret_dicAdd_EXPORT, ret_dicAdd_EXPORT_DTL, SamplePath, ExportPath, PrintFormatSettingPath, ret_reportfilename, User_ID, UUID, ret_strResult_Message, False) = False Then
       '			ret_strResult_Message = ModifyStringApostrophe(ret_strResult_Message)
       '			Return False
       '		Else

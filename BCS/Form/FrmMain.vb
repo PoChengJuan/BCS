@@ -197,8 +197,15 @@ Public Class FrmMain
       Timer1.Interval = RefreshAliveTime
       Timer1.Enabled = True
 
+      '掃描頁面
+      lb_BarCode1.Text = ""
+      lb_BarCode2.Text = ""
+      lb_BarCode3.Text = ""
+      lb_BarCode4.Text = ""
+      ComboBox1.SelectedIndex = 0
+      tb_BarCodeInput.Select()
 
-
+      '報表頁面
     Catch ex As Exception
       MsgBox(ex.ToString)
     End Try
@@ -323,39 +330,39 @@ Public Class FrmMain
 
   End Sub
 
-  Private Sub btn_START_Click(sender As Object, e As EventArgs) Handles btn_START.Click
-    Try
-      If flg_Start = False Then
-        flg_Start = True
-      ElseIf flg_Start = True Then
-        flg_Start = False
-      End If
+  'Private Sub btn_START_Click(sender As Object, e As EventArgs) Handles btn_START.Click
+  '  Try
+  '    If flg_Start = False Then
+  '      flg_Start = True
+  '    ElseIf flg_Start = True Then
+  '      flg_Start = False
+  '    End If
 
-      If flg_Start = False Then
-        btn_START.Text = "開始刷取"
-      ElseIf flg_Start = True Then
-        btn_START.Text = "停止刷取"
+  '    If flg_Start = False Then
+  '      btn_START.Text = "開始刷取"
+  '    ElseIf flg_Start = True Then
+  '      btn_START.Text = "停止刷取"
 
-        '初始COM PORT
+  '      '初始COM PORT
 
 
-        RS232 = New SerialPort("COM10", 9600, Parity.None, 8, 1)
+  '      RS232 = New SerialPort("COM10", 9600, Parity.None, 8, 1)
 
-        If (Not RS232.IsOpen) Then
+  '      If (Not RS232.IsOpen) Then
 
-          RS232.Open()
+  '        RS232.Open()
 
-        End If
+  '      End If
 
-        Dim td As Thread = New Thread(AddressOf serialPort1_DataReceived)
+  '      Dim td As Thread = New Thread(AddressOf serialPort1_DataReceived)
 
-        td.Start()
-      End If
-    Catch ex As Exception
-      MsgBox(ex.ToString)
-      SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
-    End Try
-  End Sub
+  '      td.Start()
+  '    End If
+  '  Catch ex As Exception
+  '    MsgBox(ex.ToString)
+  '    SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
+  '  End Try
+  'End Sub
   Public Sub serialPort1_DataReceived()
     While True
 
@@ -382,5 +389,163 @@ Public Class FrmMain
 
     End If
 
+  End Sub
+
+  Private Sub btn_CreateReport_Click(sender As Object, e As EventArgs) Handles btn_CreateReport.Click
+
+    Dim PlatForm = ""
+    Select Case ComboBox2.SelectedIndex
+      Case 0
+        PlatForm = "7-11"
+      Case 1
+        PlatForm = "OK Mart"
+      Case 2
+        PlatForm = "Family"
+      Case Else
+        MsgBox("請選擇平台")
+    End Select
+
+    Dim LotNo = tb_LotNo_Report.Text
+    Dim Start_Date = DatePicker_Start.Value.Date.ToString("yyyy/MM/dd")
+
+    Dim Start_Time = TimePicker_Start.Value.TimeOfDay.ToString()
+    Dim End_Date = DatePicker_End.Value.Date.ToString("yyyy/MM/dd")
+    Dim End_Time = TimePicker_End.Value.TimeOfDay.ToString()
+
+    Dim Start_DateTime = Start_Date & " " & Start_Time
+    Dim End_DateTime = End_Date & " " & End_Time
+    lbl_Test.Text = Start_Date & " " & Start_Time & " 到 " & End_Date & " " & End_Time
+
+    Dim ret_Msg = ""
+    If Module_CreateBarCodeReport.O_Process_Message(PlatForm, LotNo, Start_DateTime, End_DateTime, ret_Msg) = False Then
+      MsgBox(ret_Msg)
+    Else
+      MsgBox("成功")
+    End If
+  End Sub
+
+  Private Sub TextBox1_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles tb_BarCodeInput.KeyPress
+    If e.KeyChar = Microsoft.VisualBasic.ChrW(Keys.Return) Then
+
+
+      Select Case int_PlatForm
+        Case 0  '7-11
+        Case 1  'OK
+        Case 2  '全家
+      End Select
+
+      'MsgBox("輸入的值是" & tb_BarCodeInput.Text)
+      If Input_Cnt = 0 Then
+        lb_BarCode1.Text = tb_BarCodeInput.Text
+        tb_BarCodeInput.Text = ""
+        If int_PlatForm = 2 Then
+          Input_Cnt = 0
+          Dim ret_MSG = ""
+          If Module_ScanOKBarCode.O_Process_Message("Family", tb_LotNo.Text, lb_BarCode1.Text, lb_BarCode2.Text, ret_MSG) = False Then
+            MsgBox(ret_MSG)
+            lb_BarCode1.Text = ""
+            lb_BarCode2.Text = ""
+            lb_BarCode3.Text = ""
+            lb_BarCode4.Text = ""
+          Else
+            lb_BarCode1.Text = ""
+            lb_BarCode2.Text = ""
+            lb_BarCode3.Text = ""
+            lb_BarCode4.Text = ""
+
+          End If
+        Else
+          Input_Cnt = Input_Cnt + 1
+        End If
+
+
+      ElseIf Input_Cnt = 1 Then
+        lb_BarCode2.Text = tb_BarCodeInput.Text
+        tb_BarCodeInput.Text = ""
+        If int_PlatForm = 1 Then
+          Input_Cnt = 0
+          Dim ret_MSG = ""
+          If Module_ScanOKBarCode.O_Process_Message("OK Mart", tb_LotNo.Text, lb_BarCode1.Text, lb_BarCode2.Text, ret_MSG) = False Then
+            MsgBox(ret_MSG)
+            lb_BarCode1.Text = ""
+            lb_BarCode2.Text = ""
+            lb_BarCode3.Text = ""
+            lb_BarCode4.Text = ""
+          Else
+            lb_BarCode1.Text = ""
+            lb_BarCode2.Text = ""
+            lb_BarCode3.Text = ""
+            lb_BarCode4.Text = ""
+
+          End If
+        Else
+          Input_Cnt = Input_Cnt + 1
+        End If
+
+      ElseIf Input_Cnt = 2 Then
+          lb_BarCode3.Text = tb_BarCodeInput.Text
+          tb_BarCodeInput.Text = ""
+          Input_Cnt = 3
+        ElseIf Input_Cnt = 3 Then
+          lb_BarCode4.Text = tb_BarCodeInput.Text
+        tb_BarCodeInput.Text = ""
+        Input_Cnt = 0
+
+        Dim ret_MSG = ""
+        If Module_Scan711BarCode.O_Process_Message("7-11", tb_LotNo.Text, lb_BarCode1.Text, lb_BarCode2.Text, lb_BarCode3.Text, lb_BarCode4.Text, ret_MSG) = False Then
+          MsgBox(ret_MSG)
+          lb_BarCode1.Text = ""
+          lb_BarCode2.Text = ""
+          lb_BarCode3.Text = ""
+          lb_BarCode4.Text = ""
+        Else
+          lb_BarCode1.Text = ""
+          lb_BarCode2.Text = ""
+          lb_BarCode3.Text = ""
+          lb_BarCode4.Text = ""
+        End If
+
+      End If
+
+
+    End If
+  End Sub
+
+  Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+    Try
+      int_PlatForm = ComboBox1.SelectedIndex
+
+
+    Catch ex As Exception
+      MsgBox(ex.ToString)
+      SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
+    End Try
+  End Sub
+
+  Private Sub lb_BarCode1_Click(sender As Object, e As EventArgs) Handles lb_BarCode1.Click
+    Input_Cnt = 0
+    lb_BarCode1.Text = ""
+    lb_BarCode2.Text = ""
+    lb_BarCode3.Text = ""
+    lb_BarCode4.Text = ""
+
+  End Sub
+
+  Private Sub lb_BarCode2_Click(sender As Object, e As EventArgs) Handles lb_BarCode2.Click
+    Input_Cnt = 1
+    lb_BarCode2.Text = ""
+    lb_BarCode3.Text = ""
+    lb_BarCode4.Text = ""
+  End Sub
+
+  Private Sub lb_BarCode3_Click(sender As Object, e As EventArgs) Handles lb_BarCode3.Click
+    Input_Cnt = 2
+    lb_BarCode3.Text = ""
+    lb_BarCode4.Text = ""
+  End Sub
+
+  Private Sub lb_BarCode4_Click(sender As Object, e As EventArgs) Handles lb_BarCode4.Click
+    Input_Cnt = 3
+    lb_BarCode4.Text = ""
   End Sub
 End Class

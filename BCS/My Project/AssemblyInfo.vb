@@ -8,11 +8,11 @@ Imports System.Runtime.InteropServices
 
 ' 檢閱組件屬性的值
 
-<Assembly: AssemblyTitle("eCA_PrintTool")>
+<Assembly: AssemblyTitle("BCS")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("eCA_PrintTool")>
-<Assembly: AssemblyCopyright("Copyright ©  2019")>
+<Assembly: AssemblyProduct("BCS")>
+<Assembly: AssemblyCopyright("Copyright ©  2022")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>

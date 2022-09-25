@@ -13,9 +13,11 @@ Public Class ClsInterfaceDB
 		WMS_T_GUI_CommandManagement.DBTool = dbtool
 		Common_DBManagement.DBTool = dbtool
 
+		STORE_HEADManagement.DBTool = dbtool
+		STORE_ITEMManagement.DBTool = dbtool
 		ThreadReceiveGUIMessage = New Thread(New ThreadStart(AddressOf O_thr_GUIDBHandling))
 		ThreadReceiveGUIMessage.IsBackground = True
-		ThreadReceiveGUIMessage.Start()
+		'ThreadReceiveGUIMessage.Start()
 	End Sub
 
 
