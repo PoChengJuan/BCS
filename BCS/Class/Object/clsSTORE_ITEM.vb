@@ -2,6 +2,7 @@
   Private ShareName As String = "STORE_ITEM"
   Private ShareKey As String = ""
   Private _gid As String
+  Private _SERIAL_NO As String
   Private _PlatForm As String '平台 
   Private _LotNo As String '賣場 
   Private _BarCode1 As String '條碼1 
@@ -17,6 +18,14 @@
     End Get
     Set(ByVal value As String)
       _gid = value
+    End Set
+  End Property
+  Public Property SERIAL_NO() As String
+    Get
+      Return _SERIAL_NO
+    End Get
+    Set(ByVal value As String)
+      _SERIAL_NO = value
     End Set
   End Property
   Public Property PlatForm() As String
@@ -79,11 +88,12 @@
 
 
   '物件建立時執行的事件
-  Public Sub New(ByVal PlatForm As String, ByVal LotNo As String, ByVal BarCode1 As String, ByVal BarCode2 As String, ByVal BarCode3 As String, ByVal BarCode4 As String, ByVal CreateTime As String)
+  Public Sub New(ByVal SERIAL_NO As String, ByVal PlatForm As String, ByVal LotNo As String, ByVal BarCode1 As String, ByVal BarCode2 As String, ByVal BarCode3 As String, ByVal BarCode4 As String, ByVal CreateTime As String)
     MyBase.New()
     Try
-      Dim key As String = ""
+      Dim key As String = SERIAL_NO
       _gid = key
+      _SERIAL_NO = SERIAL_NO
       _PlatForm = PlatForm
       _LotNo = LotNo
       _BarCode1 = BarCode1
@@ -107,9 +117,9 @@
 
   '=================Public Function=======================
   '傳入指定參數取得Key值
-  Public Shared Function Get_Combination_Key() As String
+  Public Shared Function Get_Combination_Key(ByVal SERIAL_NO As String) As String
     Try
-      Dim key As String = ""
+      Dim key As String = SERIAL_NO
       Return key
     Catch ex As Exception
       SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)

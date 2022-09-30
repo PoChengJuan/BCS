@@ -87,7 +87,7 @@ Module Module_Scan711BarCode
         End If
       End If
 
-      Dim objStore_Item = New clsSTORE_ITEM(ret_PlatForm, ret_LotNo, ret_BarCode1, ret_BarCode2, ret_BarCode3, ret_BarCode4, Now_Time)
+      Dim objStore_Item = New clsSTORE_ITEM("", ret_PlatForm, ret_LotNo, ret_BarCode1, ret_BarCode2, ret_BarCode3, ret_BarCode4, Now_Time)
       If ret_dicAddStore_Item.ContainsKey(objStore_Item.gid) = False Then
         ret_dicAddStore_Item.Add(objStore_Item.gid, objStore_Item)
       End If

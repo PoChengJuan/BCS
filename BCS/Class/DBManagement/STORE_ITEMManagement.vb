@@ -4,6 +4,7 @@ Partial Class STORE_ITEMManagement
   Public Shared DBTool As eCA_DBTool.clsDBTool = Nothing
 
   Enum IdxColumnName As Integer
+    SERIAL_NO
     PlatForm
     LotNo
     BarCode1
@@ -276,6 +277,7 @@ Partial Class STORE_ITEMManagement
   Private Shared Function SetInfoFromDB(ByRef Info As clsSTORE_ITEM, ByRef RowData As DataRow) As Boolean
     Try
       If RowData IsNot Nothing Then
+        Dim SERIAL_NO = "" & RowData.Item(IdxColumnName.SERIAL_NO.ToString)
         Dim PlatForm = "" & RowData.Item(IdxColumnName.PlatForm.ToString)
         Dim LotNo = "" & RowData.Item(IdxColumnName.LotNo.ToString)
         Dim BarCode1 = "" & RowData.Item(IdxColumnName.BarCode1.ToString)
@@ -283,7 +285,7 @@ Partial Class STORE_ITEMManagement
         Dim BarCode3 = "" & RowData.Item(IdxColumnName.BarCode3.ToString)
         Dim BarCode4 = "" & RowData.Item(IdxColumnName.BarCode4.ToString)
         Dim CreateTime = "" & RowData.Item(IdxColumnName.CreateTime.ToString)
-        Info = New clsSTORE_ITEM(PlatForm, LotNo, BarCode1, BarCode2, BarCode3, BarCode4, CreateTime)
+        Info = New clsSTORE_ITEM(SERIAL_NO, PlatForm, LotNo, BarCode1, BarCode2, BarCode3, BarCode4, CreateTime)
       End If
       Return True
     Catch ex As Exception
