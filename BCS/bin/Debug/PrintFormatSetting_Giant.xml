@@ -1,0 +1,1079 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Setting>
+	<Public>
+		<Key EXCEL執行檔="C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE" />			
+		<Key OutStock="Type1" />			
+		<Key CarrierGoods="Type2" />			
+		<Key SendSign="Type3" />			
+		<Key ReceiveSign="Type4" />	
+		<Key 請款單="Type5" />	
+		<Key JJGInventory="Type6" />
+		<Key JJGWork="Type7" />
+		<Key WO_ORG_GC_RK="Type8" />	
+		<Key WO_ORG_GC_CK="Type9" />	
+		<Key WO_FINISH_AW_CK="Type10" />
+		<Key WO_FINISH_FW_CK="Type11" />
+		<Key WO_FINISH_WO_RK="Type12" />	
+		<Key WO_FINISH_WO_CK="Type13" />	
+		<Key WO_FINISH_WO_D0_RK="Type14" />	
+		<Key STOCKTAKING_RW="Type15" />
+		<Key WO_ORG_GC_CK2="Type16" />
+		<Key WO_ORG_GC_CK2_DTL="Type17" />	
+		<Key PALLET_QRCODE="PALLET_QRCODE" />		
+		<Key CarrierBarcode="CarrierBarcode" />	
+		<Key MedicineBag="MedicineBag" />	
+		<Key MedicineBag_Rating="MedicineBag_Rating" />	
+		<Key TEST="TEST" />	
+		<Key TEST2="TEST2" />	
+		<Key BoxBarcode="BoxBarcode" Mode="NEW"/>
+		<Key Logistics_BoxBarcode="Logistics_BoxBarcode" Mode="NEW"/>
+		<Key ItemLabel_A="ItemLabel_A" Mode="NEW"/>
+		<Key ItemLabel_S="ItemLabel_S" Mode="NEW"/>
+		<Key ItemLabel_G="ItemLabel_G" Mode="NEW"/>
+		<Key ShippingDetails="ShippingDetails" Mode="NEW"/>
+		<Key BarCode_TEST="BarCode_TEST" Mode="NEW"/>
+		<Key PackageinfoLabel="PackageinfoLabel" />
+		<Key CSTinfoLabel="CSTinfoLabel" Mode="NEW"/>
+		<Key PackageinfoMR="PackageinfoMR" />
+	</Public>	
+	<PackageinfoMR>
+		<Key item1="單據號碼" X="2" Y="1" TABLE="0" />
+		<Key item2="箱號" X="5" Y="1" TABLE="0" />
+		<Key item3="料號List" X="2" Y="4" TABLE="PackageinfoMR_Table1" />
+		<Key item4="淨重" X="3" Y="6" TABLE="0" />
+		<Key item5="材積" X="5" Y="6" TABLE="0" />
+		<Key item6="毛重" X="3" Y="7" TABLE="0" />
+		<Key item7="QRCODE" X="2" Y="8" TYPE="QRCODE" INDEX_X="1" INDEX_Y="4" TABLE="0" />
+		<Key item8="單據號碼2" X="2" Y="13" TABLE="0" />
+		<Key item9="ZTDCODE" X="2" Y="15" TABLE="0" />
+		<Key item10="ZDEST_DESC" X="2" Y="17" TABLE="0" />
+		<Key item11="CNO" X="2" Y="19" TABLE="0" />
+		<Key item12="箱號2" X="3" Y="19" TABLE="0" />
+		<Key item13="原產地lIST" X="2" Y="21" TABLE="PackageinfoMR_Table2" />
+	</PackageinfoMR>
+	 <PackageinfoMR_Table1>
+    <Key seat1="ART_NO" X="2" Y="4" TYPE="STRING" />
+    <Key seat2="QTY" X="4" Y="4" TYPE="STRING" />
+    <Key seat3="PO_NO" X="5" Y="4" TYPE="STRING" />    
+  </PackageinfoMR_Table1>
+	
+	<CSTinfoLabel>
+		<Key item1="表格" X="1" Y="1" TABLE="CSTinfoLabel_CopySheet1" FormInterval="16"/>
+	</CSTinfoLabel>
+	<CSTinfoLabel_CopySheet1>	
+		<Key seat1="棧板編號" X="2" Y="1"  TYPE="STRING"   />	
+		<Key seat2="儲位ID" X="2" Y="8"  TYPE="STRING"   />		
+	</CSTinfoLabel_CopySheet1>		
+	<PackageinfoLabel>
+		<Key item1="表格" X="1" Y="1" TABLE="PackageinfoLabel_Form" FormInterval="11"/>
+	</PackageinfoLabel>
+	<PackageinfoLabel_Form>	
+		<Key seat1="CSHIP_NO-CSHIP_SEQ" X="3" Y="1"  TYPE="STRING"  ConditionalFormattingIndex="" />	
+		<Key seat2="OBRD_DATE" X="5" Y="1"  TYPE="STRING"  ConditionalFormattingIndex="" />	
+		<Key seat3="PART_NO" X="3" Y="2"  TYPE="STRING" ConditionalFormattingIndex="" />	
+		<Key seat4="PART_SNAME" X="2" Y="3"  TYPE="STRING" ConditionalFormattingIndex=""  />	
+		<Key seat5="KDMAT" X="3" Y="4"  TYPE="STRING" ConditionalFormattingIndex="" />	
+		<Key seat6="NW" X="5" Y="4"  TYPE="STRING" ConditionalFormattingIndex=""  />	
+		<Key seat7="BSTKD" X="3" Y="5"  TYPE="STRING" ConditionalFormattingIndex=""  />	
+		<Key seat8="GW" X="5" Y="5"  TYPE="STRING" ConditionalFormattingIndex="" />	
+		<Key seat9="NEW_PART_NO" X="3" Y="6"  TYPE="STRING" ConditionalFormattingIndex="" />	
+		<Key seat10="VEND_SNAME" X="3" Y="7"  TYPE="STRING" ConditionalFormattingIndex="" />	
+		<Key seat11="LGORT" X="5" Y="7"  TYPE="STRING" ConditionalFormattingIndex="" />	
+		<Key seat12="SHIP_ADRS" X="3" Y="8"  TYPE="STRING" ConditionalFormattingIndex="" />	
+		<Key seat13="ORDER_NO-ORDER_SEQ" X="3" Y="9"  TYPE="STRING" ConditionalFormattingIndex="" />	
+		<Key seat14="QRCODE" X="2" Y="10"  TYPE="QRCODE" INDEX_X="1" INDEX_Y="2" ConditionalFormattingIndex=""/>	
+		<Key seat15="SHIP_QTY" X="3" Y="11"  TYPE="STRING"  ConditionalFormattingIndex=""/>	
+		<Key seat16="BOX_SEQ / TOTALBOX" X="4" Y="11"  TYPE="STRING"  ConditionalFormattingIndex=""/>	
+		<Key seat17="BOX_QTY" X="5" Y="11"  TYPE="STRING"  ConditionalFormattingIndex=""/>	
+	</PackageinfoLabel_Form>		
+	<BarCode_TEST>
+		<Key item1="表格" X="1" Y="1" TABLE="BarCode_TEST_CopySheet1" FormInterval="1"/>
+	</BarCode_TEST>
+	<BarCode_TEST_CopySheet1>	
+		<Key seat1="BARCODE" X="1" Y="1"  TYPE="BARCODE" INDEX_X="3" INDEX_Y="1"  />	
+	</BarCode_TEST_CopySheet1>
+	<ShippingDetails>
+		<Key item1="表格" X="1" Y="1" TABLE="ShippingDetails_CopySheet1" FormInterval="7"/>
+		<Key item2="表格" X="1" Y="1" TABLE="ShippingDetails_CopySheet2" FormInterval="1"/>
+	</ShippingDetails>
+	<ShippingDetails_CopySheet1>
+		<Key seat1="BARCODE" X="8" Y="3"  TYPE="STRING"  />	
+		<Key seat2="收件人" X="3" Y="4"  TYPE="STRING" />
+		<Key seat3="連絡電話" X="3" Y="5" TYPE="STRING" />
+		<Key seat4="地區" X="3" Y="6" TYPE="STRING" />
+		<Key seat5="代收金額" X="11" Y="6" TYPE="STRING" />		
+		<Key seat6="客戶需求" X="11" Y="7" TYPE="STRING" />		
+		<Key seat7="調播單號" X="16" Y="4" TYPE="STRING" />	
+		<Key seat8="接單日期" X="15" Y="5" TYPE="STRING" />		
+		<Key seat9="製單日期" X="16" Y="6" TYPE="STRING" />	
+	</ShippingDetails_CopySheet1>
+	<ShippingDetails_CopySheet2>
+		
+		<Key seat1="出貨類型" X="1" Y="11"  TYPE="STRING"  />	
+		<Key seat2="明細項次" X="2" Y="11"  TYPE="STRING" />
+		<Key seat3="品號" X="4" Y="11" TYPE="STRING" />
+		<Key seat4="品名-規格描述" X="7" Y="11" TYPE="STRING" />
+		<Key seat5="數量" X="17" Y="11" TYPE="STRING" />		
+		<Key seat6="單位" X="19" Y="11" TYPE="STRING" />		
+	</ShippingDetails_CopySheet2>
+	<ItemLabel_A>   
+		<Key item1="表格" X="1" Y="1" TABLE="ItemLabel_A_CopySheet1" FormInterval="12"/>  
+	</ItemLabel_A>
+	<ItemLabel_A_CopySheet1>	
+		<Key seat1="QRCODE" X="2" Y="1"  TYPE="QRCODE" INDEX_X="1" INDEX_Y="1"  />	
+		<Key seat2="QRCODE" X="5" Y="1"  TYPE="QRCODE" INDEX_X="1" INDEX_Y="1" />
+		<Key seat3="QRCODE" X="5" Y="10" TYPE="QRCODE" INDEX_X="1" INDEX_Y="4" />
+		<Key seat4="DESC." X="3" Y="2" TYPE="STRING" />
+		<Key seat5="PK#批次" X="3" Y="5" TYPE="STRING" />		
+		<Key seat6="QTY" X="3" Y="6" TYPE="STRING" />		
+		<Key seat7="MatID" X="3" Y="7" TYPE="STRING" />	
+		<Key seat8="Vender" X="3" Y="8" TYPE="STRING" />		
+		<Key seat9="PONo" X="3" Y="9" TYPE="STRING" />	
+		<Key seat10="PO Color" X="3" Y="10" TYPE="STRING" />			
+		<Key seat11="PO Size" X="3" Y="11" TYPE="STRING" />	
+		<Key seat12="easycode" X="4" Y="10" TYPE="STRING" />
+		<Key seat13="easycode" X="5" Y="2" TYPE="STRING" />		
+	</ItemLabel_A_CopySheet1>
+	<ItemLabel_S>   
+		<Key item1="表格" X="1" Y="1" TABLE="ItemLabel_S_CopySheet1" FormInterval="13"/>  
+	</ItemLabel_S>
+	<ItemLabel_S_CopySheet1>	
+		<Key seat1="QRCODE" X="2" Y="1"  TYPE="QRCODE" INDEX_X="1" INDEX_Y="1"  />	
+		<Key seat2="QRCODE" X="5" Y="1"  TYPE="QRCODE" INDEX_X="1" INDEX_Y="1" />
+		<Key seat3="QRCODE" X="5" Y="10" TYPE="QRCODE" INDEX_X="1" INDEX_Y="4" />
+		<Key seat4="STYLE NO" X="3" Y="2" TYPE="STRING" />
+		<Key seat5="DESC" X="3" Y="3" TYPE="STRING" />		
+		<Key seat6="QTY" X="3" Y="6" TYPE="STRING" />		
+		<Key seat7="N.W." X="3" Y="7" TYPE="STRING" />	
+		<Key seat8="G.W." X="3" Y="8" TYPE="STRING" />		
+		<Key seat9="MEAS." X="3" Y="9" TYPE="STRING" />	
+		<Key seat10="INV NUM." X="3" Y="10" TYPE="STRING" />			
+		<Key seat11="ROLL NO." X="3" Y="11" TYPE="STRING" />	
+		<Key seat12="LOT#" X="3" Y="12" TYPE="STRING" />	
+		<Key seat13="easycode" X="4" Y="11" TYPE="STRING" />
+		<Key seat14="easycode" X="5" Y="2" TYPE="STRING" />				
+	</ItemLabel_S_CopySheet1>
+	<ItemLabel_G>   
+		<Key item1="表格" X="1" Y="1" TABLE="ItemLabel_G_CopySheet1" FormInterval="11"/>  
+	</ItemLabel_G>
+	<ItemLabel_G_CopySheet1>	
+		<Key seat1="QRCODE" X="2" Y="1"  TYPE="QRCODE" INDEX_X="1" INDEX_Y="1"  />	
+		<Key seat2="QRCODE" X="5" Y="1"  TYPE="QRCODE" INDEX_X="1" INDEX_Y="1" />
+		<Key seat3="QRCODE" X="5" Y="8" TYPE="QRCODE" INDEX_X="1" INDEX_Y="4" />
+		<Key seat4="PONo" X="3" Y="2" TYPE="STRING" />
+		<Key seat5="Color" X="3" Y="3" TYPE="STRING" />		
+		<Key seat6="Size" X="3" Y="4" TYPE="STRING" />		
+		<Key seat7="Ratio" X="3" Y="5" TYPE="STRING" />	
+		<Key seat8="QTY" X="3" Y="6" TYPE="STRING" />		
+		<Key seat9="Ctn#" X="3" Y="7" TYPE="STRING" />	
+		<Key seat10="Customer" X="3" Y="8" TYPE="STRING" />			
+		<Key seat11="ShipDate" X="3" Y="9" TYPE="STRING" />	
+		<Key seat12="easycode" X="4" Y="9" TYPE="STRING" />	
+		<Key seat13="easycode" X="5" Y="2" TYPE="STRING" />				
+	</ItemLabel_G_CopySheet1>
+	<Logistics_BoxBarcode>   
+		<Key item1="表格" X="1" Y="1" TABLE="Logistics_BoxBarcode_CopySheet1" FormInterval="18"/>  
+	</Logistics_BoxBarcode>
+	<!--<Logistics_BoxBarcode_CopySheet1>	
+		<Key seat1="日期" X="2" Y="10" TYPE="STRING" />	
+		<Key seat2="托運單號" X="3" Y="10" TYPE="STRING" />	
+		<Key seat3="出貨單號" X="3" Y="2" TYPE="STRING" />
+		<Key seat4="條碼編號" X="6" Y="18" TYPE="STRING" />		
+		<Key seat5="條碼Barcode" X="6" Y="15" TYPE="BARCODE"  INDEX_X="12" INDEX_Y="3" />		
+		<Key seat6="收件人" X="4" Y="10" TYPE="STRING" />	
+		<Key seat7="收件人電話" X="4" Y="2" TYPE="STRING" />		
+		<Key seat8="收件人地址" X="5" Y="2" TYPE="STRING" />	
+		<Key seat9="區號中文" X="6" Y="5" TYPE="STRING" />			
+		<Key seat10="區號" X="6" Y="8" TYPE="STRING" />	
+		<Key seat11="查貨Barcode" X="6" Y="2" TYPE="STRING" />			
+		<Key seat12="查貨號碼" X="6" Y="4" TYPE="STRING" />		
+		<Key seat13="CARRIER_ID" X="2" Y="2" TYPE="STRING" />					
+	</Logistics_BoxBarcode_CopySheet1>-->
+	<Logistics_BoxBarcode_CopySheet1>	
+		<Key seat1="日期" X="2" Y="10" TYPE="STRING"  />	
+		<Key seat2="托運單號" X="3" Y="10" TYPE="STRING"  />	
+		<Key seat3="出貨單號" X="3" Y="2" TYPE="STRING"  />
+		<Key seat4="條碼編號" X="6" Y="18" TYPE="STRING"  />		
+		<Key seat5="條碼Barcode" X="6" Y="15" TYPE="BARCODE"  INDEX_X="12" INDEX_Y="3"  />		
+		<Key seat6="收件人" X="4" Y="10" TYPE="STRING"  />	
+		<Key seat7="收件人電話" X="4" Y="2" TYPE="STRING"  />		
+		<Key seat8="收件人地址" X="5" Y="2" TYPE="STRING"  />	
+		<Key seat9="區號中文" X="6" Y="5" TYPE="STRING"  />			
+		<Key seat10="區號" X="6" Y="8" TYPE="STRING"  />	
+		<Key seat11="查貨Barcode" X="6" Y="2" TYPE="STRING"  />			
+		<Key seat12="查貨號碼" X="8" Y="4" TYPE="STRING"  />		
+		<Key seat13="CARRIER_ID" X="2" Y="2" TYPE="STRING"  />		
+		<Key seat14="發送站" X="11" Y="9" TYPE="STRING"  />		
+		<Key seat15="寄件人" X="15" Y="4" TYPE="STRING"  />		
+		<Key seat16="寄件人電話" X="16" Y="5" TYPE="STRING"  />		
+		<Key seat17="寄件人地址" X="17" Y="2" TYPE="STRING"  />	
+	</Logistics_BoxBarcode_CopySheet1>
+	<!--
+	<Logistics_BoxBarcode_CopySheet1>	
+		<Key seat1="日期" X="2" Y="2" TYPE="STRING" />	
+		<Key seat2="托運單號" X="6" Y="2" TYPE="STRING" />	
+		<Key seat3="出貨單號" X="6" Y="3" TYPE="STRING" />
+		<Key seat4="條碼編號" X="2" Y="4" TYPE="STRING" />		
+		<Key seat5="條碼Barcode" X="3" Y="4" TYPE="STRING" />		
+		<Key seat6="收件人" X="4" Y="4" TYPE="STRING" />	
+		<Key seat7="收件人電話" X="7" Y="4" TYPE="STRING" />		
+		<Key seat8="收件人地址" X="4" Y="5" TYPE="STRING" />	
+		<Key seat9="區號中文" X="7" Y="7" TYPE="STRING" />			
+		<Key seat10="區號" X="4" Y="9" TYPE="STRING" />	
+		<Key seat11="查貨Barcode" X="7" Y="9" TYPE="STRING" />			
+		<Key seat12="查貨號碼" X="7" Y="10" TYPE="STRING" />		
+		<Key seat13="CARRIER_ID" X="8" Y="11" TYPE="STRING" />					
+	</Logistics_BoxBarcode_CopySheet1>
+	-->
+	<BoxBarcode>   
+		<Key item1="表格" X="1" Y="1" TABLE="BoxBarcode_CopySheet1" FormInterval="18"/>  
+	</BoxBarcode>
+	<BoxBarcode_CopySheet1>	
+		<Key seat1="日期" X="2" Y="10" TYPE="STRING" />	
+		<Key seat2="查貨號碼" X="3" Y="10" TYPE="STRING" />	
+		<Key seat3="出貨單號" X="3" Y="2" TYPE="STRING" />	
+		<Key seat4="收件人" X="4" Y="10" TYPE="STRING" />	
+		<Key seat5="收件人電話" X="4" Y="2" TYPE="STRING" />		
+		<Key seat6="收件人地址" X="5" Y="2" TYPE="STRING" />		
+		<Key seat7="條碼編號" X="6" Y="18" TYPE="STRING" />		
+		<Key seat8="條碼Barcode" X="6" Y="15" TYPE="BARCODE"  INDEX_X="12" INDEX_Y="3"  />		
+		<Key seat9="區號" X="6" Y="8" TYPE="STRING" />		
+		<Key seat10="區號中文" X="6" Y="5" TYPE="STRING" />		
+		<Key seat11="查貨號碼" X="8" Y="4" TYPE="STRING" />		
+		<Key seat12="查貨Barcode" X="6" Y="2" TYPE="STRING" />		
+		<Key seat13="發送站" X="11" Y="9" TYPE="STRING" />		
+		<Key seat14="寄件人" X="15" Y="4" TYPE="STRING" />		
+		<Key seat15="寄件人電話" X="16" Y="5" TYPE="STRING" />		
+		<Key seat16="寄件人地址" X="17" Y="2" TYPE="STRING" />		
+		<Key seat17="分區" X="18" Y="12" TYPE="STRING" />		
+		<Key seat18="儲位" X="18" Y="6" TYPE="STRING" />		
+		<Key seat19="數量" X="18" Y="3" TYPE="STRING" />		
+		<Key seat20="商品名稱" X="19" Y="6" TYPE="STRING" />				
+		<Key seat21="總重量" X="19" Y="2" TYPE="STRING" />				
+	</BoxBarcode_CopySheet1>
+	<!--<BoxBarcode_CopySheet1>	
+		<Key seat1="日期" X="3" Y="2" TYPE="STRING" />	
+		<Key seat2="查貨號碼" X="3" Y="3" TYPE="STRING" />	
+		<Key seat3="出貨單號" X="7" Y="3" TYPE="STRING" />	
+		<Key seat4="收件人" X="3" Y="4" TYPE="STRING" />	
+		<Key seat5="收件人電話" X="7" Y="4" TYPE="STRING" />		
+		<Key seat6="收件人地址" X="3" Y="5" TYPE="STRING" />		
+		<Key seat7="條碼編號" X="2" Y="7" TYPE="STRING" />		
+		<Key seat8="條碼Barcode" X="3" Y="6" TYPE="STRING" />		
+		<Key seat9="區號" X="5" Y="7" TYPE="STRING" />		
+		<Key seat10="區號中文" X="8" Y="7" TYPE="STRING" />		
+		<Key seat11="查貨號碼" X="9" Y="7" TYPE="STRING" />		
+		<Key seat12="查貨Barcode" X="10" Y="7" TYPE="STRING" />		
+		<Key seat13="發送站" X="5" Y="9" TYPE="STRING" />		
+		<Key seat14="寄件人" X="4" Y="11" TYPE="STRING" />		
+		<Key seat15="寄件人電話" X="4" Y="12" TYPE="STRING" />		
+		<Key seat16="寄件人地址" X="4" Y="13" TYPE="STRING" />		
+		<Key seat17="分區" X="3" Y="14" TYPE="STRING" />		
+		<Key seat18="儲位" X="6" Y="14" TYPE="STRING" />		
+		<Key seat19="數量" X="8" Y="14" TYPE="STRING" />		
+		<Key seat20="商品名稱" X="3" Y="15" TYPE="STRING" />				
+	</BoxBarcode_CopySheet1>-->
+	<TEST2> 
+<Key item1="固定資訊1" X="1" Y="1" TABLE="TEST_Form11" FormInterval="4"/>   		   
+</TEST2> 
+<TEST_Form11> 
+<Key seat1="明細" X="1" Y="2" TABLE="0" TYPE="STRING" ConditionalFormattingIndex=""/>  
+<Key seat2="單價" X="2" Y="2" TABLE="0" TYPE="STRING" ConditionalFormattingIndex=""/>  
+<Key seat3="數量" X="3" Y="2" TABLE="0" TYPE="STRING" ConditionalFormattingIndex=""/>  
+<Key seat4="備註" X="4" Y="2" TABLE="0" TYPE="STRING" ConditionalFormattingIndex=""/>  
+<Key seat5="xx" X="5" Y="2" TABLE="0" TYPE="STRING" ConditionalFormattingIndex=""/>  
+<Key seat6="金額" X="6" Y="2" TABLE="0" TYPE="STRING" ConditionalFormattingIndex="0"/>  
+</TEST_Form11> 
+<TEST>    
+<Key item1="合約" X="1" Y="2" TABLE="TEST_Table" FormInterval=""/>   		   
+</TEST> 
+<TEST_Table> 
+<Key seat1="明細" X="1" Y="1" TABLE="0" TYPE="STRING" ConditionalFormattingIndex=""/>  
+<Key seat2="單價" X="2" Y="1" TABLE="0" TYPE="STRING" ConditionalFormattingIndex=""/>  
+<Key seat3="數量" X="3" Y="1" TABLE="0" TYPE="STRING" ConditionalFormattingIndex=""/>  
+<Key seat4="備註" X="4" Y="1" TABLE="0" TYPE="STRING" ConditionalFormattingIndex=""/>  
+<Key seat5="xx" X="5" Y="1" TABLE="0" TYPE="STRING" ConditionalFormattingIndex=""/>  
+<Key seat6="金額" X="6" Y="1" TABLE="0" TYPE="STRING" ConditionalFormattingIndex="0"/>  <!--index 是編輯時第幾個設定的-->
+</TEST_Table> 
+	<MedicineBag_Rating> 
+		<Key item1="棧板ID" X="1" Y="1" TABLE="MedicineBag_Rating_CopySheet" FormInterval="17"/>   		   
+	</MedicineBag_Rating>
+	<MedicineBag_Rating_CopySheet> 
+		<Key seat1="藥袋條碼Code" X="2" Y="2" TABLE="0" TYPE="STRING"/>  
+		<Key seat2="藥籤序號" X="5" Y="3" TABLE="0" TYPE="STRING"/>
+		<Key seat3="姓名" X="3" Y="4" TABLE="0" TYPE="STRING"/>
+		<Key seat4="調劑日期" X="5" Y="4" TABLE="0" TYPE="STRING"/>
+		<Key seat5="病歷號碼" X="3" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat6="床號" X="5" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat7="用藥頻率" X="2" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat8="每次藥量" X="5" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat9="藥品名稱" X="2" Y="9" TABLE="0" TYPE="STRING"/>
+		<Key seat10="英文商品名" X="3" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat11="中文商品名" X="3" Y="12" TABLE="0" TYPE="STRING"/>
+		<Key seat12="藥品外觀" X="3" Y="14" TABLE="0" TYPE="STRING"/>
+		<Key seat13="本日量" X="5" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat14="藥袋條碼刷Code" X="2" Y="19" TABLE="0" TYPE="STRING"/>
+		<Key seat15="藥袋條碼刷" X="2" Y="21" TABLE="0" TYPE="STRING"/>
+		<Key seat16="序號" X="5" Y="2" TABLE="0" TYPE="STRING"/>
+		<Key seat17="Flag" X="1" Y="9" TABLE="0" TYPE="STRING"/>
+	</MedicineBag_Rating_CopySheet> 
+
+	<MedicineBag> 
+		<Key item1="棧板ID" X="1" Y="1" TABLE="MedicineBag_CopySheet" FormInterval="13"/>   		   
+	</MedicineBag>
+	<MedicineBag_CopySheet> 
+		<Key seat1="orderType" X="2" Y="3" TABLE="0" TYPE="STRING"/>  
+		<Key seat2="補充日期" X="3" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat3="補充庫台" X="3" Y="6" TABLE="0" TYPE="STRING"/>
+		<Key seat4="補充藥品" X="3" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat5="料位號" X="3" Y="8" TABLE="0" TYPE="STRING"/>
+		<Key seat6="總項數" X="5" Y="3" TABLE="0" TYPE="STRING"/>
+		<Key seat7="項數" X="5" Y="4" TABLE="0" TYPE="STRING"/>
+		<Key seat8="料品描述" X="2" Y="10" TABLE="0" TYPE="STRING"/>
+		<Key seat9="H_POD19" X="2" Y="12" TABLE="0" TYPE="STRING"/>
+	</MedicineBag_CopySheet> 
+
+	<CarrierBarcode> 
+		<Key item1="棧板ID" X="1" Y="1" TABLE="Carrier_No_CopySheet" FormInterval="6"/>   		   
+	</CarrierBarcode>
+	<Carrier_No_CopySheet> 
+		<Key seat1="CartonQRCode" X="2" Y="2" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat2="料位號" X="4" Y="1" TABLE="0" TYPE="STRING"/>
+		<Key seat3="藥品編號" X="5" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat4="藥品名稱" X="1" Y="6" TABLE="0" TYPE="STRING"/>
+		<Key seat5="Common1" X="5" Y="1" TABLE="0" TYPE="STRING"/>
+		<Key seat6="Common2" X="6" Y="1" TABLE="0" TYPE="STRING"/>
+		<Key seat7="Common3" X="5" Y="3" TABLE="0" TYPE="STRING"/>
+		<Key seat8="Common4" X="6" Y="3" TABLE="0" TYPE="STRING"/>
+		<Key seat9="Common5" X="1" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat10="CartonQRCode" X="2" Y="8" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat11="料位號" X="4" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat12="藥品編號" X="5" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat13="藥品名稱" X="1" Y="12" TABLE="0" TYPE="STRING"/>
+		<Key seat14="Common1" X="5" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat15="Common2" X="6" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat16="Common3" X="5" Y="9" TABLE="0" TYPE="STRING"/>
+		<Key seat17="Common4" X="6" Y="9" TABLE="0" TYPE="STRING"/>
+		<Key seat18="Common5" X="1" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat19="CartonQRCode" X="2" Y="14" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat20="料位號" X="4" Y="13" TABLE="0" TYPE="STRING"/>
+		<Key seat21="藥品編號" X="5" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat22="藥品名稱" X="1" Y="18" TABLE="0" TYPE="STRING"/>
+		<Key seat23="Common1" X="5" Y="13" TABLE="0" TYPE="STRING"/>
+		<Key seat24="Common2" X="6" Y="13" TABLE="0" TYPE="STRING"/>
+		<Key seat25="Common3" X="5" Y="15" TABLE="0" TYPE="STRING"/>
+		<Key seat26="Common4" X="6" Y="15" TABLE="0" TYPE="STRING"/>
+		<Key seat27="Common5" X="1" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat28="CartonQRCode" X="2" Y="20" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat29="料位號" X="4" Y="19" TABLE="0" TYPE="STRING"/>
+		<Key seat30="藥品編號" X="5" Y="23" TABLE="0" TYPE="STRING"/>
+		<Key seat31="藥品名稱" X="1" Y="24" TABLE="0" TYPE="STRING"/>
+		<Key seat32="Common1" X="5" Y="19" TABLE="0" TYPE="STRING"/>
+		<Key seat33="Common2" X="6" Y="19" TABLE="0" TYPE="STRING"/>
+		<Key seat34="Common3" X="5" Y="21" TABLE="0" TYPE="STRING"/>
+		<Key seat35="Common4" X="6" Y="21" TABLE="0" TYPE="STRING"/>
+		<Key seat36="Common5" X="1" Y="23" TABLE="0" TYPE="STRING"/>
+		<Key seat37="CartonQRCode" X="8" Y="2" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat38="料位號" X="10" Y="1" TABLE="0" TYPE="STRING"/>
+		<Key seat39="藥品編號" X="11" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat40="藥品名稱" X="7" Y="6" TABLE="0" TYPE="STRING"/>
+		<Key seat41="Common1" X="11" Y="1" TABLE="0" TYPE="STRING"/>
+		<Key seat42="Common2" X="12" Y="1" TABLE="0" TYPE="STRING"/>
+		<Key seat43="Common3" X="11" Y="3" TABLE="0" TYPE="STRING"/>
+		<Key seat44="Common4" X="12" Y="3" TABLE="0" TYPE="STRING"/>
+		<Key seat45="Common5" X="7" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat46="CartonQRCode" X="8" Y="8" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat47="料位號" X="10" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat48="藥品編號" X="11" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat49="藥品名稱" X="7" Y="12" TABLE="0" TYPE="STRING"/>
+		<Key seat50="Common1" X="11" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat51="Common2" X="12" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat52="Common3" X="11" Y="9" TABLE="0" TYPE="STRING"/>
+		<Key seat53="Common4" X="12" Y="9" TABLE="0" TYPE="STRING"/>
+		<Key seat54="Common5" X="7" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat55="CartonQRCode" X="8" Y="14" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat56="料位號" X="10" Y="13" TABLE="0" TYPE="STRING"/>
+		<Key seat57="藥品編號" X="11" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat58="藥品名稱" X="7" Y="18" TABLE="0" TYPE="STRING"/>
+		<Key seat59="Common1" X="11" Y="13" TABLE="0" TYPE="STRING"/>
+		<Key seat60="Common2" X="12" Y="13" TABLE="0" TYPE="STRING"/>
+		<Key seat61="Common3" X="11" Y="15" TABLE="0" TYPE="STRING"/>
+		<Key seat62="Common4" X="12" Y="15" TABLE="0" TYPE="STRING"/>
+		<Key seat63="Common5" X="7" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat64="CartonQRCode" X="8" Y="20" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat65="料位號" X="10" Y="19" TABLE="0" TYPE="STRING"/>
+		<Key seat66="藥品編號" X="11" Y="23" TABLE="0" TYPE="STRING"/>
+		<Key seat67="藥品名稱" X="7" Y="24" TABLE="0" TYPE="STRING"/>
+		<Key seat68="Common1" X="11" Y="19" TABLE="0" TYPE="STRING"/>
+		<Key seat69="Common2" X="12" Y="19" TABLE="0" TYPE="STRING"/>
+		<Key seat70="Common3" X="11" Y="21" TABLE="0" TYPE="STRING"/>
+		<Key seat71="Common4" X="12" Y="21" TABLE="0" TYPE="STRING"/>
+		<Key seat72="Common5" X="7" Y="23" TABLE="0" TYPE="STRING"/>
+		<Key seat73="CartonQRCode" X="14" Y="2" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat74="料位號" X="16" Y="1" TABLE="0" TYPE="STRING"/>
+		<Key seat75="藥品編號" X="17" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat76="藥品名稱" X="13" Y="6" TABLE="0" TYPE="STRING"/>
+		<Key seat77="Common1" X="17" Y="1" TABLE="0" TYPE="STRING"/>
+		<Key seat78="Common2" X="18" Y="1" TABLE="0" TYPE="STRING"/>
+		<Key seat79="Common3" X="17" Y="3" TABLE="0" TYPE="STRING"/>
+		<Key seat80="Common4" X="18" Y="3" TABLE="0" TYPE="STRING"/>
+		<Key seat81="Common5" X="13" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat82="CartonQRCode" X="14" Y="8" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat83="料位號" X="16" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat84="藥品編號" X="17" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat85="藥品名稱" X="13" Y="12" TABLE="0" TYPE="STRING"/>
+		<Key seat86="Common1" X="17" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat87="Common2" X="18" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat88="Common3" X="17" Y="9" TABLE="0" TYPE="STRING"/>
+		<Key seat89="Common4" X="18" Y="9" TABLE="0" TYPE="STRING"/>
+		<Key seat90="Common5" X="13" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat91="CartonQRCode" X="14" Y="14" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat92="料位號" X="16" Y="13" TABLE="0" TYPE="STRING"/>
+		<Key seat93="藥品編號" X="17" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat94="藥品名稱" X="13" Y="18" TABLE="0" TYPE="STRING"/>
+		<Key seat95="Common1" X="17" Y="13" TABLE="0" TYPE="STRING"/>
+		<Key seat96="Common2" X="18" Y="13" TABLE="0" TYPE="STRING"/>
+		<Key seat97="Common3" X="17" Y="15" TABLE="0" TYPE="STRING"/>
+		<Key seat98="Common4" X="18" Y="15" TABLE="0" TYPE="STRING"/>
+		<Key seat99="Common5" X="13" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat100="CartonQRCode" X="14" Y="20" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat101="料位號" X="16" Y="19" TABLE="0" TYPE="STRING"/>
+		<Key seat102="藥品編號" X="17" Y="23" TABLE="0" TYPE="STRING"/>
+		<Key seat103="藥品名稱" X="13" Y="24" TABLE="0" TYPE="STRING"/>
+		<Key seat104="Common1" X="17" Y="19" TABLE="0" TYPE="STRING"/>
+		<Key seat105="Common2" X="18" Y="19" TABLE="0" TYPE="STRING"/>
+		<Key seat106="Common3" X="17" Y="21" TABLE="0" TYPE="STRING"/>
+		<Key seat107="Common4" X="18" Y="21" TABLE="0" TYPE="STRING"/>
+		<Key seat108="Common5" X="13" Y="23" TABLE="0" TYPE="STRING"/>
+		<Key seat109="CartonQRCode" X="20" Y="2" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat110="料位號" X="22" Y="1" TABLE="0" TYPE="STRING"/>
+		<Key seat111="藥品編號" X="23" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat112="藥品名稱" X="19" Y="6" TABLE="0" TYPE="STRING"/>
+		<Key seat113="Common1" X="23" Y="1" TABLE="0" TYPE="STRING"/>
+		<Key seat114="Common2" X="24" Y="1" TABLE="0" TYPE="STRING"/>
+		<Key seat115="Common3" X="23" Y="3" TABLE="0" TYPE="STRING"/>
+		<Key seat116="Common4" X="24" Y="3" TABLE="0" TYPE="STRING"/>
+		<Key seat117="Common5" X="19" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat118="CartonQRCode" X="20" Y="8" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat119="料位號" X="22" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat120="藥品編號" X="23" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat121="藥品名稱" X="19" Y="12" TABLE="0" TYPE="STRING"/>
+		<Key seat122="Common1" X="23" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat123="Common2" X="24" Y="7" TABLE="0" TYPE="STRING"/>
+		<Key seat124="Common3" X="23" Y="9" TABLE="0" TYPE="STRING"/>
+		<Key seat125="Common4" X="24" Y="9" TABLE="0" TYPE="STRING"/>
+		<Key seat126="Common5" X="19" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat127="CartonQRCode" X="20" Y="14" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat128="料位號" X="22" Y="13" TABLE="0" TYPE="STRING"/>
+		<Key seat129="藥品編號" X="23" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat130="藥品名稱" X="19" Y="18" TABLE="0" TYPE="STRING"/>
+		<Key seat131="Common1" X="23" Y="13" TABLE="0" TYPE="STRING"/>
+		<Key seat132="Common2" X="24" Y="13" TABLE="0" TYPE="STRING"/>
+		<Key seat133="Common3" X="23" Y="15" TABLE="0" TYPE="STRING"/>
+		<Key seat134="Common4" X="24" Y="15" TABLE="0" TYPE="STRING"/>
+		<Key seat135="Common5" X="19" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat136="CartonQRCode" X="20" Y="20" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="2"/>  
+		<Key seat137="料位號" X="22" Y="19" TABLE="0" TYPE="STRING"/>
+		<Key seat138="藥品編號" X="23" Y="23" TABLE="0" TYPE="STRING"/>
+		<Key seat139="藥品名稱" X="19" Y="24" TABLE="0" TYPE="STRING"/>
+		<Key seat140="Common1" X="23" Y="19" TABLE="0" TYPE="STRING"/>
+		<Key seat141="Common2" X="24" Y="19" TABLE="0" TYPE="STRING"/>
+		<Key seat142="Common3" X="23" Y="21" TABLE="0" TYPE="STRING"/>
+		<Key seat143="Common4" X="24" Y="21" TABLE="0" TYPE="STRING"/>
+		<Key seat144="Common5" X="19" Y="23" TABLE="0" TYPE="STRING"/>
+	</Carrier_No_CopySheet>
+	<!-- 
+	<PALLET_QRCODE> 
+		<Key item1="箱ID" X="1" Y="1" TABLE="PALLET_QRCODE_CopySheet" FormInterval="3"/>   		   
+	</PALLET_QRCODE>	
+	<PALLET_QRCODE_CopySheet>     
+		<Key seat1="CartonQRCode" X="2" Y="2" TABLE="0" TYPE="QRCODE" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat2="料位號" X="4" Y="2" TABLE="0" TYPE="STRING"/>
+		<Key seat3="藥品名稱" X="5" Y="2" TABLE="0" TYPE="STRING"/>
+	</PALLET_QRCODE_CopySheet> -->
+	<PALLET_QRCODE> 
+		<Key item1="箱ID" X="1" Y="1" TABLE="PALLET_QRCODE_CopySheet" FormInterval="3"/>   		   
+	</PALLET_QRCODE>	
+	<PALLET_QRCODE_CopySheet>     
+		<Key seat1="CartonQRCode" X="2" Y="2" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat2="料位號" X="4" Y="2" TABLE="0" TYPE="STRING"/>
+		<Key seat3="藥品名稱" X="5" Y="2" TABLE="0" TYPE="STRING"/>
+		<Key seat4="CartonQRCode" X="2" Y="5" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat5="料位號" X="4" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat6="藥品名稱" X="5" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat7="CartonQRCode" X="2" Y="8" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat8="料位號" X="4" Y="8" TABLE="0" TYPE="STRING"/>
+		<Key seat9="藥品名稱" X="5" Y="8" TABLE="0" TYPE="STRING"/>
+		<Key seat10="CartonQRCode" X="2" Y="11" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat11="料位號" X="4" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat12="藥品名稱" X="5" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat13="CartonQRCode" X="2" Y="14" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat14="料位號" X="4" Y="14" TABLE="0" TYPE="STRING"/>
+		<Key seat15="藥品名稱" X="5" Y="14" TABLE="0" TYPE="STRING"/>
+		<Key seat16="CartonQRCode" X="2" Y="17" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat17="料位號" X="4" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat18="藥品名稱" X="5" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat19="CartonQRCode" X="2" Y="20" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat20="料位號" X="4" Y="20" TABLE="0" TYPE="STRING"/>
+		<Key seat21="藥品名稱" X="5" Y="20" TABLE="0" TYPE="STRING"/>
+		<Key seat22="CartonQRCode" X="2" Y="23" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat23="料位號" X="4" Y="23" TABLE="0" TYPE="STRING"/>
+		<Key seat24="藥品名稱" X="5" Y="23" TABLE="0" TYPE="STRING"/>
+		<Key seat25="CartonQRCode" X="2" Y="26" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat26="料位號" X="4" Y="26" TABLE="0" TYPE="STRING"/>
+		<Key seat27="藥品名稱" X="5" Y="26" TABLE="0" TYPE="STRING"/>
+		<Key seat28="CartonQRCode" X="2" Y="29" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat29="料位號" X="4" Y="29" TABLE="0" TYPE="STRING"/>
+		<Key seat30="藥品名稱" X="5" Y="29" TABLE="0" TYPE="STRING"/>
+		<Key seat31="CartonQRCode" X="2" Y="32" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat32="料位號" X="4" Y="32" TABLE="0" TYPE="STRING"/>
+		<Key seat33="藥品名稱" X="5" Y="32" TABLE="0" TYPE="STRING"/>
+		<Key seat34="CartonQRCode" X="2" Y="35" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat35="料位號" X="4" Y="35" TABLE="0" TYPE="STRING"/>
+		<Key seat36="藥品名稱" X="5" Y="35" TABLE="0" TYPE="STRING"/>
+		<Key seat37="CartonQRCode" X="7" Y="2" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat38="料位號" X="9" Y="2" TABLE="0" TYPE="STRING"/>
+		<Key seat39="藥品名稱" X="10" Y="2" TABLE="0" TYPE="STRING"/>
+		<Key seat40="CartonQRCode" X="7" Y="5" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat41="料位號" X="9" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat42="藥品名稱" X="10" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat43="CartonQRCode" X="7" Y="8" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat44="料位號" X="9" Y="8" TABLE="0" TYPE="STRING"/>
+		<Key seat45="藥品名稱" X="10" Y="8" TABLE="0" TYPE="STRING"/>
+		<Key seat46="CartonQRCode" X="7" Y="11" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat47="料位號" X="9" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat48="藥品名稱" X="10" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat49="CartonQRCode" X="7" Y="14" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat50="料位號" X="9" Y="14" TABLE="0" TYPE="STRING"/>
+		<Key seat51="藥品名稱" X="10" Y="14" TABLE="0" TYPE="STRING"/>
+		<Key seat52="CartonQRCode" X="7" Y="17" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat53="料位號" X="9" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat54="藥品名稱" X="10" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat55="CartonQRCode" X="7" Y="20" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat56="料位號" X="9" Y="20" TABLE="0" TYPE="STRING"/>
+		<Key seat57="藥品名稱" X="10" Y="20" TABLE="0" TYPE="STRING"/>
+		<Key seat58="CartonQRCode" X="7" Y="23" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat59="料位號" X="9" Y="23" TABLE="0" TYPE="STRING"/>
+		<Key seat60="藥品名稱" X="10" Y="23" TABLE="0" TYPE="STRING"/>
+		<Key seat61="CartonQRCode" X="7" Y="26" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat62="料位號" X="9" Y="26" TABLE="0" TYPE="STRING"/>
+		<Key seat63="藥品名稱" X="10" Y="26" TABLE="0" TYPE="STRING"/>
+		<Key seat64="CartonQRCode" X="7" Y="29" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat65="料位號" X="9" Y="29" TABLE="0" TYPE="STRING"/>
+		<Key seat66="藥品名稱" X="10" Y="29" TABLE="0" TYPE="STRING"/>
+		<Key seat67="CartonQRCode" X="7" Y="32" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat68="料位號" X="9" Y="32" TABLE="0" TYPE="STRING"/>
+		<Key seat69="藥品名稱" X="10" Y="32" TABLE="0" TYPE="STRING"/>
+		<Key seat70="CartonQRCode" X="7" Y="35" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat71="料位號" X="9" Y="35" TABLE="0" TYPE="STRING"/>
+		<Key seat72="藥品名稱" X="10" Y="35" TABLE="0" TYPE="STRING"/>
+		<Key seat73="CartonQRCode" X="12" Y="2" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat74="料位號" X="14" Y="2" TABLE="0" TYPE="STRING"/>
+		<Key seat75="藥品名稱" X="15" Y="2" TABLE="0" TYPE="STRING"/>
+		<Key seat76="CartonQRCode" X="12" Y="5" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat77="料位號" X="14" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat78="藥品名稱" X="15" Y="5" TABLE="0" TYPE="STRING"/>
+		<Key seat79="CartonQRCode" X="12" Y="8" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat80="料位號" X="14" Y="8" TABLE="0" TYPE="STRING"/>
+		<Key seat81="藥品名稱" X="15" Y="8" TABLE="0" TYPE="STRING"/>
+		<Key seat82="CartonQRCode" X="12" Y="11" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat83="料位號" X="14" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat84="藥品名稱" X="15" Y="11" TABLE="0" TYPE="STRING"/>
+		<Key seat85="CartonQRCode" X="12" Y="14" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat86="料位號" X="14" Y="14" TABLE="0" TYPE="STRING"/>
+		<Key seat87="藥品名稱" X="15" Y="14" TABLE="0" TYPE="STRING"/>
+		<Key seat88="CartonQRCode" X="12" Y="17" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat89="料位號" X="14" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat90="藥品名稱" X="15" Y="17" TABLE="0" TYPE="STRING"/>
+		<Key seat91="CartonQRCode" X="12" Y="20" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat92="料位號" X="14" Y="20" TABLE="0" TYPE="STRING"/>
+		<Key seat93="藥品名稱" X="15" Y="20" TABLE="0" TYPE="STRING"/>
+		<Key seat94="CartonQRCode" X="12" Y="23" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat95="料位號" X="14" Y="23" TABLE="0" TYPE="STRING"/>
+		<Key seat96="藥品名稱" X="15" Y="23" TABLE="0" TYPE="STRING"/>
+		<Key seat97="CartonQRCode" X="12" Y="26" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat98="料位號" X="14" Y="26" TABLE="0" TYPE="STRING"/>
+		<Key seat99="藥品名稱" X="15" Y="26" TABLE="0" TYPE="STRING"/>
+		<Key seat100="CartonQRCode" X="12" Y="29" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat101="料位號" X="14" Y="29" TABLE="0" TYPE="STRING"/>
+		<Key seat102="藥品名稱" X="15" Y="29" TABLE="0" TYPE="STRING"/>
+		<Key seat103="CartonQRCode" X="12" Y="32" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat104="料位號" X="14" Y="32" TABLE="0" TYPE="STRING"/>
+		<Key seat105="藥品名稱" X="15" Y="32" TABLE="0" TYPE="STRING"/>
+		<Key seat106="CartonQRCode" X="12" Y="35" TABLE="0" TYPE="DATAMATRIX" INDEX_X="1" INDEX_Y="1"/>  
+		<Key seat107="料位號" X="14" Y="35" TABLE="0" TYPE="STRING"/>
+		<Key seat108="藥品名稱" X="15" Y="35" TABLE="0" TYPE="STRING"/>
+	</PALLET_QRCODE_CopySheet>
+
+
+
+	<Type17>   
+		<Key item1="表格" X="1" Y="0" TABLE="Type17_Table1" TABLECOUNT="13"/> 
+		<Key item2="表格" X="1" Y="8" TABLE="Type17_Table2" TABLECOUNT="10"/>	  
+	</Type17>
+	<Type17_Table1>	
+		<Key seat1="订单号" X="3" Y="1" TYPE="STRING" />	
+		<Key seat2="工单号" X="6" Y="1" TYPE="STRING" />	
+		<Key seat3="打印人员" X="9" Y="1" TYPE="STRING" />
+		<Key seat4="建立时间" X="3" Y="2" TYPE="STRING" />
+		<Key seat5="工单建立时间" X="6" Y="2" TYPE="STRING" />
+		<Key seat6="打印时间" X="9" Y="2" TYPE="STRING" />
+		<Key seat7="发料保管员" X="3" Y="3" TYPE="STRING" />
+		<Key seat8="通道号" X="6" Y="3" TYPE="STRING" />
+		<Key seat9="业务类型" X="9" Y="3" TYPE="STRING" />	
+		<Key seat10="接收人" X="3" Y="4" TYPE="STRING" />	
+		<Key seat11="领料部门" X="6" Y="4" TYPE="STRING" />	
+		<Key seat12="校验标志" X="9" Y="4" TYPE="STRING" />
+		<Key seat13="备注" X="3" Y="5" TYPE="STRING" />	
+	</Type17_Table1>
+	<Type17_Table2>	
+		<Key seat1="NO" X="1" Y="8" TYPE="STRING" />	
+		<Key seat2="托盘编号" X="2" Y="8" TYPE="STRING" />	
+		<Key seat3="物料编号" X="3" Y="8" TYPE="STRING" />
+		<Key seat4="物料描述" X="4" Y="8" TYPE="STRING" />	
+		<Key seat5="单位" X="5" Y="8" TYPE="STRING" />	
+		<Key seat6="库存地点" X="6" Y="8" TYPE="STRING" />		
+		<Key seat7="库存数量" X="7" Y="8" TYPE="STRING" />	
+		<Key seat8="分拣数量" X="8" Y="8" TYPE="STRING" />		
+		<Key seat9="返库数量" X="9" Y="8" TYPE="STRING" />
+		<Key seat10="库位号" X="10" Y="8" TYPE="STRING" />	
+	</Type17_Table2>
+
+	<Type16>   
+		<Key item1="表格" X="1" Y="0" TABLE="Type16_Table1" TABLECOUNT="13"/> 
+		<Key item2="表格" X="1" Y="8" TABLE="Type16_Table2" TABLECOUNT="10"/>	  
+	</Type16>
+	<Type16_Table1>	
+		<Key seat1="订单号" X="3" Y="1" TYPE="STRING" />	
+		<Key seat2="工单号" X="6" Y="1" TYPE="STRING" />	
+		<Key seat3="打印人员" X="9" Y="1" TYPE="STRING" />
+		<Key seat4="建立时间" X="3" Y="2" TYPE="STRING" />
+		<Key seat5="工单建立时间" X="6" Y="2" TYPE="STRING" />
+		<Key seat6="打印时间" X="9" Y="2" TYPE="STRING" />
+		<Key seat7="发料保管员" X="3" Y="3" TYPE="STRING" />
+		<Key seat8="通道号" X="6" Y="3" TYPE="STRING" />
+		<Key seat9="业务类型" X="9" Y="3" TYPE="STRING" />	
+		<Key seat10="接收人" X="3" Y="4" TYPE="STRING" />	
+		<Key seat11="领料部门" X="6" Y="4" TYPE="STRING" />	
+		<Key seat12="校验标志" X="9" Y="4" TYPE="STRING" />
+		<Key seat13="备注" X="3" Y="5" TYPE="STRING" />		
+	</Type16_Table1>
+	<Type16_Table2>	
+		<Key seat1="NO" X="1" Y="8" TYPE="STRING" />	
+		<Key seat2="物料编号" X="2" Y="8" TYPE="STRING" />
+		<Key seat3="物料描述" X="3" Y="8" TYPE="STRING" />
+		<Key seat4="批次" X="4" Y="8" TYPE="STRING" />
+		<Key seat5="单位" X="5" Y="8" TYPE="STRING" />
+		<Key seat6="库存地点" X="6" Y="8" TYPE="STRING" />
+		<Key seat7="库存类型" X="7" Y="8" TYPE="STRING" />
+		<Key seat8="计划数量" X="8" Y="8" TYPE="STRING" />
+		<Key seat9="实际发货数量" X="9" Y="8" TYPE="STRING" />
+		<Key seat10="备注" X="10" Y="8" TYPE="STRING" />
+	</Type16_Table2>
+
+	<Type15>   
+		<Key item1="表格" X="1" Y="0" TABLE="Type15_Table1" TABLECOUNT="4"/> 
+		<Key item2="表格" X="1" Y="4" TABLE="Type15_Table2" TABLECOUNT="16"/> 	  
+	</Type15>
+	<Type15_Table1>	
+		<Key seat1="盘点单" X="2" Y="1" TYPE="STRING" />	
+		<Key seat2="建立时间" X="4" Y="1" TYPE="STRING" />	
+		<Key seat3="打印人员：" X="8" Y="1" TYPE="STRING" />
+		<Key seat4="打印时间：" X="11" Y="1" TYPE="STRING" />
+	</Type15_Table1>
+	<Type15_Table2>	
+		<Key seat1="序号" X="1" Y="4" TYPE="STRING" />	
+		<Key seat2="托盘编号" X="2" Y="4" TYPE="STRING" />
+		<Key seat3="物料编号" X="3" Y="4" TYPE="STRING" />
+		<Key seat4="物料描述" X="4" Y="4" TYPE="STRING" />
+		<Key seat5="批次" X="5" Y="4" TYPE="STRING" />	
+		<Key seat6="单位" X="6" Y="4" TYPE="STRING" />	
+		<Key seat7="供应商" X="7" Y="4" TYPE="STRING" />	
+		<Key seat8="工厂" X="8" Y="4" TYPE="STRING" />	
+		<Key seat9="库存地点" X="9" Y="4" TYPE="STRING" />	
+		<Key seat10="库存类型" X="10" Y="4" TYPE="STRING" />
+		<Key seat11="质检类型" X="11" Y="4" TYPE="STRING" />
+		<Key seat12="保管员" X="12" Y="4" TYPE="STRING" />
+		<Key seat13="库存数量" X="13" Y="4" TYPE="STRING" />
+		<Key seat14="盘点数量" X="14" Y="4" TYPE="STRING" />
+		<Key seat15="盘点差异" X="15" Y="4" TYPE="STRING" />	
+		<Key seat16="备注" X="16" Y="4" TYPE="STRING" />	
+	</Type15_Table2>
+
+	<Type14>   
+		<Key item1="表格" X="1" Y="0" TABLE="Type14_Table1" TABLECOUNT="6"/> 
+		<Key item2="表格" X="1" Y="5" TABLE="Type14_Table2" TABLECOUNT="8"/>   
+		<Key item3="表格" X="1" Y="8" TABLE="Type14_Table3" TABLECOUNT="6"/>	  
+	</Type14>
+	<Type14_Table1>	
+		<Key seat1="运单号：" X="2" Y="1" TYPE="STRING" />	
+		<Key seat2="打印人员：" X="7" Y="1" TYPE="STRING" />
+		<Key seat3="建立时间：" X="2" Y="2" TYPE="STRING" />	
+		<Key seat4="打印时间：" X="7" Y="2" TYPE="STRING" />
+		<Key seat5="工单号：" X="4" Y="1" TYPE="STRING" />	
+		<Key seat6="工单建立时间：" X="4" Y="2" TYPE="STRING" />
+	</Type14_Table1>
+	<Type14_Table2>	
+		<Key seat1="行项" X="1" Y="5" TYPE="STRING" />	
+		<Key seat2="物料编号" X="2" Y="5" TYPE="STRING" />
+		<Key seat3="物料描述" X="3" Y="5" TYPE="STRING" />
+		<Key seat4="单位" X="4" Y="5" TYPE="STRING" />
+		<Key seat5="计划数量" X="5" Y="5" TYPE="STRING" />
+		<Key seat6="批次" X="6" Y="5" TYPE="STRING" />
+		<Key seat7="工厂" X="7" Y="5" TYPE="STRING" />
+		<Key seat8="库存地点" X="8" Y="5" TYPE="STRING" />
+	</Type14_Table2>
+	<Type14_Table3>	
+		<Key seat1="项次" X="1" Y="8" TYPE="STRING" />	
+		<Key seat2="物料编号" X="2" Y="8" TYPE="STRING" />
+		<Key seat3="物料描述" X="3" Y="8" TYPE="STRING" />
+		<Key seat4="入库托盘" X="4" Y="8" TYPE="STRING" />	
+		<Key seat5="数量" X="6" Y="8" TYPE="STRING" />	
+		<Key seat6="入库位置号" X="7" Y="8" TYPE="STRING" />	
+	</Type14_Table3>
+
+	<Type13>   
+		<Key item1="表格" X="3" Y="0" TABLE="Type13_Table1" TABLECOUNT="7"/> 
+		<Key item2="表格" X="1" Y="6" TABLE="Type13_Table2" TABLECOUNT="8"/>   
+		<Key item3="表格" X="1" Y="9" TABLE="Type13_Table3" TABLECOUNT="8"/>	  
+	</Type13>
+	<Type13_Table1>	
+		<Key seat6="通道号：" X="7" Y="1" TYPE="STRING" />	
+		<Key seat1="运单号：" X="2" Y="2" TYPE="STRING" />	
+		<Key seat2="打印人员：" X="7" Y="2" TYPE="STRING" />
+		<Key seat3="建立时间：" X="2" Y="3" TYPE="STRING" />	
+		<Key seat4="打印时间：" X="7" Y="3" TYPE="STRING" />
+		<Key seat5="工单号：" X="4" Y="2" TYPE="STRING" />	
+		<Key seat7="工单建立时间：" X="4" Y="3" TYPE="STRING" />
+	</Type13_Table1>
+	<Type13_Table2>	
+		<Key seat1="行项" X="1" Y="6" TYPE="STRING" />	
+		<Key seat2="物料编号" X="2" Y="6" TYPE="STRING" />
+		<Key seat3="物料描述" X="3" Y="6" TYPE="STRING" />
+		<Key seat4="单位" X="4" Y="6" TYPE="STRING" />
+		<Key seat5="计划数量" X="5" Y="6" TYPE="STRING" />
+		<Key seat6="批次" X="6" Y="6" TYPE="STRING" />
+		<Key seat7="工厂" X="7" Y="6" TYPE="STRING" />
+		<Key seat8="库存地点" X="8" Y="6" TYPE="STRING" />
+	</Type13_Table2>
+	<Type13_Table3>	
+		<Key seat1="项次" X="1" Y="9" TYPE="STRING" />	
+		<Key seat2="物料编号" X="2" Y="9" TYPE="STRING" />
+		<Key seat3="物料描述" X="3" Y="9" TYPE="STRING" />
+		<Key seat4="SN" X="4" Y="9" TYPE="STRING" />	
+		<Key seat5="出库位置号" X="6" Y="9" TYPE="STRING" />	
+		<Key seat6="出库托盘" X="7" Y="9" TYPE="STRING" />	
+	</Type13_Table3>
+
+	<Type12>   
+		<Key item1="表格" X="1" Y="0" TABLE="Type12_Table1" TABLECOUNT="6"/> 
+		<Key item2="表格" X="1" Y="6" TABLE="Type12_Table2" TABLECOUNT="8"/>   
+		<Key item3="表格" X="1" Y="9" TABLE="Type12_Table3" TABLECOUNT="8"/>	  
+	</Type12>
+	<Type12_Table1>	
+		<Key seat1="运单号：" X="2" Y="2" TYPE="STRING" />	
+		<Key seat2="打印人员：" X="7" Y="2" TYPE="STRING" />
+		<Key seat3="建立时间：" X="2" Y="3" TYPE="STRING" />	
+		<Key seat4="打印时间：" X="7" Y="3" TYPE="STRING" />
+		<Key seat5="工单号：" X="4" Y="2" TYPE="STRING" />	
+		<Key seat6="工单建立时间：" X="4" Y="3" TYPE="STRING" />
+	</Type12_Table1>
+	<Type12_Table2>	
+		<Key seat1="行项" X="1" Y="6" TYPE="STRING" />	
+		<Key seat2="物料编号" X="2" Y="6" TYPE="STRING" />
+		<Key seat3="物料描述" X="3" Y="6" TYPE="STRING" />
+		<Key seat4="单位" X="4" Y="6" TYPE="STRING" />
+		<Key seat5="计划数量" X="5" Y="6" TYPE="STRING" />
+		<Key seat6="批次" X="6" Y="6" TYPE="STRING" />
+		<Key seat7="工厂" X="7" Y="6" TYPE="STRING" />
+		<Key seat8="库存地点" X="8" Y="6" TYPE="STRING" />
+	</Type12_Table2>
+	<Type12_Table3>	
+		<Key seat1="项次" X="1" Y="9" TYPE="STRING" />	
+		<Key seat2="物料编号" X="2" Y="9" TYPE="STRING" />
+		<Key seat3="物料描述" X="3" Y="9" TYPE="STRING" />
+		<Key seat4="SN" X="4" Y="9" TYPE="STRING" />	
+		<Key seat5="出库位置号" X="6" Y="9" TYPE="STRING" />	
+		<Key seat6="出库托盘" X="7" Y="9" TYPE="STRING" />	
+	</Type12_Table3>
+
+	<Type11>   
+		<Key item1="表格" X="1" Y="0" TABLE="Type11_Table1" TABLECOUNT="7"/> 
+		<Key item2="表格" X="1" Y="6" TABLE="Type11_Table2" TABLECOUNT="6"/> 	  
+	</Type11>
+	<Type11_Table1>	
+		<Key seat1="通道号：" X="6" Y="1" TYPE="STRING" />	
+		<Key seat2="运单号：" X="2" Y="2" TYPE="STRING" />	
+		<Key seat3="打印人员：" X="6" Y="2" TYPE="STRING" />
+		<Key seat4="建立时间：" X="2" Y="3" TYPE="STRING" />	
+		<Key seat5="打印时间：" X="6" Y="3" TYPE="STRING" />
+		<Key seat6="工单号：" X="4" Y="2" TYPE="STRING" />	
+		<Key seat7="工单建立时间：" X="4" Y="3" TYPE="STRING" />
+	</Type11_Table1>
+	<Type11_Table2>	
+		<Key seat1="项次" X="1" Y="6" TYPE="STRING" />	
+		<Key seat2="物料编号" X="2" Y="6" TYPE="STRING" />
+		<Key seat3="物料描述" X="3" Y="6" TYPE="STRING" />
+		<Key seat4="位置号" X="4" Y="6" TYPE="STRING" />	
+		<Key seat5="库存数量" X="5" Y="6" TYPE="STRING" />	
+		<Key seat6="分拣数量" X="6" Y="6" TYPE="STRING" />	
+	</Type11_Table2>
+
+	<Type10>   
+		<Key item1="表格" X="1" Y="0" TABLE="Type10_Table1" TABLECOUNT="7"/> 
+		<Key item2="表格" X="1" Y="6" TABLE="Type10_Table2" TABLECOUNT="8"/>   
+		<Key item3="表格" X="1" Y="8" TABLE="Type10_Table3" TABLECOUNT="8"/>	  
+	</Type10>
+	<Type10_Table1>	
+		<Key seat1="通道号：" X="7" Y="1" TYPE="STRING" />	
+		<Key seat2="运单号：" X="2" Y="2" TYPE="STRING" />	
+		<Key seat3="打印人员：" X="7" Y="2" TYPE="STRING" />
+		<Key seat4="建立时间：" X="2" Y="3" TYPE="STRING" />	
+		<Key seat5="打印时间：" X="7" Y="3" TYPE="STRING" />
+		<Key seat6="工单号：" X="4" Y="2" TYPE="STRING" />	
+		<Key seat7="工单建立时间：" X="4" Y="3" TYPE="STRING" />
+	</Type10_Table1>
+	<Type10_Table2>	
+		<Key seat1="行项" X="1" Y="6" TYPE="STRING" />	
+		<Key seat2="物料编号" X="2" Y="6" TYPE="STRING" />
+		<Key seat3="物料描述" X="3" Y="6" TYPE="STRING" />
+		<Key seat4="单位" X="4" Y="6" TYPE="STRING" />
+		<Key seat5="计划数量" X="5" Y="6" TYPE="STRING" />
+		<Key seat6="批次" X="6" Y="6" TYPE="STRING" />
+		<Key seat7="工厂" X="7" Y="6" TYPE="STRING" />
+		<Key seat8="库存地点" X="8" Y="6" TYPE="STRING" />
+	</Type10_Table2>
+	<Type10_Table3>	
+		<Key seat1="项次" X="1" Y="8" TYPE="STRING" />	
+		<Key seat2="物料编号" X="2" Y="8" TYPE="STRING" />
+		<Key seat3="物料描述" X="3" Y="8" TYPE="STRING" />
+		<Key seat4="托盘编号" X="4" Y="8" TYPE="STRING" />	
+		<Key seat5="库存数量" X="5" Y="8" TYPE="STRING" />	
+		<Key seat6="分拣数量" X="6" Y="8" TYPE="STRING" />	
+		<Key seat7="反库数量" X="7" Y="8" TYPE="STRING" />	
+		<Key seat8="位置号" X="8" Y="8" TYPE="STRING" />	
+	</Type10_Table3>
+
+	<Type9>   
+		<Key item1="表格" X="1" Y="0" TABLE="Type9_Table1" TABLECOUNT="6"/> 
+		<Key item2="表格" X="1" Y="5" TABLE="Type9_Table2" TABLECOUNT="13"/>   
+		<Key item3="表格" X="1" Y="8" TABLE="Type9_Table3" TABLECOUNT="14"/>	  
+	</Type9>
+	<Type9_Table1>	
+		<Key seat1="订单号：" X="2" Y="1" TYPE="STRING" />	
+		<Key seat2="打印人员：" X="11" Y="1" TYPE="STRING" />
+		<Key seat3="建立时间：" X="2" Y="2" TYPE="STRING" />	
+		<Key seat4="打印时间：" X="11" Y="2" TYPE="STRING" />
+		<Key seat5="工单号：" X="7" Y="1" TYPE="STRING" />	
+		<Key seat6="通道号" X="14" Y="1" TYPE="STRING" />	
+		<Key seat7="工单建立时间：" X="7" Y="2" TYPE="STRING" />
+	</Type9_Table1>
+	<Type9_Table2>	
+		<Key seat1="行项" X="1" Y="5" TYPE="STRING" />	
+		<Key seat2="物料编号" X="2" Y="5" TYPE="STRING" />
+		<Key seat3="物料描述" X="3" Y="5" TYPE="STRING" />
+		<Key seat4="批次" X="4" Y="5" TYPE="STRING" />
+		<Key seat5="单位" X="5" Y="5" TYPE="STRING" />
+		<Key seat6="供应商" X="6" Y="5" TYPE="STRING" />
+		<Key seat7="工厂" X="7" Y="5" TYPE="STRING" />
+		<Key seat8="库存地点" X="8" Y="5" TYPE="STRING" />
+		<Key seat9="库存类型" X="9" Y="5" TYPE="STRING" />
+		<Key seat10="质检状态" X="10" Y="5" TYPE="STRING" />
+		<Key seat11="移动类型" X="11" Y="5" TYPE="STRING" />
+		<Key seat12="计划数量" X="12" Y="5" TYPE="STRING" />
+		<Key seat13="订单总量" X="13" Y="5" TYPE="STRING" />
+	</Type9_Table2>
+	<Type9_Table3>	
+		<Key seat1="托盘编号" X="1" Y="8" TYPE="STRING" />	
+		<Key seat2="物料编号" X="2" Y="8" TYPE="STRING" />
+		<Key seat3="物料描述" X="3" Y="8" TYPE="STRING" />
+		<Key seat4="批次" X="4" Y="8" TYPE="STRING" />	
+		<Key seat5="单位" X="5" Y="8" TYPE="STRING" />	
+		<Key seat6="供应商" X="6" Y="8" TYPE="STRING" />	
+		<Key seat7="工厂" X="7" Y="8" TYPE="STRING" />	
+		<Key seat8="库存地点" X="8" Y="8" TYPE="STRING" />	
+		<Key seat9="库存类型" X="9" Y="8" TYPE="STRING" />	
+		<Key seat10="质检状态" X="10" Y="8" TYPE="STRING" />	
+		<Key seat11="库存数量" X="11" Y="8" TYPE="STRING" />	
+		<Key seat12="分拣数量" X="12" Y="8" TYPE="STRING" />		
+		<Key seat13="反库数量" X="13" Y="8" TYPE="STRING" />
+		<Key seat14="位置号" X="14" Y="8" TYPE="STRING" />	
+	</Type9_Table3>
+
+	<Type8>   
+		<Key item1="表格" X="1" Y="0" TABLE="Type8_Table1" TABLECOUNT="6"/> 
+		<Key item2="表格" X="1" Y="4" TABLE="Type8_Table2" TABLECOUNT="16"/>   
+		<Key item3="表格" X="1" Y="7" TABLE="Type8_Table3" TABLECOUNT="14"/>	  
+	</Type8>
+	<Type8_Table1>	
+		<Key seat1="订单号：" X="2" Y="1" TYPE="STRING" />	
+		<Key seat2="打印人员：" X="14" Y="1" TYPE="STRING" />
+		<Key seat3="建立时间：" X="4" Y="1" TYPE="STRING" />	
+		<Key seat4="打印时间：" X="16" Y="1" TYPE="STRING" />
+		<Key seat5="工单号：" X="7" Y="1" TYPE="STRING" />	
+		<Key seat6="工单建立时间：" X="11" Y="1" TYPE="STRING" />
+	</Type8_Table1>
+	<Type8_Table2>	
+		<Key seat1="行项" X="1" Y="4" TYPE="STRING" />	
+		<Key seat2="物料编号" X="2" Y="4" TYPE="STRING" />
+		<Key seat3="物料描述" X="3" Y="4" TYPE="STRING" />
+		<Key seat4="批次" X="4" Y="4" TYPE="STRING" />
+		<Key seat5="单位" X="5" Y="4" TYPE="STRING" />
+		<Key seat6="供应商" X="6" Y="4" TYPE="STRING" />
+		<Key seat7="工厂" X="7" Y="4" TYPE="STRING" />
+		<Key seat8="库存地点" X="8" Y="4" TYPE="STRING" />
+		<Key seat9="库存类型" X="9" Y="4" TYPE="STRING" />
+		<Key seat10="质检状态" X="10" Y="4" TYPE="STRING" />
+		<Key seat11="移动类型" X="11" Y="4" TYPE="STRING" />
+		<Key seat12="计划数量" X="12" Y="4" TYPE="STRING" />
+		<Key seat13="订单总量" X="13" Y="4" TYPE="STRING" />
+		<Key seat14="组盘数量" X="14" Y="4" TYPE="STRING" />
+		<Key seat15="上架数量" X="15" Y="4" TYPE="STRING" />
+		<Key seat16="过账数量" X="16" Y="4" TYPE="STRING" />
+	</Type8_Table2>
+	<Type8_Table3>	
+		<Key seat1="托盘编号" X="1" Y="7" TYPE="STRING" />	
+		<Key seat2="物料编号" X="2" Y="7" TYPE="STRING" />
+		<Key seat3="物料描述" X="3" Y="7" TYPE="STRING" />
+		<Key seat4="批次" X="4" Y="7" TYPE="STRING" />	
+		<Key seat5="单位" X="5" Y="7" TYPE="STRING" />	
+		<Key seat6="供应商" X="6" Y="7" TYPE="STRING" />	
+		<Key seat7="工厂" X="7" Y="7" TYPE="STRING" />	
+		<Key seat8="库存地点" X="8" Y="7" TYPE="STRING" />	
+		<Key seat9="库存类型" X="9" Y="7" TYPE="STRING" />	
+		<Key seat10="质检状态" X="10" Y="7" TYPE="STRING" />	
+		<Key seat11="状态" X="11" Y="7" TYPE="STRING" />	
+		<Key seat12="数量" X="12" Y="7" TYPE="STRING" />		
+		<Key seat13="创建用户" X="13" Y="7" TYPE="STRING" />
+		<Key seat14="位置号" X="14" Y="7" TYPE="STRING" />	
+	</Type8_Table3>
+
+
+	<Type7>
+		<Key item1="狀佳果調撥單" X="1" Y="2" TABLE="Type7_Table1" />
+	</Type7>
+	<Type7_Table1>
+		<Key seat1="ERPNO" X="1" Y="2" TYPE="STRING" />
+		<Key seat2="ITM" X="2" Y="2" TYPE="INTEGER" />
+		<Key seat3="ITEM_NO" X="3" Y="2" TYPE="STRING" />
+		<Key seat4="TYPE" X="4" Y="2" TYPE="STRING" />
+		<Key seat5="QTY" X="5" Y="2" TYPE="STRING" />
+		<Key seat6="QTY1" X="6" Y="2" TYPE="STRING" />
+		<Key seat7="BAT_NO" X="7" Y="2" TYPE="STRING" />		
+	</Type7_Table1>	
+	<Type6>	
+		<Key item1="盤點單" X="1" Y="2" TABLE="Type6_Table1" />
+	</Type6>
+	<Type6_Table1>	
+		<Key seat1="ERPNO" X="1" Y="2" TYPE="STRING" />	
+		<Key seat2="ITM" X="2" Y="2" TYPE="INTEGER" />	
+		<Key seat3="ITEM_NO" X="3" Y="2" TYPE="STRING" />	
+		<Key seat4="QTY" X="4" Y="2" TYPE="STRING" />	 	
+		<Key seat5="QTY1" X="5" Y="2" TYPE="STRING" />	 	
+		<Key seat6="BAT_NO" X="6" Y="2" TYPE="STRING" />	 	
+		<Key seat7="SQTY" X="7" Y="2" TYPE="INTEGER" />	 	
+		<Key seat8="SQTY1" X="8" Y="2" TYPE="INTEGER" />	 			 	
+	</Type6_Table1>
+	<Type6>	
+		<Key item1="盤點單" X="1" Y="2" TABLE="Type6_Table1" />
+	</Type6>
+	<Type6_Table1>	
+		<Key seat1="ERPNO" X="1" Y="2" TYPE="STRING" />	
+		<Key seat2="ITM" X="2" Y="2" TYPE="INTEGER" />	
+		<Key seat3="ITEM_NO" X="3" Y="2" TYPE="STRING" />	
+		<Key seat4="QTY" X="4" Y="2" TYPE="STRING" />	 	
+		<Key seat5="QTY1" X="5" Y="2" TYPE="STRING" />	 	
+		<Key seat6="BAT_NO" X="6" Y="2" TYPE="STRING" />	 	
+		<Key seat7="SQTY" X="7" Y="2" TYPE="INTEGER" />	 	
+		<Key seat8="SQTY1" X="8" Y="2" TYPE="INTEGER" />	 			 	
+	</Type6_Table1>
+	<Type1>	
+		<Key item1="公司名稱" X="1" Y="1" TABLE="0" />	
+		<Key item2="出庫單編號" X="3" Y="3" TABLE="0" />
+		<Key item3="預計時間" X="3" Y="4" TABLE="0" />
+		<Key item4="出庫表" X="1" Y="7" TABLE="Type1_Table1" />
+	</Type1>
+	<Type1_Table1>	
+		<Key seat1="項次" X="1" Y="7" TYPE="STRING" />	
+		<Key seat2="倉庫編號" X="2" Y="7" TYPE="STRING" />	
+		<Key seat3="儲位編號" X="3" Y="7" TYPE="STRING" />	
+		<Key seat4="目的位置" X="4" Y="7" TYPE="STRING" />	
+		<Key seat5="棧板編號" X="5" Y="7" TYPE="STRING" />	
+		<Key seat6="貨品名稱" X="6" Y="7" TYPE="STRING" />	
+		<Key seat7="出庫數量" X="7" Y="7" TYPE="STRING" />	
+		<Key seat8="備註" X="8" Y="7" TYPE="STRING" />	
+	</Type1_Table1>
+	<Type2>	
+		<Key item1="棧板編號" X="1" Y="4" TABLE="0" />	
+		<Key item2="目的儲位" X="1" Y="7" TABLE="0" />
+		<Key item3="客戶編號" X="2" Y="9" TABLE="0" />
+		<Key item4="貨品名稱" X="2" Y="10" TABLE="0" />
+		<Key item5="備註" X="2" Y="11" TABLE="0" />
+		<Key item6="入庫日期" X="2" Y="12" TABLE="0" />
+		<Key item7="箱數" X="3" Y="10" TABLE="0" />
+	</Type2>
+	<Type3>	
+		<Key item99="公司名稱" X="1" Y="1" TABLE="0" />	
+		<Key item57="公司電話" X="1" Y="2" TABLE="0" />	
+		<Key item1="客戶ID" X="3" Y="5" TABLE="0" />	
+		<Key item2="出貨單號" X="6" Y="5" TABLE="0" />
+		<Key item3="客戶名稱" X="3" Y="6" TABLE="0" />
+		<Key item4="出貨日期" X="6" Y="6" TABLE="0" />
+		<Key item5="表格" X="1" Y="9" TABLE="Type3_Table1" />	
+	</Type3>
+	<Type3_Table1>	
+		<Key seat1="項次" X="1" Y="9" TYPE="STRING" />	
+		<Key seat2="貨品編號" X="2" Y="9" TYPE="STRING" />	
+		<Key seat3="貨品名稱" X="4" Y="9" TYPE="STRING" />	
+		<Key seat4="貨品備註" X="5" Y="9" TYPE="STRING" />	
+		<Key seat5="單位" X="6" Y="9" TYPE="STRING" />	
+		<Key seat6="數量" X="7" Y="9" TYPE="STRING" />	
+		<Key seat7="備註" X="8" Y="9" TYPE="STRING" />
+	</Type3_Table1>	
+	<Type4>	
+		<Key item99="公司名稱" X="1" Y="1" TABLE="0" />	
+		<Key item57="公司電話" X="1" Y="2" TABLE="0" />	
+		<Key item1="客戶ID" X="3" Y="5" TABLE="0" />	
+		<Key item2="收貨單號" X="6" Y="5" TABLE="0" />
+		<Key item3="客戶名稱" X="3" Y="6" TABLE="0" />
+		<Key item4="收貨日期" X="6" Y="6" TABLE="0" />
+		<Key item5="表格" X="1" Y="9" TABLE="Type4_Table1" />	
+	</Type4>
+	<Type4_Table1>	
+		<Key seat1="項次" X="1" Y="9" TYPE="STRING" />	
+		<Key seat2="貨品編號" X="2" Y="9" TYPE="STRING" />	
+		<Key seat3="貨品名稱" X="4" Y="9" TYPE="STRING" />	
+		<Key seat4="貨品備註" X="5" Y="9" TYPE="STRING" />	
+		<Key seat5="單位" X="6" Y="9" TYPE="STRING" />	
+		<Key seat6="數量" X="7" Y="9" TYPE="STRING" />	
+		<Key seat7="備註" X="8" Y="9" TYPE="STRING" />
+	</Type4_Table1>
+	<Type5>	
+		<Key item1="客戶名稱" X="3" Y="5" TABLE="0" />	
+		<Key item2="客戶電話" X="3" Y="6" TABLE="0" />
+		<Key item3="製表日期" X="3" Y="7" TABLE="0" />
+		<Key item4="倉租月份" X="12" Y="5" TABLE="0" />	
+		<Key item5="客戶傳真" X="12" Y="6" TABLE="0" />
+		<Key item6="統一編號" X="12" Y="7" TABLE="0" />
+		<Key item7="倉儲" X="2" Y="19" TABLE="Type5_Table1" />
+		<Key item8="入出庫費用" X="2" Y="25" TABLE="Type5_Table2" />
+	</Type5>    
+	<Type5_Table2>	
+		<Key seat1="存倉期間" X="2" Y="25" TYPE="STRING" />	
+		<Key seat2="入庫數量" X="4" Y="25" TYPE="STRING" />	
+		<Key seat3="入庫單價" X="7" Y="25" TYPE="STRING" />	
+		<Key seat4="出庫數量" X="10" Y="25" TYPE="STRING" />	
+		<Key seat5="出庫單價" X="11" Y="25" TYPE="STRING" />	
+		<Key seat6="出庫金額" X="15" Y="25" TYPE="INTEGER" /> 	
+	</Type5_Table2>                    
+	<Type5_Table1>	
+		<Key seat1="存倉期間" X="2" Y="19" TYPE="STRING" />	
+		<Key seat2="上期結存" X="4" Y="19" TYPE="STRING" />	
+		<Key seat3="入庫數量" X="6" Y="19" TYPE="STRING" />	
+		<Key seat4="出庫數量" X="8" Y="19" TYPE="STRING" />	
+		<Key seat5="結存數量" X="10" Y="19" TYPE="STRING" />	
+		<Key seat6="倉租單價" X="11" Y="19" TYPE="STRING" />	
+		<Key seat7="加權值" X="13" Y="19" TYPE="STRING" />	
+		<Key seat8="倉租金額" X="15" Y="19" TYPE="INTEGER" />	 	
+	</Type5_Table1>                    
+</Setting>

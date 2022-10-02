@@ -1,0 +1,55 @@
+<Config>
+	<Public>    
+		<LogPath>C:\PRINT_Log\</LogPath>
+		<ExportPath>C:\Log\WMSLite\Export\</ExportPath>
+		<!--匯出文件檔的目錄(完整的目錄)-->
+		<SampleFolder>\OriginalSample\</SampleFolder>
+		<!--存放Sample檔案的資料夾名稱(須填入在程式根目錄內的資料夾名稱)-->
+		<PrintFormatFile>\PrintFormatSetting.xml</PrintFormatFile>
+		<!--Excle匯出和列印設定格式檔須填入在程式根目錄內的檔名，只能使用XML檔)-->
+		<TraceLv>6</TraceLv>
+		<TrxFlag>1</TrxFlag>
+		<HideFlg>1</HideFlg>
+		<MaxViewLine>100</MaxViewLine>
+		<ViewLV>3</ViewLV>
+		<!-- 5:ALL 4:Debug 3:Trace 2:Warnning  1:Error-->!>
+		<PDFPath>C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe</PDFPath>
+
+		<RefreshAliveTime>1000</RefreshAliveTime>
+		<!-- Setting Refresh timer-->!>
+		<InterfaceType>1</InterfaceType>
+		<!--1:DB 2:RabbitMQ-->
+		<CLIENT_ID></CLIENT_ID>
+		<!--ClientID IP 是用來塞選資料,選填其中一項即可-->
+		<IP>127.0.0.1</IP>
+		
+		<HTTPPath>http://192.168.1.205:8888/ShihHsiang/WOManagement/FileImport</HTTPPath>
+		<!--HTTP路徑為上傳PDF至UI供其他使用,有填寫資料且產生PDF成功即上傳-->
+		<HTTPUpLoadKey>Tag31</HTTPUpLoadKey>
+		<!--HTTP上傳時,指定Key值在哪個Tag,例如:Tag31,指定Tag31是上傳的Key,不指定的話系統自動以時間當Key-->
+	</Public>  
+	<DBList>  
+		<DBINFO>   <!--DB連線資訊-->
+			<DBType>1</DBType><!--0=Oracle,1=SQL-->
+			<DBServer>DESKTOP-UHFGNQ7\SQLEXPRESS</DBServer>
+			<DBPort>1433</DBPort>
+			<DBName>BCS</DBName>
+			<UID>BCS</UID>
+			<PWD>BCS</PWD>
+		</DBINFO>
+	</DBList>
+	<PRINTERLIST>
+		<PRINTERINFO>
+			<PRINTER_NAME_A4>Microsoft Print to PDF</PRINTER_NAME_A4><!--指定預設印表機名稱-->
+			<PRINTER_NAME_10x10Label>Microsoft Print to PDF</PRINTER_NAME_10x10Label><!--指定預設印表機名稱-->
+			<PRINTER_LIMITED_COUNT>20</PRINTER_LIMITED_COUNT><!--當一筆Message有多張標籤時,程式每批次處理標籤數-->
+			<PRINTER_Label_Limited>0</PRINTER_Label_Limited><!--當有成長性表格,設定分頁行數,需要使用前建議先大量測試-->
+			<PageTop>0</PageTop><!--當有分頁線的情況下是否加頁首,0=不需,1=需要-->
+		</PRINTERINFO>
+	</PRINTERLIST>
+	<MailSMTP>
+		<SMTP SMTPAccount="Benny@ecatch.com.tw" SMTPPassword="BENNY.LIN" SMTPAddress="mail.ecatch.com.tw" SMTPPort="587" FromAccount="Benny@ecatch.com.tw" FromAlias="zhu" />
+	</MailSMTP>
+
+
+</Config>

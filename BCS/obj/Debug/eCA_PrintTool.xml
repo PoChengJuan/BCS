@@ -1,0 +1,166 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+eCA_PrintTool
+</name>
+</assembly>
+<members>
+<member name="T:eCA_PrintTool.My.Resources.Resources">
+<summary>
+  用於查詢當地語系化字串等的強類型資源類別。
+</summary>
+</member>
+<member name="P:eCA_PrintTool.My.Resources.Resources.ResourceManager">
+<summary>
+  傳回這個類別使用的快取的 ResourceManager 執行個體。
+</summary>
+</member>
+<member name="P:eCA_PrintTool.My.Resources.Resources.Culture">
+<summary>
+  覆寫目前執行緒的 CurrentUICulture 屬性，對象是所有
+  使用這個強類型資源類別的資源查閱。
+</summary>
+</member>
+<member name="M:eCA_PrintTool.clsConfigTool.ReadStringValueKey(System.String,System.String)">
+ <summary>
+ 回傳指定key的值
+ </summary>
+ <param name="strSection">指定區塊</param>
+ <param name="strKey">指定key</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:eCA_PrintTool.clsConfigTool.ReadKEYDictionary(System.String)">
+ <summary>
+ 回傳指定區塊內所有KEY值
+ </summary>
+ <param name="strSection">指定區塊</param>
+ <returns>key:Attributes NAME   value:Attributes VALUE </returns>
+ <remarks></remarks> 
+</member>
+<member name="M:eCA_PrintTool.clsConfigTool.ReadStringValueDictionary(System.String,System.String)">
+ <summary>
+ 回傳指定區塊 整個Attributes的 name, value
+ </summary>
+ <param name="strSection">指定區塊</param>
+ <param name="strKey">指定KEY</param>  
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:eCA_PrintTool.clsConfigTool.ReadStringValueDesignation(System.String,System.String,System.String)">
+ <summary>
+ 回傳指定區塊 指定屬性的值
+ </summary>
+ <param name="strSection">指定區塊</param>
+ <param name="strKey">指定KEY</param>
+ <param name="strName">指定屬性</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:eCA_PrintTool.clsConfigTool.WriteStringValueDictionary(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+ <summary>
+ 將LIST內容逐一寫進指定的KEY區域
+ </summary>
+ <param name="strSection">指定區塊</param>
+ <param name="strKey">指定KEY</param>
+ <param name="DictionaryValue">寫進Attributes的value</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:eCA_PrintTool.clsConfigTool.WriteStringValueKey(System.String,System.String,System.String)">
+ <summary>
+ 寫進指定區塊 KEY值
+ </summary>
+ <param name="strSection">指定區塊</param>
+ <param name="strKey">指定key</param>
+ <param name="strValue">寫進value</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:eCA_PrintTool.clsConfigTool.WirteStringValueDesignation(System.String,System.String,System.String,System.String)">
+ <summary>
+ 寫進指定區塊 指定屬性
+ </summary>
+ <param name="strSection">指定區塊</param>
+ <param name="strKey">指定key</param>
+ <param name="strName">指定屬性</param>
+ <param name="strValue">寫進value</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:eCA_PrintTool.ModuleQRCode.CodeEncoderFromString(System.String,System.String,System.Int32@)">
+ <summary>
+ 將文字轉成QRCode Bitmap
+ </summary>
+ <param name="_InputDataString">欲轉換的文字</param>
+ <returns></returns>
+</member>
+<member name="M:eCA_PrintTool.ModuleQRCode.CodeDecoderFromBitMapForQRcode(System.Drawing.Bitmap)">
+ <summary>
+ 根據QRCode Bitmap解碼成原本文字內容
+ </summary>
+ <param name="_BitMap">QRCode Bitmap</param>
+ <returns></returns>
+</member>
+<member name="M:eCA_PrintTool.ModuleQRCode.CodeDecoderFromBitMapForDataMarix(System.Drawing.Bitmap)">
+ <summary>
+ 根據DataMarix Bitmap解碼成原本文字內容
+ </summary>
+ <param name="_BitMap">QRCode Bitmap</param>
+ <returns></returns>
+</member>
+<member name="M:eCA_PrintTool.ModuleQRCode.CodeEncoderFromStringWriteToJpeg(System.Drawing.Bitmap,System.String)">
+ <summary>
+ 將轉換後的Bitmap存成jpeg檔案
+ </summary>
+ <param name="_Bitmap">Bitmap來源</param>
+ <param name="_FilePath">檔案路徑(含檔名)</param>
+</member>
+<member name="M:eCA_PrintTool.ModuleQRCode.CodeDecoderFromFilePathForQRcode(System.String)">
+ <summary>
+ 根據DataMarix Jpeg檔案解碼成原本文字內容
+ </summary>
+ <param name="_FilePath">QRCode Jpeg檔案位置(含檔名)</param>
+ <returns></returns>
+</member>
+<member name="M:eCA_PrintTool.ModuleQRCode.CodeDecoderFromFilePath(System.String)">
+ <summary>
+ 根據QRCode Jpeg檔案解碼成原本文字內容
+ </summary>
+ <param name="_FilePath">QRCode Jpeg檔案位置(含檔名)</param>
+ <returns></returns>
+</member>
+<member name="M:eCA_PrintTool.ModuleQRCode.BitmapToImageSource(System.Drawing.Bitmap)">
+ <summary>
+ 將Bitmap轉成BitmapImage(顯示在Image元件上使用，DEMO程式需求)
+ </summary>
+ <param name="_Bitmap"></param>
+ <returns></returns>
+</member>
+<member name="M:eCA_PrintTool.Module_Print.ReportPDFFile(System.Collections.Generic.Dictionary{System.String,eCA_PrintTool.clsEXPORT}@,System.Collections.Generic.Dictionary{System.String,eCA_PrintTool.clsEXPORT_DTL}@,System.String,System.String,System.String,System.String@,System.String@,System.String@,System.String,System.String@,System.Double,System.Double)">
+ <summary>
+ 傳入要列印的資料，回傳PDFFile並可進行列印
+ </summary>
+ <param name="tmp_dicExport"></param>
+ <param name="tmp_dicExport_DTL"></param>
+ <param name="SamplePath"></param>
+ <param name="ExportPath"></param>
+ <param name="PrintFormatSettingPath"></param>
+ <param name="ret_ReportFileName"></param>
+ <param name="USER_ID"></param>
+ <param name="UUID"></param>
+ <param name="ret_ResultMsg"></param>
+ <returns></returns>	
+</member>
+<member name="M:eCA_PrintTool.Module_Print.ExcelToPDFFile(System.String,System.String@,System.String@)">
+ <summary>
+ 傳入既有的Excle檔案名稱，產生PDF檔，並回傳檔案名稱
+ </summary>
+ <param name="ExcelFullFileName"></param>
+ <param name="PDFFullFileName"></param>
+ <param name="ret_ResultMsg"></param>
+ <returns></returns>
+</member>
+</members>
+</doc>
