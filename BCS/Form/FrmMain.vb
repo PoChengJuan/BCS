@@ -62,7 +62,7 @@ Public Class FrmMain
           'End If
           HTTPPath = Pub.<HTTPPath>.Value
           UpLoadKey = Pub.<HTTPUpLoadKey>.Value
-
+          gFileRootPath = Pub.<FileRootPath>.Value
           If Strings.Right(LogPath, 1) <> "\" Then
             LogPath = LogPath & "\"
           End If
@@ -264,17 +264,7 @@ Public Class FrmMain
     End Try
   End Sub
 
-  Private Sub T10F1S1PrintCarrierLabelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles T10F1S1PrintCarrierLabelToolStripMenuItem.Click
-    Try
-      Dim _form = FrmMSGTest.CreateForm(EnuMSGFunctionID.T10F1S1_PrintCarrierLabel)
-      If _form IsNot Nothing Then
-        _form.Show()
-      End If
-    Catch ex As Exception
-      MsgBox(ex.ToString)
-      SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
-    End Try
-  End Sub
+
 
   Private Sub FrmMain_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
     If Me.WindowState = FormWindowState.Minimized Then
@@ -295,30 +285,8 @@ Public Class FrmMain
     End Try
   End Sub
 
-  Private Sub T10F1S2PrintItemLabelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles T10F1S2PrintItemLabelToolStripMenuItem.Click
-    Try
-      Dim _form = FrmMSGTest.CreateForm(EnuMSGFunctionID.T10F1S2_PrintItemLabel)
-      If _form IsNot Nothing Then
-        _form.Show()
-      End If
-    Catch ex As Exception
-      MsgBox(ex.ToString)
-      SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
-    End Try
-  End Sub
 
-  Private Sub T10F1S21PrintShippingDTLToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles T10F1S21PrintShippingDTLToolStripMenuItem.Click
-    Try
 
-      Dim _form = FrmMSGTest.CreateForm(EnuMSGFunctionID.T10F1S21_PrintShippingDTL)
-      If _form IsNot Nothing Then
-        _form.Show()
-      End If
-    Catch ex As Exception
-      MsgBox(ex.ToString)
-      SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
-    End Try
-  End Sub
 
 
   Private Sub TabControl_Selected(sender As Object, e As TabControlEventArgs) Handles TabControl1.Selected
@@ -414,13 +382,13 @@ Public Class FrmMain
 
     Dim Start_DateTime = Start_Date & " " & Start_Time
     Dim End_DateTime = End_Date & " " & End_Time
-    lbl_Test.Text = Start_Date & " " & Start_Time & " 到 " & End_Date & " " & End_Time
 
     Dim ret_Msg = ""
-    If Module_CreateBarCodeReport.O_Process_Message(PlatForm, LotNo, Start_DateTime, End_DateTime, ret_Msg) = False Then
+    Dim FileName_PDF = ""
+    If Module_CreateBarCodeReport.O_Process_Message(PlatForm, LotNo, Start_DateTime, End_DateTime, FileName_PDF, ret_Msg) = False Then
       MsgBox(ret_Msg)
     Else
-      MsgBox("成功")
+      MsgBox("檔案路徑" & vbCrLf & FileName_PDF)
     End If
   End Sub
 
@@ -547,5 +515,17 @@ Public Class FrmMain
   Private Sub lb_BarCode4_Click(sender As Object, e As EventArgs) Handles lb_BarCode4.Click
     Input_Cnt = 3
     lb_BarCode4.Text = ""
+  End Sub
+
+  Private Sub ForTestToolStripMenuItem_Click(sender As Object, e As EventArgs)
+
+  End Sub
+
+  Private Sub ToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem2.Click
+
+  End Sub
+
+  Private Sub TSCBViewLogLevel_Click(sender As Object, e As EventArgs) Handles TSCBViewLogLevel.Click
+
   End Sub
 End Class

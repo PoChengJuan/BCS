@@ -12,6 +12,7 @@ Module Module_CreateBarCodeReport
                                     ByVal LotNo As String,
                                     ByVal Start_time As String,
                                     ByVal End_Time As String,
+                                    ByRef ret_FileName_PDF As String,
                                     ByRef ret_strResultMsg As String) As Boolean
     Try
 
@@ -24,12 +25,13 @@ Module Module_CreateBarCodeReport
       Dim lstHistroySQL As New List(Of String)
 
       Dim File_Name = ""
+      Dim File_Path = ""
       '檢查資料
       If Check_Data(PlatForm, LotNo, Start_time, End_Time, dicStore_Item, ret_strResultMsg) = False Then
         Return False
       End If
       ''取得更新資料
-      If Get_Data(PlatForm, LotNo, dicStore_Item, file_Name, ret_strResultMsg) = False Then
+      If Get_Data(PlatForm, LotNo, dicStore_Item, File_Path, File_Name, ret_strResultMsg) = False Then
         Return False
       End If
       ''取得要更新到DB的SQL
@@ -40,8 +42,10 @@ Module Module_CreateBarCodeReport
       If Execute_DataUpdate(ret_strResultMsg, lstSQL) = False Then
         Return False
       End If
-
-      If eCA_Excel.ExcelToPDF2(File_Name, "D:\TEST.pdf", "") = False Then
+      Dim File_Name_PDF = File_Name.Replace("xlsx", "pdf")
+      'Dim ret_FileName_PDF = ""
+      Dim ret_MSG = ""
+      If eCA_Excel.ExcelToPDF2(File_Name, ret_FileName_PDF, ret_MSG) = False Then
         ret_strResultMsg += " 轉pdf失败"
       End If
       Return True
@@ -76,29 +80,63 @@ Module Module_CreateBarCodeReport
   Private Function Get_Data(ByVal ret_PlatForm As String,
                             ByVal ret_LotNo As String,
                             ByVal ret_dicStore_Item As Dictionary(Of String, clsSTORE_ITEM),
-                            ByRef ret_file_Name As String,
+                            ByRef ret_File_Path As String,
+                            ByRef ret_File_Name As String,
                             ByRef ret_strResultMsg As String) As Boolean
     Try
       Dim Now_Time As String = GetNewTime_DBFormat()
+      Dim Now_Date As String = GetNewDate_DBFormat()
 
-      Dim FileName = "TEST.xlsx"
-      Dim FilePath = "D:\test\"
-      ret_file_Name = FilePath & FileName
+      '取得檔名漂水號
+      Dim UUID_NO_Str = ret_PlatForm
+      Dim UUID_NO = ""
+      If ret_PlatForm = "7-11" Then
+        UUID_NO = enuUUID_No.Seven_SERIAL_NO.ToString
+      ElseIf ret_PlatForm = "OK Mart" Then
+        UUID_NO = enuUUID_No.OK_SERIAL_NO.ToString
+      ElseIf ret_PlatForm = "Family" Then
+        UUID_NO = enuUUID_No.FAMILY_SERIAL_NO.ToString
+      End If
+      Dim dicUUID As Dictionary(Of String, clsUUID) = BCS_M_UUIDManagement.GetclsUUIDListByUUID_NO(UUID_NO)
+
+
+      'If objHandling.O_Get_UUID(enuUUID_No.Seven_SERIAL_NO.ToString, dicUUID) = False Then
+      '  ret_strResultMsg = "Get UUID False"
+      '  SendMessageToLog(ret_strResultMsg, eCALogTool.ILogTool.enuTrcLevel.lvWARN)
+      '  Return False
+      'End If
+      If dicUUID.Any = False Then
+        ret_strResultMsg = "Get UUID False"
+        SendMessageToLog(ret_strResultMsg, eCALogTool.ILogTool.enuTrcLevel.lvWARN)
+        Return False
+      End If
+      Dim objUUID = dicUUID.Values(0)
+      Dim UUID = objUUID.Get_NewUUID
+      Dim FileName = UUID_NO_Str & "-" & ret_LotNo & "-" & UUID & ".xlsx"
+      Dim FilePath = gFileRootPath & Now_Date & "\" & UUID_NO_Str & "\"
+      ret_File_Name = FilePath & FileName
+      ret_File_Path = FilePath
+      If System.IO.Directory.Exists(ret_File_Path) = False Then
+        System.IO.Directory.CreateDirectory(ret_File_Path)
+      End If
       Dim fs = New FileStream(FilePath & FileName, FileMode.Create)
       Dim workbook As XSSFWorkbook = New XSSFWorkbook()
       Dim sheet As XSSFSheet = workbook.CreateSheet("Sheet1") ' 新增試算表 Sheet名稱
+      Dim footer = sheet.Footer
+      Dim Header = sheet.Header
+      footer.Center = "第" & "&P" & "頁"
       Dim xlStyle As XSSFCellStyle = workbook.CreateCellStyle()
 
       Dim Row_Cnt = 0
       Dim Row As XSSFRow = sheet.CreateRow(Row_Cnt)
 
-      Row.CreateCell(0).SetCellValue("平台：" & ret_PlatForm)
-      Row.CreateCell(1).SetCellValue("賣場(Lot)：" & ret_LotNo)
-
+      'Row.CreateCell(0).SetCellValue("平台：" & ret_PlatForm)
+      'Row.CreateCell(3).SetCellValue("賣場(Lot)：" & ret_LotNo)
+      Header.Left = "平台：" & ret_PlatForm & "  賣場(Lot)：" & ret_LotNo
       Dim cnt = 0
-      If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-        Return False
-      End If
+      'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+      '  Return False
+      'End If
       Dim lst_dicStore_Item As New List(Of clsSTORE_ITEM)
       For Each obj In ret_dicStore_Item.Values
         lst_dicStore_Item.Add(obj)
@@ -106,309 +144,571 @@ Module Module_CreateBarCodeReport
 
 
       Dim flg_lastOne = False
+      Dim flg_Change_Page = False
+      Dim Total_BarCode = 0
+      Dim BarCode_Cnt = 0
       For Item_Cnt As Integer = 0 To lst_dicStore_Item.Count - 1 Step +2
         Row_Cnt = Row_Cnt + 1
         Row = sheet.CreateRow(Row_Cnt)
-        If (lst_dicStore_Item.Count - Item_Cnt) < 2 Then
-          flg_lastOne = True
-        End If
 
-#Region "第一組"
+        If ret_PlatForm = "7-11" Then
+          If (lst_dicStore_Item.Count - Item_Cnt) < 2 Then
+            flg_lastOne = True
+          End If
+
+#Region "7-11"
 #Region "BarCode1"
-        '=============================BarCode1====================================
+          '=============================BarCode1====================================
 
 
-        CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode1, 0, workbook, sheet, Row_Cnt)
+          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode1, 0, workbook, sheet, Row_Cnt)
 
-        Row.CreateCell(0).SetCellValue("")
-        Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
-        Dim colorRgb = New Byte() {255, 255, 255}
-        Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
-        Barcode_Style.FillPattern = FillPattern.SolidForeground
-
-
-        Dim Font As IFont = workbook.CreateFont()
-        Font.FontName = "Code 128"
-        Font.FontHeightInPoints = 36
-        Barcode_Style.SetFont(Font)
-        Row.Cells(0).CellStyle = Barcode_Style
-        If flg_lastOne = False Then
-          '##############################################################
-          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1, 5, workbook, sheet, Row_Cnt)
-          Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1)
-
+          Row.CreateCell(0).SetCellValue("")
+          Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
+          Dim colorRgb = New Byte() {255, 255, 255}
           Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
           Barcode_Style.FillPattern = FillPattern.SolidForeground
 
+
+          Dim Font As IFont = workbook.CreateFont()
           Font.FontName = "Code 128"
           Font.FontHeightInPoints = 36
           Barcode_Style.SetFont(Font)
-          Row.Cells(1).CellStyle = Barcode_Style
-          '##############################################################
-        End If
+          Row.Cells(0).CellStyle = Barcode_Style
+          If flg_lastOne = False Then
+            '##############################################################
+            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1, 5, workbook, sheet, Row_Cnt)
+            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1)
 
-        '=============================================================
-        Row_Cnt = Row_Cnt + 1
-        Row = sheet.CreateRow(Row_Cnt)
-        Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode1)
+            Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Barcode_Style.FillPattern = FillPattern.SolidForeground
 
-        Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
-        'Dim colorRgb = New Byte() {255, 255, 255}
-        Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
-        Num_Style.FillPattern = FillPattern.SolidForeground
+            Font.FontName = "Code 128"
+            Font.FontHeightInPoints = 36
+            Barcode_Style.SetFont(Font)
+            Row.Cells(1).CellStyle = Barcode_Style
+            '##############################################################
+          End If
 
+          '=============================================================
+          Row_Cnt = Row_Cnt + 1
+          Row = sheet.CreateRow(Row_Cnt)
+          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode1)
 
-        Dim Num_Font As IFont = workbook.CreateFont()
-        Num_Font.FontName = "Calibri"
-        Num_Font.FontHeightInPoints = 12
-        Num_Style.SetFont(Num_Font)
-        Row.Cells(0).CellStyle = Num_Style
-
-        If flg_lastOne = False Then
-          '##############################################################
-          Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1)
-
+          Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
+          'Dim colorRgb = New Byte() {255, 255, 255}
           Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
           Num_Style.FillPattern = FillPattern.SolidForeground
 
+
+          Dim Num_Font As IFont = workbook.CreateFont()
           Num_Font.FontName = "Calibri"
           Num_Font.FontHeightInPoints = 12
           Num_Style.SetFont(Num_Font)
-          Row.Cells(1).CellStyle = Num_Style
-          '##############################################################
-        End If
+          Row.Cells(0).CellStyle = Num_Style
 
-        '=============================================================
-        If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-          Return False
-        End If
-        If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-          Return False
-        End If
+          If flg_lastOne = False Then
+            '##############################################################
+            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1)
+
+            Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Num_Style.FillPattern = FillPattern.SolidForeground
+
+            Num_Font.FontName = "Calibri"
+            Num_Font.FontHeightInPoints = 12
+            Num_Style.SetFont(Num_Font)
+            Row.Cells(1).CellStyle = Num_Style
+            '##############################################################
+          End If
+
+          '=============================================================
+          'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+          '  Return False
+          'End If
+          'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+          '  Return False
+          'End If
 #End Region
 #Region "BarCode2"
-        '=============================BarCode2====================================
-        CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode2, 0, workbook, sheet, Row_Cnt)
+          '=============================BarCode2====================================
+          Row_Cnt = Row_Cnt + 1
+          Row = sheet.CreateRow(Row_Cnt)
+          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode2, 0, workbook, sheet, Row_Cnt)
 
-        Row.CreateCell(0).SetCellValue("")
-        'Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
-        'Dim colorRgb = New Byte() {255, 255, 255}
-        Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
-        Barcode_Style.FillPattern = FillPattern.SolidForeground
-
-
-        'Dim Font As IFont = workbook.CreateFont()
-        Font.FontName = "Code 128"
-        Font.FontHeightInPoints = 36
-        Barcode_Style.SetFont(Font)
-        Row.Cells(0).CellStyle = Barcode_Style
-        If flg_lastOne = False Then
-          '##############################################################
-          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2, 5, workbook, sheet, Row_Cnt)
-          Row.CreateCell(5).SetCellValue("")
-
+          Row.CreateCell(0).SetCellValue("")
+          'Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
+          'Dim colorRgb = New Byte() {255, 255, 255}
           Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
           Barcode_Style.FillPattern = FillPattern.SolidForeground
 
+
+          'Dim Font As IFont = workbook.CreateFont()
           Font.FontName = "Code 128"
           Font.FontHeightInPoints = 36
           Barcode_Style.SetFont(Font)
-          Row.Cells(1).CellStyle = Barcode_Style
-          '##############################################################
-        End If
+          Row.Cells(0).CellStyle = Barcode_Style
+          If flg_lastOne = False Then
+            '##############################################################
+            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2, 5, workbook, sheet, Row_Cnt)
+            Row.CreateCell(5).SetCellValue("")
 
-        '=============================================================
-        Row_Cnt = Row_Cnt + 1
-        Row = sheet.CreateRow(Row_Cnt)
-        Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode2)
+            Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Barcode_Style.FillPattern = FillPattern.SolidForeground
 
-        'Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
-        'Dim colorRgb = New Byte() {255, 255, 255}
-        Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
-        Num_Style.FillPattern = FillPattern.SolidForeground
+            Font.FontName = "Code 128"
+            Font.FontHeightInPoints = 36
+            Barcode_Style.SetFont(Font)
+            Row.Cells(1).CellStyle = Barcode_Style
+            '##############################################################
+          End If
 
+          '=============================================================
+          Row_Cnt = Row_Cnt + 1
+          Row = sheet.CreateRow(Row_Cnt)
+          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode2)
 
-        'Dim Num_Font As IFont = workbook.CreateFont()
-        Num_Font.FontName = "Calibri"
-        Num_Font.FontHeightInPoints = 12
-        Num_Style.SetFont(Num_Font)
-        Row.Cells(0).CellStyle = Num_Style
-
-        If flg_lastOne = False Then
-          '##############################################################
-          Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2)
-
+          'Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
+          'Dim colorRgb = New Byte() {255, 255, 255}
           Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
           Num_Style.FillPattern = FillPattern.SolidForeground
 
+
+          'Dim Num_Font As IFont = workbook.CreateFont()
           Num_Font.FontName = "Calibri"
           Num_Font.FontHeightInPoints = 12
           Num_Style.SetFont(Num_Font)
-          Row.Cells(1).CellStyle = Num_Style
-          '##############################################################
-        End If
+          Row.Cells(0).CellStyle = Num_Style
 
-        '=============================================================
-        If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-          Return False
-        End If
-        If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-          Return False
-        End If
+          If flg_lastOne = False Then
+            '##############################################################
+            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2)
+
+            Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Num_Style.FillPattern = FillPattern.SolidForeground
+
+            Num_Font.FontName = "Calibri"
+            Num_Font.FontHeightInPoints = 12
+            Num_Style.SetFont(Num_Font)
+            Row.Cells(1).CellStyle = Num_Style
+            '##############################################################
+          End If
+
+          '=============================================================
+          'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+          '  Return False
+          'End If
+          'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+          '  Return False
+          'End If
 #End Region
 #Region "BarCode3"
-        '=============================BarCode3====================================
-        CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode3, 0, workbook, sheet, Row_Cnt)
+          '=============================BarCode3====================================
+          Row_Cnt = Row_Cnt + 1
+          Row = sheet.CreateRow(Row_Cnt)
+          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode3, 0, workbook, sheet, Row_Cnt)
 
-        Row.CreateCell(0).SetCellValue("")
-        'Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
-        'Dim colorRgb = New Byte() {255, 255, 255}
-        Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
-        Barcode_Style.FillPattern = FillPattern.SolidForeground
-
-
-        'Dim Font As IFont = workbook.CreateFont()
-        Font.FontName = "Code 128"
-        Font.FontHeightInPoints = 36
-        Barcode_Style.SetFont(Font)
-        Row.Cells(0).CellStyle = Barcode_Style
-        If flg_lastOne = False Then
-          '##############################################################
-          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode3, 5, workbook, sheet, Row_Cnt)
-
-          Row.CreateCell(5).SetCellValue("")
-
+          Row.CreateCell(0).SetCellValue("")
+          'Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
+          'Dim colorRgb = New Byte() {255, 255, 255}
           Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
           Barcode_Style.FillPattern = FillPattern.SolidForeground
 
+
+          'Dim Font As IFont = workbook.CreateFont()
           Font.FontName = "Code 128"
           Font.FontHeightInPoints = 36
           Barcode_Style.SetFont(Font)
-          Row.Cells(1).CellStyle = Barcode_Style
-          '##############################################################
-        End If
+          Row.Cells(0).CellStyle = Barcode_Style
+          If flg_lastOne = False Then
+            '##############################################################
+            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode3, 5, workbook, sheet, Row_Cnt)
 
-        '=============================================================
-        Row_Cnt = Row_Cnt + 1
-        Row = sheet.CreateRow(Row_Cnt)
-        Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode3)
+            Row.CreateCell(5).SetCellValue("")
 
-        'Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
-        'Dim colorRgb = New Byte() {255, 255, 255}
-        Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
-        Num_Style.FillPattern = FillPattern.SolidForeground
+            Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Barcode_Style.FillPattern = FillPattern.SolidForeground
 
+            Font.FontName = "Code 128"
+            Font.FontHeightInPoints = 36
+            Barcode_Style.SetFont(Font)
+            Row.Cells(1).CellStyle = Barcode_Style
+            '##############################################################
+          End If
 
-        'Dim Num_Font As IFont = workbook.CreateFont()
-        Num_Font.FontName = "Calibri"
-        Num_Font.FontHeightInPoints = 12
-        Num_Style.SetFont(Num_Font)
-        Row.Cells(0).CellStyle = Num_Style
+          '=============================================================
+          Row_Cnt = Row_Cnt + 1
+          Row = sheet.CreateRow(Row_Cnt)
+          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode3)
 
-        If flg_lastOne = False Then
-          '##############################################################
-          Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode3)
-
+          'Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
+          'Dim colorRgb = New Byte() {255, 255, 255}
           Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
           Num_Style.FillPattern = FillPattern.SolidForeground
 
+
+          'Dim Num_Font As IFont = workbook.CreateFont()
           Num_Font.FontName = "Calibri"
           Num_Font.FontHeightInPoints = 12
           Num_Style.SetFont(Num_Font)
-          Row.Cells(1).CellStyle = Num_Style
-          '##############################################################
-        End If
+          Row.Cells(0).CellStyle = Num_Style
 
-        '=============================================================
-        If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-          Return False
-        End If
-        If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-          Return False
-        End If
+          If flg_lastOne = False Then
+            '##############################################################
+            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode3)
+
+            Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Num_Style.FillPattern = FillPattern.SolidForeground
+
+            Num_Font.FontName = "Calibri"
+            Num_Font.FontHeightInPoints = 12
+            Num_Style.SetFont(Num_Font)
+            Row.Cells(1).CellStyle = Num_Style
+            '##############################################################
+          End If
+
+          '=============================================================
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+          'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+          '  Return False
+          'End If
 #End Region
 #Region "BarCode4"
-        'Dim _VALUE = GenCode128.Code128Rendering.MakeBarcodeImage(objStore_item.BarCode4, 2, True)
-        Dim _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt).BarCode4, "QRCODE")
-        Dim BYTE_Array As Byte() = BmpToBytes(_VALUE)
-        Dim picInd = workbook.AddPicture(BYTE_Array, NPOI.SS.UserModel.PictureType.JPEG)
+          'Dim _VALUE = GenCode128.Code128Rendering.MakeBarcodeImage(objStore_item.BarCode4, 2, True)
+          Dim _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt).BarCode4, "QRCODE")
+          Dim BYTE_Array As Byte() = BmpToBytes(_VALUE)
+          Dim picInd = workbook.AddPicture(BYTE_Array, NPOI.SS.UserModel.PictureType.JPEG)
 
-        Dim anchor As XSSFClientAnchor = New XSSFClientAnchor()
-        anchor.Dx1 = 1
-        anchor.Dy1 = 1
-
-
-        anchor.Col1 = 0
-        anchor.Row1 = Row_Cnt
-        Dim drawing As XSSFDrawing = sheet.CreateDrawingPatriarch
-        Dim pict As XSSFPicture = drawing.CreatePicture(anchor, picInd)
-        pict.Resize()
-        '=============================================================
-
-
-        If flg_lastOne = False Then
-          '##############################################################
-          _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode4, "QRCODE")
-          BYTE_Array = BmpToBytes(_VALUE)
-          picInd = workbook.AddPicture(BYTE_Array, NPOI.SS.UserModel.PictureType.JPEG)
-
-          anchor = New XSSFClientAnchor()
+          Dim anchor As XSSFClientAnchor = New XSSFClientAnchor()
           anchor.Dx1 = 1
           anchor.Dy1 = 1
 
 
-          anchor.Col1 = 5
+          anchor.Col1 = 0
           anchor.Row1 = Row_Cnt
-          drawing = sheet.CreateDrawingPatriarch
-          pict = drawing.CreatePicture(anchor, picInd)
+          Dim drawing As XSSFDrawing = sheet.CreateDrawingPatriarch
+          Dim pict As XSSFPicture = drawing.CreatePicture(anchor, picInd)
           pict.Resize()
-          '##############################################################
-        End If
+          BarCode_Cnt = BarCode_Cnt + 1
+          '=============================================================
 
-        If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-          Return False
-        End If
-        If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-          Return False
-        End If
-        If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-          Return False
-        End If
+
+          If flg_lastOne = False Then
+            '##############################################################
+            _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode4, "QRCODE")
+            BYTE_Array = BmpToBytes(_VALUE)
+            picInd = workbook.AddPicture(BYTE_Array, NPOI.SS.UserModel.PictureType.JPEG)
+
+            anchor = New XSSFClientAnchor()
+            anchor.Dx1 = 1
+            anchor.Dy1 = 1
+
+
+            anchor.Col1 = 5
+            anchor.Row1 = Row_Cnt
+            drawing = sheet.CreateDrawingPatriarch
+            pict = drawing.CreatePicture(anchor, picInd)
+            pict.Resize()
+            BarCode_Cnt = BarCode_Cnt + 1
+            '##############################################################
+          End If
+
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+          'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+          '  Return False
+          'End If
+          'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+          '  Return False
+          'End If
 
 #End Region
+          If BarCode_Cnt >= 6 Then
+            Total_BarCode = Total_BarCode + BarCode_Cnt
+            If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
+              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+                Return False
+              End If
+              sheet.SetRowBreak(Row_Cnt)
+              BarCode_Cnt = 0
+              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+                Return False
+              End If
+            End If
+          Else
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+          End If
+
 #End Region
+        ElseIf ret_PlatForm = "OK Mart" Then
+          If (lst_dicStore_Item.Count - Item_Cnt) < 2 Then
+            flg_lastOne = True
+          End If
+
+#Region "OK Mart"
+#Region "BarCode1"
+          '=============================BarCode1====================================
+
+
+          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode1, 0, workbook, sheet, Row_Cnt)
+
+          Row.CreateCell(0).SetCellValue("")
+          Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
+          Dim colorRgb = New Byte() {255, 255, 255}
+          Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+          Barcode_Style.FillPattern = FillPattern.SolidForeground
+
+
+          Dim Font As IFont = workbook.CreateFont()
+          Font.FontName = "Code 128"
+          Font.FontHeightInPoints = 36
+          Barcode_Style.SetFont(Font)
+          Row.Cells(0).CellStyle = Barcode_Style
+          If flg_lastOne = False Then
+            '##############################################################
+            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1, 5, workbook, sheet, Row_Cnt)
+            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1)
+
+            Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Barcode_Style.FillPattern = FillPattern.SolidForeground
+
+            Font.FontName = "Code 128"
+            Font.FontHeightInPoints = 36
+            Barcode_Style.SetFont(Font)
+            Row.Cells(1).CellStyle = Barcode_Style
+            '##############################################################
+          End If
+
+          '=============================================================
+          Row_Cnt = Row_Cnt + 1
+          Row = sheet.CreateRow(Row_Cnt)
+          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode1)
+
+          Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
+          'Dim colorRgb = New Byte() {255, 255, 255}
+          Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+          Num_Style.FillPattern = FillPattern.SolidForeground
+
+
+          Dim Num_Font As IFont = workbook.CreateFont()
+          Num_Font.FontName = "Calibri"
+          Num_Font.FontHeightInPoints = 12
+          Num_Style.SetFont(Num_Font)
+          Row.Cells(0).CellStyle = Num_Style
+
+          If flg_lastOne = False Then
+            '##############################################################
+            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1)
+
+            Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Num_Style.FillPattern = FillPattern.SolidForeground
+
+            Num_Font.FontName = "Calibri"
+            Num_Font.FontHeightInPoints = 12
+            Num_Style.SetFont(Num_Font)
+            Row.Cells(1).CellStyle = Num_Style
+            '##############################################################
+          End If
+
+          '=============================================================
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+          'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+          '  Return False
+          'End If
+#End Region
+#Region "BarCode2"
+          '=============================BarCode2====================================
+          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode2, 0, workbook, sheet, Row_Cnt)
+
+          Row.CreateCell(0).SetCellValue("")
+          'Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
+          'Dim colorRgb = New Byte() {255, 255, 255}
+          Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+          Barcode_Style.FillPattern = FillPattern.SolidForeground
+
+
+          'Dim Font As IFont = workbook.CreateFont()
+          Font.FontName = "Code 128"
+          Font.FontHeightInPoints = 36
+          Barcode_Style.SetFont(Font)
+          Row.Cells(0).CellStyle = Barcode_Style
+          If flg_lastOne = False Then
+            '##############################################################
+            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2, 5, workbook, sheet, Row_Cnt)
+            Row.CreateCell(5).SetCellValue("")
+
+            Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Barcode_Style.FillPattern = FillPattern.SolidForeground
+
+            Font.FontName = "Code 128"
+            Font.FontHeightInPoints = 36
+            Barcode_Style.SetFont(Font)
+            Row.Cells(1).CellStyle = Barcode_Style
+            '##############################################################
+          End If
+
+          '=============================================================
+          Row_Cnt = Row_Cnt + 1
+          Row = sheet.CreateRow(Row_Cnt)
+          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode2)
+
+          'Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
+          'Dim colorRgb = New Byte() {255, 255, 255}
+          Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+          Num_Style.FillPattern = FillPattern.SolidForeground
+
+
+          'Dim Num_Font As IFont = workbook.CreateFont()
+          Num_Font.FontName = "Calibri"
+          Num_Font.FontHeightInPoints = 12
+          Num_Style.SetFont(Num_Font)
+          Row.Cells(0).CellStyle = Num_Style
+          BarCode_Cnt = BarCode_Cnt + 1
+          If flg_lastOne = False Then
+            '##############################################################
+            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2)
+
+            Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Num_Style.FillPattern = FillPattern.SolidForeground
+
+            Num_Font.FontName = "Calibri"
+            Num_Font.FontHeightInPoints = 12
+            Num_Style.SetFont(Num_Font)
+            Row.Cells(1).CellStyle = Num_Style
+            BarCode_Cnt = BarCode_Cnt + 1
+            '##############################################################
+          End If
+
+          '=============================================================
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+
+          'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+          '  Return False
+          'End If
+          If BarCode_Cnt >= 10 Then
+            Total_BarCode = Total_BarCode + BarCode_Cnt
+            If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
+              sheet.SetRowBreak(Row_Cnt)
+              BarCode_Cnt = 0
+              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+                Return False
+              End If
+            End If
+            'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '  Return False
+            'End If
+
+          Else
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+          End If
+#End Region
+#End Region
+        ElseIf ret_PlatForm = "Family" Then
+          If (lst_dicStore_Item.Count - Item_Cnt) < 2 Then
+            flg_lastOne = True
+          End If
+#Region "Family"
+#Region "BarCode4"
+          'Dim _VALUE = GenCode128.Code128Rendering.MakeBarcodeImage(objStore_item.BarCode4, 2, True)
+          Dim _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt).BarCode1, "QRCODE")
+          Dim BYTE_Array As Byte() = BmpToBytes(_VALUE)
+          Dim picInd = workbook.AddPicture(BYTE_Array, NPOI.SS.UserModel.PictureType.JPEG)
+
+          Dim anchor As XSSFClientAnchor = New XSSFClientAnchor()
+          anchor.Dx1 = 1
+          anchor.Dy1 = 1
+
+
+          anchor.Col1 = 0
+          anchor.Row1 = Row_Cnt
+          Dim drawing As XSSFDrawing = sheet.CreateDrawingPatriarch
+          Dim pict As XSSFPicture = drawing.CreatePicture(anchor, picInd)
+          pict.Resize()
+          BarCode_Cnt = BarCode_Cnt + 1
+          '=============================================================
+
+          If flg_lastOne = False Then
+            '##############################################################
+            _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1, "QRCODE")
+            BYTE_Array = BmpToBytes(_VALUE)
+            picInd = workbook.AddPicture(BYTE_Array, NPOI.SS.UserModel.PictureType.JPEG)
+
+            anchor = New XSSFClientAnchor()
+            anchor.Dx1 = 1
+            anchor.Dy1 = 1
+
+
+            anchor.Col1 = 5
+            anchor.Row1 = Row_Cnt
+            drawing = sheet.CreateDrawingPatriarch
+            pict = drawing.CreatePicture(anchor, picInd)
+            pict.Resize()
+            BarCode_Cnt = BarCode_Cnt + 1
+            '##############################################################
+          End If
+
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+
+          If BarCode_Cnt >= 12 Then
+            Total_BarCode = Total_BarCode + BarCode_Cnt
+            If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
+              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+                Return False
+              End If
+              sheet.SetRowBreak(Row_Cnt)
+              BarCode_Cnt = 0
+              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+                Return False
+              End If
+            End If
+
+          Else
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+          End If
+#End Region
+#End Region
+        End If
+        'sheet.SetRowBreak(32)
 
       Next
-      sheet.SetRowBreak(32)
-
-#Region "BarCode4"
-      'Dim _VALUE = GenCode128.Code128Rendering.MakeBarcodeImage(objStore_item.BarCode4, 2, True)
-      'Dim _VALUE = CodeEncoderFromString(objStore_item.BarCode4, "QRCODE")
-      'Dim BYTE_Array As Byte() = BmpToBytes(_VALUE)
-      'Dim picInd = workbook.AddPicture(BYTE_Array, NPOI.SS.UserModel.PictureType.JPEG)
-
-      'Dim anchor As XSSFClientAnchor = New XSSFClientAnchor()
-      'anchor.Dx1 = 1
-      'anchor.Dy1 = 1
 
 
-      'anchor.Col1 = 0
-      'anchor.Row1 = Row_Cnt
-      'Dim drawing As XSSFDrawing = sheet.CreateDrawingPatriarch
-      'Dim pict As XSSFPicture = drawing.CreatePicture(anchor, picInd)
-      'pict.Resize()
-      ''=============================================================
-      'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-      '  Return False
-      'End If
-      'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-      '  Return False
-      'End If
-      'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-      '  Return False
-      'End If
-      'sheet.SetRowBreak(32)
-#End Region
+
 
 
 

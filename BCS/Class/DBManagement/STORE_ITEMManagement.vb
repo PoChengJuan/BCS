@@ -30,7 +30,7 @@ Partial Class STORE_ITEMManagement
      IdxColumnName.CreateTime.ToString, Info.CreateTime
       )
       Dim NewSQL As String = ""
-      If SQLCorrect(strSQL, NewSQL) Then
+      If SQLCorrect(DBTool.m_nDBType, strSQL, NewSQL) Then
         Return NewSQL
       End If
       Return Nothing
@@ -53,7 +53,7 @@ Partial Class STORE_ITEMManagement
      IdxColumnName.CreateTime.ToString, Info.CreateTime
       )
       Dim NewSQL As String = ""
-      If SQLCorrect(strSQL, NewSQL) Then
+      If SQLCorrect(DBTool.m_nDBType, strSQL, NewSQL) Then
         Return NewSQL
       End If
       Return Nothing
@@ -72,7 +72,7 @@ Partial Class STORE_ITEMManagement
      IdxColumnName.LotNo.ToString, Info.LotNo
 )
       Dim NewSQL As String = ""
-      If SQLCorrect(strSQL, NewSQL) Then
+      If SQLCorrect(DBTool.m_nDBType, strSQL, NewSQL) Then
         Return NewSQL
       End If
       Return Nothing

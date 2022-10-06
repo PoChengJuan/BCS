@@ -159,6 +159,8 @@
     <Compile Include="Class\clsEXPORT.vb" />
     <Compile Include="Class\clsEXPORT_DTL.vb" />
     <Compile Include="Class\ClsInterfaceDB.vb" />
+    <Compile Include="Class\DBManagement\BCS_M_UUIDManagement.vb" />
+    <Compile Include="Class\Object\clsUUID.vb" />
     <Compile Include="Class\DBManagement\clsFromGUICommand.vb" />
     <Compile Include="Class\DBManagement\Common_DBManagement.vb" />
     <Compile Include="Class\DBManagement\STORE_HEADManagement.vb" />
@@ -170,6 +172,7 @@
     <Compile Include="Class\MSG_Secondary_Message.vb" />
     <Compile Include="Class\Object\clsSTORE_HEAD.vb" />
     <Compile Include="Class\Object\clsSTORE_ITEM.vb" />
+    <Compile Include="Enum\enuUUID_No.vb" />
     <Compile Include="Enum\EnuMSGFunctionID.vb" />
     <Compile Include="Enum\EnuPrintName.vb" />
     <Compile Include="Enum\EnuSystemType.vb" />
@@ -187,6 +190,8 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Module\ModuleDeclaration.vb" />
+    <Compile Include="Module\Mod_System.vb" />
+    <Compile Include="Module\Mod_HelpFunc.vb" />
     <Compile Include="Module\ModuleFunction.vb" />
     <Compile Include="Module\Module_CreateBarCodeReport.vb" />
     <Compile Include="Module\Module_ScanFamilyBarCode.vb" />

@@ -89,6 +89,59 @@ BCS
  <returns></returns>
  <remarks></remarks>
 </member>
+<member name="M:BCS.Mod_HelpFunc.IntegerConvertToBoolean(System.String)">
+ <summary>
+ 處理數字轉Boolean
+ </summary>
+ <param name="value"></param>
+ <returns></returns>
+</member>
+<member name="M:BCS.Mod_HelpFunc.BooleanConvertToInteger(System.Boolean)">
+ <summary>
+ 處理數字轉Boolean
+ </summary>
+ <param name="bool"></param>
+ <returns></returns>
+</member>
+<member name="M:BCS.Mod_HelpFunc.O_Get_UpdateColumnSQL``1(System.Collections.Generic.Dictionary{System.String,System.String}@,System.String@)">
+ <summary>
+ 傳入要更新的欄位和值，回傳要更新的欄位字串
+ </summary>
+ <param name="dicChangeColumnValue"></param>
+ <param name="ret_strUpdateColumnValue"></param>
+ <returns></returns>
+</member>
+<member name="M:BCS.Mod_HelpFunc.GetNewTime_ByDataTimeFormat(System.String)">
+ <summary>
+  取得現在的時間，並自動轉成傳入的指定格式
+ </summary>
+ <param name="DateTimeFormat"></param>
+ <returns></returns>
+</member>
+<member name="M:BCS.Mod_HelpFunc.ReplaceStringForSQL(System.String)">
+ <summary>
+ 修改Insert字串中包含特殊符號的部份、將字串單引號改為雙引號，用於寫入資料庫欄位時的修正  
+ </summary>
+ <param name="name"></param>
+ <returns></returns>
+</member>
+<member name="M:BCS.ModuleFunction.SQLCorrect(System.Int16@,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String}@)">
+ <summary>
+ 處理 ='' 轉 is null(針對Oracle和SQLServer有不同的調整方式)
+ </summary>
+ <param name="DB_Type"></param>
+ <param name="lstSQL"></param>
+ <param name="NewSQL"></param>
+ <returns></returns>
+</member>
+<member name="M:BCS.ModuleFunction.SQLCorrect(System.Int16@,System.String,System.String@)">
+ <summary>
+ 處理 ='' 轉 is null(針對Oracle和SQLServer有不同的調整方式)
+ </summary>
+ <param name="SQL"></param>
+ <param name="NewSQL"></param>
+ <returns></returns>
+</member>
 <member name="M:BCS.ModuleQRCode.CodeEncoderFromString(System.String,System.String,System.Int32@)">
  <summary>
  將文字轉成QRCode Bitmap

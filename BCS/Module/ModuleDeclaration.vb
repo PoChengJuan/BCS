@@ -19,7 +19,7 @@ Public Module ModuleDeclaration
   Public HTTPPath As String = ""
   Public UpLoadKey As String = ""
   Public strPDFPath As String = ""
-
+  Public gFileRootPath As String = ""
   'DateTime
   Public Const DBFullTimeUUIDFormat As String = "yyyyMMddHHmmssfff"
   Public Const DBFullTimeFormat As String = "yyyy/MM/dd HH:mm:ss.fff"
@@ -99,6 +99,14 @@ Public Module ModuleDeclaration
   Public Function GetNewTime_DBFormat() As String
     Try
       Return Now.ToString(DBTimeFormat)
+    Catch ex As Exception
+      SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
+      Return ""
+    End Try
+  End Function
+  Public Function GetNewDate_DBFormat() As String
+    Try
+      Return Now.ToString(DBDate_IDFormat)
     Catch ex As Exception
       SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
       Return ""

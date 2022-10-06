@@ -27,6 +27,7 @@
 		<!--HTTP路徑為上傳PDF至UI供其他使用,有填寫資料且產生PDF成功即上傳-->
 		<HTTPUpLoadKey>Tag31</HTTPUpLoadKey>
 		<!--HTTP上傳時,指定Key值在哪個Tag,例如:Tag31,指定Tag31是上傳的Key,不指定的話系統自動以時間當Key-->
+		<FileRootPath>D:\BCS\</FileRootPath>
 	</Public>  
 	<DBList>  
 		<DBINFO>   <!--DB連線資訊-->

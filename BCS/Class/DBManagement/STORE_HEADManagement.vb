@@ -25,7 +25,7 @@ Partial Class STORE_HEADManagement
      IdxColumnName.CreateTime.ToString, Info.CreateTime
       )
       Dim NewSQL As String = ""
-      If SQLCorrect(strSQL, NewSQL) Then
+      If SQLCorrect(DBTool.m_nDBType, strSQL, NewSQL) Then
         Return NewSQL
       End If
       Return Nothing
@@ -47,7 +47,7 @@ Partial Class STORE_HEADManagement
      IdxColumnName.CreateTime.ToString, Info.CreateTime
       )
       Dim NewSQL As String = ""
-      If SQLCorrect(strSQL, NewSQL) Then
+      If SQLCorrect(DBTool.m_nDBType, strSQL, NewSQL) Then
         Return NewSQL
       End If
       Return Nothing
@@ -67,7 +67,7 @@ Partial Class STORE_HEADManagement
      IdxColumnName.Store_ID.ToString, Info.Store_ID
       )
       Dim NewSQL As String = ""
-      If SQLCorrect(strSQL, NewSQL) Then
+      If SQLCorrect(DBTool.m_nDBType, strSQL, NewSQL) Then
         Return NewSQL
       End If
       Return Nothing

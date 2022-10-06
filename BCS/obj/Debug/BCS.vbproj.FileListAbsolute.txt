@@ -24,5 +24,4 @@ D:\WorkSpace2\BCS\BCS\obj\Debug\BCS.vbproj.CopyComplete
 D:\WorkSpace2\BCS\BCS\obj\Debug\BCS.exe
 D:\WorkSpace2\BCS\BCS\obj\Debug\BCS.xml
 D:\WorkSpace2\BCS\BCS\obj\Debug\BCS.pdb
-D:\WorkSpace2\BCS\BCS\obj\Debug\BCS.vbproj.AssemblyReference.cache
 D:\WorkSpace2\BCS\BCS\bin\Debug\NPOI.dll
