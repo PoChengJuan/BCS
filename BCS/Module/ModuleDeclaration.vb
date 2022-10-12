@@ -20,6 +20,7 @@ Public Module ModuleDeclaration
   Public UpLoadKey As String = ""
   Public strPDFPath As String = ""
   Public gFileRootPath As String = ""
+  Public gReportFunction As String = ""
   'DateTime
   Public Const DBFullTimeUUIDFormat As String = "yyyyMMddHHmmssfff"
   Public Const DBFullTimeFormat As String = "yyyy/MM/dd HH:mm:ss.fff"

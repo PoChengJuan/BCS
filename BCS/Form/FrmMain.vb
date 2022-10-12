@@ -15,6 +15,9 @@ Public Class FrmMain
 
   Public DBTool As eCA_DBTool.clsDBTool
   Public gdicSHOP As New Dictionary(Of String, clsBCS_M_SHOP)
+  Dim BarCode1 = ""
+  Dim BarCode2 = ""
+  Dim BarCode3 = ""
   Sub New()
 
     ' 設計工具需要此呼叫。
@@ -64,6 +67,7 @@ Public Class FrmMain
           HTTPPath = Pub.<HTTPPath>.Value
           UpLoadKey = Pub.<HTTPUpLoadKey>.Value
           gFileRootPath = Pub.<FileRootPath>.Value
+          gReportFunction = Pub.<ReportFunction>.Value
           If Strings.Right(LogPath, 1) <> "\" Then
             LogPath = LogPath & "\"
           End If
@@ -206,6 +210,9 @@ Public Class FrmMain
         CB_Report_SHOP.Items.Add(objSHOP.SHOP)
       Next
       '掃描頁面
+      If gReportFunction = "0" Then
+        TabPage2.Parent = Nothing
+      End If
       lb_BarCode1.Text = ""
       lb_BarCode2.Text = ""
       lb_BarCode3.Text = ""
@@ -385,7 +392,9 @@ Public Class FrmMain
         MsgBox("請選擇平台")
     End Select
 
-    Dim LotNo = tb_LotNo_Report.Text
+    Dim index = CB_Report_SHOP.SelectedIndex
+    Dim SHOP_NO = CB_Report_SHOP.Items(index)
+    Dim LotNo = SHOP_NO 'tb_LotNo_Report.Text
     Dim Start_Date = DatePicker_Start.Value.Date.ToString("yyyy/MM/dd")
 
     Dim Start_Time = TimePicker_Start.Value.TimeOfDay.ToString()
@@ -419,9 +428,9 @@ Public Class FrmMain
         Case 1  'OK
         Case 2  '全家
       End Select
-      Dim BarCode1 = ""
-      Dim BarCode2 = ""
-      Dim BarCode3 = ""
+      'Dim BarCode1 = ""
+      'Dim BarCode2 = ""
+      'Dim BarCode3 = ""
       'MsgBox("輸入的值是" & tb_BarCodeInput.Text)
       If Input_Cnt = 0 Then
         lb_BarCode1.Text = tb_BarCodeInput.Text.ToUpper
@@ -461,7 +470,7 @@ Public Class FrmMain
           MsgBox("條碼1與條碼2重復")
           tb_BarCodeInput.Text = ""
           Return
-        ElseIf BarCode1.Count > BarCode2.Count Then
+        ElseIf BarCode1.length > BarCode2.length Then
           MsgBox("條碼1與條碼2順序錯誤")
           tb_BarCodeInput.Text = ""
           Return
@@ -504,7 +513,7 @@ Public Class FrmMain
           MsgBox("條碼1與條碼3重復")
           tb_BarCodeInput.Text = ""
           Return
-        ElseIf BarCode1.Count > BarCode3.Count Then
+        ElseIf BarCode1.length > BarCode3.length Then
           MsgBox("條碼1與條碼3順序錯誤")
           tb_BarCodeInput.Text = ""
           Return
@@ -560,10 +569,39 @@ Public Class FrmMain
     If Barcode.Length < 5 Then
       Return False
     End If
+    Return True
   End Function
   Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
     Try
       int_PlatForm = ComboBox1.SelectedIndex
+
+
+    Catch ex As Exception
+      MsgBox(ex.ToString)
+      SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
+    End Try
+  End Sub
+  Private Sub CB_BarCode_SHOP_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_BarCode_SHOP.SelectedIndexChanged
+    Try
+      Dim index = CB_BarCode_SHOP.SelectedIndex
+      Dim SHOP_NO = CB_BarCode_SHOP.Items(index)
+
+      Dim dicSHOP = BCS_M_SHOPManagement.GetDataDictionaryByKEY(SHOP_NO)
+      lb_Memo_Str.Text = dicSHOP.First.Value.MEMO
+
+
+    Catch ex As Exception
+      MsgBox(ex.ToString)
+      SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
+    End Try
+  End Sub
+  Private Sub CB_Report_SHOP_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Report_SHOP.SelectedIndexChanged
+    Try
+      Dim index = CB_Report_SHOP.SelectedIndex
+      Dim SHOP_NO = CB_Report_SHOP.Items(index)
+
+      Dim dicSHOP = BCS_M_SHOPManagement.GetDataDictionaryByKEY(SHOP_NO)
+      lb_Report_Memo_Str.Text = dicSHOP.First.Value.MEMO
 
 
     Catch ex As Exception
@@ -622,5 +660,10 @@ Public Class FrmMain
       SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
     End Try
   End Sub
+
+  Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
+
+  End Sub
+
 
 End Class

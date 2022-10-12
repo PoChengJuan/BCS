@@ -77,10 +77,14 @@ Public Class FormShop
         Return
       Else
         FrmMain.CB_BarCode_SHOP.Items.Clear()
+        FrmMain.CB_BarCode_SHOP.ResetText()
         Dim dicNewSHOP = BCS_M_SHOPManagement.GetDataDictionaryByKEY("")
         For Each obj In dicNewSHOP.Values
           FrmMain.CB_BarCode_SHOP.Items.Add(obj.SHOP)
         Next
+        FrmMain.CB_Report_SHOP.Items.Clear()
+        FrmMain.CB_Report_SHOP.ResetText()
+
         For Each objSHOP In dicNewSHOP.Values
           FrmMain.CB_Report_SHOP.Items.Add(objSHOP.SHOP)
         Next
@@ -105,8 +109,8 @@ Public Class FormShop
       Return
     End If
     For Each obj In dicDeleteSHOP.Values
-      If obj.O_Add_Delete_SQLString(lstSQL) Then
-        strResultMsg = "Get Insert SHOP SQL Failed"
+      If obj.O_Add_Delete_SQLString(lstSQL) = False Then
+        strResultMsg = "Get Delete SHOP SQL Failed"
         MsgBox(strResultMsg)
         Return
       End If
@@ -119,6 +123,20 @@ Public Class FormShop
       MsgBox(strResultMsg)
       Return
     Else
+      FrmMain.CB_BarCode_SHOP.Items.Clear()
+      FrmMain.CB_BarCode_SHOP.ResetText()
+      Dim dicNewSHOP = BCS_M_SHOPManagement.GetDataDictionaryByKEY("")
+      For Each obj In dicNewSHOP.Values
+        FrmMain.CB_BarCode_SHOP.Items.Add(obj.SHOP)
+      Next
+
+      FrmMain.CB_Report_SHOP.Items.Clear()
+      FrmMain.CB_Report_SHOP.ResetText()
+
+      For Each objSHOP In dicNewSHOP.Values
+        FrmMain.CB_Report_SHOP.Items.Add(objSHOP.SHOP)
+      Next
+
       MsgBox("刪除成功")
     End If
   End Sub
