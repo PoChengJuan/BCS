@@ -159,7 +159,9 @@
     <Compile Include="Class\clsEXPORT.vb" />
     <Compile Include="Class\clsEXPORT_DTL.vb" />
     <Compile Include="Class\ClsInterfaceDB.vb" />
+    <Compile Include="Class\DBManagement\BCS_M_SHOPManagement.vb" />
     <Compile Include="Class\DBManagement\BCS_M_UUIDManagement.vb" />
+    <Compile Include="Class\Object\clsBCS_M_SHOP.vb" />
     <Compile Include="Class\Object\clsUUID.vb" />
     <Compile Include="Class\DBManagement\clsFromGUICommand.vb" />
     <Compile Include="Class\DBManagement\Common_DBManagement.vb" />
@@ -177,6 +179,18 @@
     <Compile Include="Enum\EnuPrintName.vb" />
     <Compile Include="Enum\EnuSystemType.vb" />
     <Compile Include="Enum\EnuInterfaceType.vb" />
+    <Compile Include="Form\FormMsg.Designer.vb">
+      <DependentUpon>FormMsg.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FormMsg.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\FormShop.Designer.vb">
+      <DependentUpon>FormShop.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FormShop.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form\FrmMain.Designer.vb">
       <DependentUpon>FrmMain.vb</DependentUpon>
     </Compile>
@@ -188,6 +202,12 @@
     </Compile>
     <Compile Include="Form\FrmMSGTest.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\FrmWait.Designer.vb">
+      <DependentUpon>FrmWait.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FrmWait.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Module\ModuleDeclaration.vb" />
     <Compile Include="Module\Mod_System.vb" />
@@ -220,6 +240,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Form\FormMsg.resx">
+      <DependentUpon>FormMsg.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form\FormShop.resx">
+      <DependentUpon>FormShop.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\FrmMain.resx">
       <DependentUpon>FrmMain.vb</DependentUpon>
     </EmbeddedResource>

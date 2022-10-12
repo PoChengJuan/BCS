@@ -16,6 +16,8 @@ Public Class ClsInterfaceDB
 		STORE_HEADManagement.DBTool = dbtool
 		STORE_ITEMManagement.DBTool = dbtool
 		BCS_M_UUIDManagement.DBTool = dbtool
+		BCS_M_SHOPManagement.DBTool = dbtool
+
 		ThreadReceiveGUIMessage = New Thread(New ThreadStart(AddressOf O_thr_GUIDBHandling))
 		ThreadReceiveGUIMessage.IsBackground = True
 		'ThreadReceiveGUIMessage.Start()

@@ -14,6 +14,7 @@ Public Class FrmMain
   Public RefreshAliveTime As Integer = 3000
 
   Public DBTool As eCA_DBTool.clsDBTool
+  Public gdicSHOP As New Dictionary(Of String, clsBCS_M_SHOP)
   Sub New()
 
     ' 設計工具需要此呼叫。
@@ -185,7 +186,7 @@ Public Class FrmMain
       'TextBox1.Select()
       Me.Hide()
 
-      TSCBViewLogLevel.SelectedIndex = LogTool.ViewLV - 1
+      'TSCBViewLogLevel.SelectedIndex = LogTool.ViewLV - 1
 
       NotifyIcon = New System.Windows.Forms.NotifyIcon()
       NotifyIcon1.Text = My.Application.Info.AssemblyName
@@ -197,6 +198,13 @@ Public Class FrmMain
       Timer1.Interval = RefreshAliveTime
       Timer1.Enabled = True
 
+      gdicSHOP = BCS_M_SHOPManagement.GetDataDictionaryByKEY("")
+      For Each objSHOP In gdicSHOP.Values
+        CB_BarCode_SHOP.Items.Add(objSHOP.SHOP)
+      Next
+      For Each objSHOP In gdicSHOP.Values
+        CB_Report_SHOP.Items.Add(objSHOP.SHOP)
+      Next
       '掃描頁面
       lb_BarCode1.Text = ""
       lb_BarCode2.Text = ""
@@ -291,73 +299,77 @@ Public Class FrmMain
 
   Private Sub TabControl_Selected(sender As Object, e As TabControlEventArgs) Handles TabControl1.Selected
     If e.TabPage.TabIndex = TabPage1.TabIndex Then
-      tb_LotNo.Select()
+      tb_BarCodeInput.Select()
     ElseIf e.TabPage.TabIndex = TabPage3.TabIndex Then
       TextBox2.Select()
     End If
 
   End Sub
+  Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+    Try
+      Dim result_msg = ""
+      Dim PlatForm = ""
+      Select Case ComboBox2.SelectedIndex
+        Case 0
+          PlatForm = "7-11"
+        Case 1
+          PlatForm = "OK Mart"
+        Case 2
+          PlatForm = "Family"
+        Case Else
+          PlatForm = ""
+      End Select
+      Dim index = CB_Report_SHOP.SelectedIndex
 
-  'Private Sub btn_START_Click(sender As Object, e As EventArgs) Handles btn_START.Click
-  '  Try
-  '    If flg_Start = False Then
-  '      flg_Start = True
-  '    ElseIf flg_Start = True Then
-  '      flg_Start = False
-  '    End If
-
-  '    If flg_Start = False Then
-  '      btn_START.Text = "開始刷取"
-  '    ElseIf flg_Start = True Then
-  '      btn_START.Text = "停止刷取"
-
-  '      '初始COM PORT
-
-
-  '      RS232 = New SerialPort("COM10", 9600, Parity.None, 8, 1)
-
-  '      If (Not RS232.IsOpen) Then
-
-  '        RS232.Open()
-
-  '      End If
-
-  '      Dim td As Thread = New Thread(AddressOf serialPort1_DataReceived)
-
-  '      td.Start()
-  '    End If
-  '  Catch ex As Exception
-  '    MsgBox(ex.ToString)
-  '    SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
-  '  End Try
-  'End Sub
-  Public Sub serialPort1_DataReceived()
-    While True
-
-      If RS232.BytesToRead > 0 Then
-        strIncoming = RS232.ReadExisting.ToString
-
-        RS232.DiscardInBuffer()
-
-        Me.Invoke(New EventHandler(AddressOf ForDisplay))         '呼叫接收資料函式
+      Dim LotNo = "" 'tb_LotNo_Report.Text
+      If index = -1 Then
+        LotNo = ""
+      Else
+        LotNo = CB_Report_SHOP.Items(index)
       End If
-    End While
+      Dim Start_Date = DatePicker_Start.Value.Date.ToString("yyyy/MM/dd")
+
+      Dim Start_Time = TimePicker_Start.Value.TimeOfDay.ToString()
+      Dim End_Date = DatePicker_End.Value.Date.ToString("yyyy/MM/dd")
+      Dim End_Time = TimePicker_End.Value.TimeOfDay.ToString()
+
+      Dim Start_DateTime = Start_Date & " " & Start_Time
+      Dim End_DateTime = End_Date & " " & End_Time
+
+      Dim dicStore_Item = STORE_ITEMManagement.GetDataDictionaryByItemReport(PlatForm, LotNo, Start_DateTime, End_DateTime)
+      If dicStore_Item.Any = False Then
+        result_msg = "查無條碼"
+        MsgBox(result_msg)
+        Return
+      End If
+
+      Dim dicStore_Item_711 As New Dictionary(Of String, clsSTORE_ITEM)
+      Dim dicStore_Item_OK As New Dictionary(Of String, clsSTORE_ITEM)
+      Dim dicStore_Item_Family As New Dictionary(Of String, clsSTORE_ITEM)
+
+      For Each obj In dicStore_Item.Values
+        If obj.PlatForm = "7-11" Then
+          dicStore_Item_711.Add(obj.gid, obj)
+        ElseIf obj.PlatForm = "OK Mart" Then
+          dicStore_Item_OK.Add(obj.gid, obj)
+        ElseIf obj.PlatForm = "Family" Then
+          dicStore_Item_Family.Add(obj.gid, obj)
+        End If
+      Next
+      result_msg = "7-11：" & dicStore_Item_711.Count & "件,OK：" & dicStore_Item_OK.Count & "件,全家：" & dicStore_Item_Family.Count & "件"
+      'FormMsg.lb_ItemCount_Str.Text = result_msg
+
+      Dim _form = FormMsg.CreateForm("FormMsg", result_msg)
+      If _form IsNot Nothing Then
+        _form.Show()
+      End If
+
+      Return
+    Catch ex As Exception
+      MsgBox(ex.ToString)
+    End Try
   End Sub
-  Public Sub ForDisplay()
 
-    lb_BarCode1.Text = strIncoming
-
-    ListBox1.Items.Add(strIncoming)       '取到回車符位置數-1
-
-    ListBox1.SelectedIndex = ListBox1.Items.Count - 1
-
-    If ListBox1.Items.Count > 1000 Then
-
-      Me.ListBox1.Items.Clear()
-
-    End If
-
-  End Sub
 
   Private Sub btn_CreateReport_Click(sender As Object, e As EventArgs) Handles btn_CreateReport.Click
 
@@ -395,21 +407,35 @@ Public Class FrmMain
   Private Sub TextBox1_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles tb_BarCodeInput.KeyPress
     If e.KeyChar = Microsoft.VisualBasic.ChrW(Keys.Return) Then
 
+      Dim index = CB_BarCode_SHOP.SelectedIndex
+      If index = -1 Then
+        MsgBox("請選擇賣場")
+        Return
+      End If
+      Dim SHOP_NO = CB_BarCode_SHOP.Items(index)
 
       Select Case int_PlatForm
         Case 0  '7-11
         Case 1  'OK
         Case 2  '全家
       End Select
-
+      Dim BarCode1 = ""
+      Dim BarCode2 = ""
+      Dim BarCode3 = ""
       'MsgBox("輸入的值是" & tb_BarCodeInput.Text)
       If Input_Cnt = 0 Then
-        lb_BarCode1.Text = tb_BarCodeInput.Text
+        lb_BarCode1.Text = tb_BarCodeInput.Text.ToUpper
+        BarCode1 = tb_BarCodeInput.Text.ToUpper
+        If CheckBarcodeLength(BarCode1) = False Then
+          MsgBox("條碼1長度過短")
+          tb_BarCodeInput.Text = ""
+          Return
+        End If
         tb_BarCodeInput.Text = ""
         If int_PlatForm = 2 Then
           Input_Cnt = 0
           Dim ret_MSG = ""
-          If Module_ScanOKBarCode.O_Process_Message("Family", tb_LotNo.Text, lb_BarCode1.Text, lb_BarCode2.Text, ret_MSG) = False Then
+          If Module_ScanOKBarCode.O_Process_Message("Family", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, ret_MSG) = False Then
             MsgBox(ret_MSG)
             lb_BarCode1.Text = ""
             lb_BarCode2.Text = ""
@@ -428,12 +454,28 @@ Public Class FrmMain
 
 
       ElseIf Input_Cnt = 1 Then
-        lb_BarCode2.Text = tb_BarCodeInput.Text
+        lb_BarCode2.Text = tb_BarCodeInput.Text.ToUpper
+        BarCode2 = tb_BarCodeInput.Text.ToUpper
+
+        If BarCode1 = BarCode2 Then
+          MsgBox("條碼1與條碼2重復")
+          tb_BarCodeInput.Text = ""
+          Return
+        ElseIf BarCode1.Count > BarCode2.Count Then
+          MsgBox("條碼1與條碼2順序錯誤")
+          tb_BarCodeInput.Text = ""
+          Return
+        End If
+        If CheckBarcodeLength(BarCode2) = False Then
+          MsgBox("條碼2長度過短")
+          tb_BarCodeInput.Text = ""
+          Return
+        End If
         tb_BarCodeInput.Text = ""
         If int_PlatForm = 1 Then
           Input_Cnt = 0
           Dim ret_MSG = ""
-          If Module_ScanOKBarCode.O_Process_Message("OK Mart", tb_LotNo.Text, lb_BarCode1.Text, lb_BarCode2.Text, ret_MSG) = False Then
+          If Module_ScanOKBarCode.O_Process_Message("OK Mart", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, ret_MSG) = False Then
             MsgBox(ret_MSG)
             lb_BarCode1.Text = ""
             lb_BarCode2.Text = ""
@@ -451,16 +493,51 @@ Public Class FrmMain
         End If
 
       ElseIf Input_Cnt = 2 Then
-          lb_BarCode3.Text = tb_BarCodeInput.Text
+
+        lb_BarCode3.Text = tb_BarCodeInput.Text.ToUpper
+        BarCode3 = tb_BarCodeInput.Text.ToUpper
+        If BarCode2 = BarCode3 Then
+          MsgBox("條碼2與條碼3重復")
           tb_BarCodeInput.Text = ""
-          Input_Cnt = 3
-        ElseIf Input_Cnt = 3 Then
-          lb_BarCode4.Text = tb_BarCodeInput.Text
+          Return
+        ElseIf BarCode1 = BarCode3 Then
+          MsgBox("條碼1與條碼3重復")
+          tb_BarCodeInput.Text = ""
+          Return
+        ElseIf BarCode1.Count > BarCode3.Count Then
+          MsgBox("條碼1與條碼3順序錯誤")
+          tb_BarCodeInput.Text = ""
+          Return
+        End If
+        If CheckBarcodeLength(BarCode3) = False Then
+          MsgBox("條碼3長度過短")
+          tb_BarCodeInput.Text = ""
+          Return
+        End If
+        tb_BarCodeInput.Text = ""
+        'Input_Cnt = 3
+        Input_Cnt = 0
+
+        Dim ret_MSG = ""
+        If Module_Scan711BarCode.O_Process_Message("7-11", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, lb_BarCode3.Text, lb_BarCode4.Text, ret_MSG) = False Then
+          MsgBox(ret_MSG)
+          lb_BarCode1.Text = ""
+          lb_BarCode2.Text = ""
+          lb_BarCode3.Text = ""
+          lb_BarCode4.Text = ""
+        Else
+          lb_BarCode1.Text = ""
+          lb_BarCode2.Text = ""
+          lb_BarCode3.Text = ""
+          lb_BarCode4.Text = ""
+        End If
+      ElseIf Input_Cnt = 3 Then
+        lb_BarCode4.Text = tb_BarCodeInput.Text.ToUpper
         tb_BarCodeInput.Text = ""
         Input_Cnt = 0
 
         Dim ret_MSG = ""
-        If Module_Scan711BarCode.O_Process_Message("7-11", tb_LotNo.Text, lb_BarCode1.Text, lb_BarCode2.Text, lb_BarCode3.Text, lb_BarCode4.Text, ret_MSG) = False Then
+        If Module_Scan711BarCode.O_Process_Message("7-11", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, lb_BarCode3.Text, lb_BarCode4.Text, ret_MSG) = False Then
           MsgBox(ret_MSG)
           lb_BarCode1.Text = ""
           lb_BarCode2.Text = ""
@@ -478,7 +555,12 @@ Public Class FrmMain
 
     End If
   End Sub
+  Private Function CheckBarcodeLength(ByVal Barcode As String) As Boolean
 
+    If Barcode.Length < 5 Then
+      Return False
+    End If
+  End Function
   Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
     Try
       int_PlatForm = ComboBox1.SelectedIndex
@@ -521,11 +603,24 @@ Public Class FrmMain
 
   End Sub
 
-  Private Sub ToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem2.Click
+  Private Sub ToolStripMenuItem2_Click(sender As Object, e As EventArgs)
 
   End Sub
 
-  Private Sub TSCBViewLogLevel_Click(sender As Object, e As EventArgs) Handles TSCBViewLogLevel.Click
+  Private Sub TSCBViewLogLevel_Click(sender As Object, e As EventArgs)
 
   End Sub
+
+  Private Sub 新增賣場ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles 新增賣場ToolStripMenuItem.Click
+    Try
+      Dim _form = FormShop.CreateForm(FormShop.Name)
+      If _form IsNot Nothing Then
+        _form.Show()
+      End If
+    Catch ex As Exception
+      MsgBox(ex.ToString)
+      SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
+    End Try
+  End Sub
+
 End Class

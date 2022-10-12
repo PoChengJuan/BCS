@@ -33,6 +33,7 @@
 		<DBINFO>   <!--DB連線資訊-->
 			<DBType>1</DBType><!--0=Oracle,1=SQL-->
 			<DBServer>DESKTOP-UHFGNQ7\SQLEXPRESS</DBServer>
+			<!--<DBServer>192.168.1.195</DBServer>-->
 			<DBPort>1433</DBPort>
 			<DBName>BCS</DBName>
 			<UID>BCS</UID>

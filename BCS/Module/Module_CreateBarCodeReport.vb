@@ -124,7 +124,7 @@ Module Module_CreateBarCodeReport
       Dim sheet As XSSFSheet = workbook.CreateSheet("Sheet1") ' 新增試算表 Sheet名稱
       Dim footer = sheet.Footer
       Dim Header = sheet.Header
-      footer.Center = "第" & "&P" & "頁"
+      'footer.Center = "第" & "&P" & "頁"
       Dim xlStyle As XSSFCellStyle = workbook.CreateCellStyle()
 
       Dim Row_Cnt = 0
@@ -147,7 +147,12 @@ Module Module_CreateBarCodeReport
       Dim flg_Change_Page = False
       Dim Total_BarCode = 0
       Dim BarCode_Cnt = 0
+      Dim page_cnt = 2
+      Dim flg_Change_Sheet = False
+      SendMessageToLog("開始時間：" & Now_Time, eCALogTool.ILogTool.enuTrcLevel.lvDEBUG)
       For Item_Cnt As Integer = 0 To lst_dicStore_Item.Count - 1 Step +2
+
+
         Row_Cnt = Row_Cnt + 1
         Row = sheet.CreateRow(Row_Cnt)
 
@@ -161,7 +166,7 @@ Module Module_CreateBarCodeReport
           '=============================BarCode1====================================
 
 
-          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode1, 0, workbook, sheet, Row_Cnt)
+          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper, 0, workbook, sheet, Row_Cnt)
 
           Row.CreateCell(0).SetCellValue("")
           Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
@@ -172,13 +177,13 @@ Module Module_CreateBarCodeReport
 
           Dim Font As IFont = workbook.CreateFont()
           Font.FontName = "Code 128"
-          Font.FontHeightInPoints = 36
+          Font.FontHeightInPoints = 12
           Barcode_Style.SetFont(Font)
           Row.Cells(0).CellStyle = Barcode_Style
           If flg_lastOne = False Then
             '##############################################################
-            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1, 5, workbook, sheet, Row_Cnt)
-            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1)
+            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1.ToUpper, 5, workbook, sheet, Row_Cnt)
+            Row.CreateCell(5).SetCellValue("")
 
             Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
             Barcode_Style.FillPattern = FillPattern.SolidForeground
@@ -193,7 +198,7 @@ Module Module_CreateBarCodeReport
           '=============================================================
           Row_Cnt = Row_Cnt + 1
           Row = sheet.CreateRow(Row_Cnt)
-          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode1)
+          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper)
 
           Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
           'Dim colorRgb = New Byte() {255, 255, 255}
@@ -209,7 +214,7 @@ Module Module_CreateBarCodeReport
 
           If flg_lastOne = False Then
             '##############################################################
-            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1)
+            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1.ToUpper)
 
             Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
             Num_Style.FillPattern = FillPattern.SolidForeground
@@ -233,7 +238,7 @@ Module Module_CreateBarCodeReport
           '=============================BarCode2====================================
           Row_Cnt = Row_Cnt + 1
           Row = sheet.CreateRow(Row_Cnt)
-          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode2, 0, workbook, sheet, Row_Cnt)
+          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode2.ToUpper, 0, workbook, sheet, Row_Cnt)
 
           Row.CreateCell(0).SetCellValue("")
           'Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
@@ -248,24 +253,27 @@ Module Module_CreateBarCodeReport
           Barcode_Style.SetFont(Font)
           Row.Cells(0).CellStyle = Barcode_Style
           If flg_lastOne = False Then
+            If Item_Cnt = 148 Then
+              Dim a = 0
+            End If
             '##############################################################
-            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2, 5, workbook, sheet, Row_Cnt)
-            Row.CreateCell(5).SetCellValue("")
+            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2.ToUpper, 5, workbook, sheet, Row_Cnt)
+              Row.CreateCell(5).SetCellValue("")
 
-            Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
-            Barcode_Style.FillPattern = FillPattern.SolidForeground
+              Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+              Barcode_Style.FillPattern = FillPattern.SolidForeground
 
-            Font.FontName = "Code 128"
-            Font.FontHeightInPoints = 36
-            Barcode_Style.SetFont(Font)
-            Row.Cells(1).CellStyle = Barcode_Style
-            '##############################################################
-          End If
+              Font.FontName = "Code 128"
+              Font.FontHeightInPoints = 36
+              Barcode_Style.SetFont(Font)
+              Row.Cells(1).CellStyle = Barcode_Style
+              '##############################################################
+            End If
 
-          '=============================================================
-          Row_Cnt = Row_Cnt + 1
+            '=============================================================
+            Row_Cnt = Row_Cnt + 1
           Row = sheet.CreateRow(Row_Cnt)
-          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode2)
+          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode2.ToUpper)
 
           'Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
           'Dim colorRgb = New Byte() {255, 255, 255}
@@ -281,7 +289,7 @@ Module Module_CreateBarCodeReport
 
           If flg_lastOne = False Then
             '##############################################################
-            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2)
+            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2.ToUpper)
 
             Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
             Num_Style.FillPattern = FillPattern.SolidForeground
@@ -305,7 +313,7 @@ Module Module_CreateBarCodeReport
           '=============================BarCode3====================================
           Row_Cnt = Row_Cnt + 1
           Row = sheet.CreateRow(Row_Cnt)
-          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode3, 0, workbook, sheet, Row_Cnt)
+          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode3.ToUpper, 0, workbook, sheet, Row_Cnt)
 
           Row.CreateCell(0).SetCellValue("")
           'Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
@@ -321,7 +329,7 @@ Module Module_CreateBarCodeReport
           Row.Cells(0).CellStyle = Barcode_Style
           If flg_lastOne = False Then
             '##############################################################
-            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode3, 5, workbook, sheet, Row_Cnt)
+            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode3.ToUpper, 5, workbook, sheet, Row_Cnt)
 
             Row.CreateCell(5).SetCellValue("")
 
@@ -338,7 +346,7 @@ Module Module_CreateBarCodeReport
           '=============================================================
           Row_Cnt = Row_Cnt + 1
           Row = sheet.CreateRow(Row_Cnt)
-          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode3)
+          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode3.ToUpper)
 
           'Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
           'Dim colorRgb = New Byte() {255, 255, 255}
@@ -354,7 +362,7 @@ Module Module_CreateBarCodeReport
 
           If flg_lastOne = False Then
             '##############################################################
-            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode3)
+            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode3.ToUpper)
 
             Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
             Num_Style.FillPattern = FillPattern.SolidForeground
@@ -376,7 +384,7 @@ Module Module_CreateBarCodeReport
 #End Region
 #Region "BarCode4"
           'Dim _VALUE = GenCode128.Code128Rendering.MakeBarcodeImage(objStore_item.BarCode4, 2, True)
-          Dim _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt).BarCode4, "QRCODE")
+          Dim _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt).BarCode4.ToUpper, "QRCODE")
           Dim BYTE_Array As Byte() = BmpToBytes(_VALUE)
           Dim picInd = workbook.AddPicture(BYTE_Array, NPOI.SS.UserModel.PictureType.JPEG)
 
@@ -396,7 +404,7 @@ Module Module_CreateBarCodeReport
 
           If flg_lastOne = False Then
             '##############################################################
-            _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode4, "QRCODE")
+            _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode4.ToUpper, "QRCODE")
             BYTE_Array = BmpToBytes(_VALUE)
             picInd = workbook.AddPicture(BYTE_Array, NPOI.SS.UserModel.PictureType.JPEG)
 
@@ -425,29 +433,46 @@ Module Module_CreateBarCodeReport
           'End If
 
 #End Region
-          If BarCode_Cnt >= 6 Then
-            Total_BarCode = Total_BarCode + BarCode_Cnt
-            If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
-              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-                Return False
-              End If
-              sheet.SetRowBreak(Row_Cnt)
-              BarCode_Cnt = 0
-              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-                Return False
-              End If
-            End If
+          '切換Sheet，釋放記憶體
+          If Item_Cnt Mod 46 = 0 And Item_Cnt <> 0 Then
+            Dim sheet_Str = "Sheet" & page_cnt.ToString
+            Header = sheet.Header
+            'Header.Left = "平台：" & ret_PlatForm & "  賣場(Lot)：" & ret_LotNo
+            page_cnt = page_cnt + 1
+            Row_Cnt = 0
+            BarCode_Cnt = 0
+            sheet = workbook.CreateSheet(sheet_Str)
+            'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "3") = False Then
+            '  Return False
+            'End If
+
+
           Else
-            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-              Return False
-            End If
-            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-              Return False
-            End If
-            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-              Return False
+            If BarCode_Cnt >= 6 Then
+              Total_BarCode = Total_BarCode + BarCode_Cnt
+              If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
+                If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+                  Return False
+                End If
+                sheet.SetRowBreak(Row_Cnt)
+                BarCode_Cnt = 0
+                If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+                  Return False
+                End If
+              End If
+            Else
+              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+                Return False
+              End If
+              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+                Return False
+              End If
+              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+                Return False
+              End If
             End If
           End If
+
 
 #End Region
         ElseIf ret_PlatForm = "OK Mart" Then
@@ -460,7 +485,7 @@ Module Module_CreateBarCodeReport
           '=============================BarCode1====================================
 
 
-          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode1, 0, workbook, sheet, Row_Cnt)
+          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper, 0, workbook, sheet, Row_Cnt)
 
           Row.CreateCell(0).SetCellValue("")
           Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
@@ -476,8 +501,8 @@ Module Module_CreateBarCodeReport
           Row.Cells(0).CellStyle = Barcode_Style
           If flg_lastOne = False Then
             '##############################################################
-            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1, 5, workbook, sheet, Row_Cnt)
-            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1)
+            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1.ToUpper, 5, workbook, sheet, Row_Cnt)
+            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1.ToUpper)
 
             Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
             Barcode_Style.FillPattern = FillPattern.SolidForeground
@@ -492,7 +517,7 @@ Module Module_CreateBarCodeReport
           '=============================================================
           Row_Cnt = Row_Cnt + 1
           Row = sheet.CreateRow(Row_Cnt)
-          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode1)
+          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper)
 
           Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
           'Dim colorRgb = New Byte() {255, 255, 255}
@@ -508,7 +533,7 @@ Module Module_CreateBarCodeReport
 
           If flg_lastOne = False Then
             '##############################################################
-            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1)
+            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1.ToUpper)
 
             Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
             Num_Style.FillPattern = FillPattern.SolidForeground
@@ -530,7 +555,7 @@ Module Module_CreateBarCodeReport
 #End Region
 #Region "BarCode2"
           '=============================BarCode2====================================
-          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode2, 0, workbook, sheet, Row_Cnt)
+          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode2.ToUpper, 0, workbook, sheet, Row_Cnt)
 
           Row.CreateCell(0).SetCellValue("")
           'Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
@@ -546,7 +571,7 @@ Module Module_CreateBarCodeReport
           Row.Cells(0).CellStyle = Barcode_Style
           If flg_lastOne = False Then
             '##############################################################
-            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2, 5, workbook, sheet, Row_Cnt)
+            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2.ToUpper, 5, workbook, sheet, Row_Cnt)
             Row.CreateCell(5).SetCellValue("")
 
             Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
@@ -562,7 +587,7 @@ Module Module_CreateBarCodeReport
           '=============================================================
           Row_Cnt = Row_Cnt + 1
           Row = sheet.CreateRow(Row_Cnt)
-          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode2)
+          Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode2.ToUpper)
 
           'Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
           'Dim colorRgb = New Byte() {255, 255, 255}
@@ -578,7 +603,7 @@ Module Module_CreateBarCodeReport
           BarCode_Cnt = BarCode_Cnt + 1
           If flg_lastOne = False Then
             '##############################################################
-            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2)
+            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2.ToUpper)
 
             Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
             Num_Style.FillPattern = FillPattern.SolidForeground
@@ -599,24 +624,44 @@ Module Module_CreateBarCodeReport
           'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
           '  Return False
           'End If
-          If BarCode_Cnt >= 10 Then
-            Total_BarCode = Total_BarCode + BarCode_Cnt
-            If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
-              sheet.SetRowBreak(Row_Cnt)
-              BarCode_Cnt = 0
+          '切換Sheet，釋放記憶體
+          If Item_Cnt Mod 50 = 0 And Item_Cnt <> 0 Then
+            Dim sheet_Str = "Sheet" & page_cnt.ToString
+            Header = sheet.Header
+            'Header.Left = "平台：" & ret_PlatForm & "  賣場(Lot)：" & ret_LotNo
+            page_cnt = page_cnt + 1
+            Row_Cnt = 0
+            BarCode_Cnt = 0
+            sheet = workbook.CreateSheet(sheet_Str)
+            'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "3") = False Then
+            '  Return False
+            'End If
+          Else
+            If BarCode_Cnt >= 10 Then
+              Total_BarCode = Total_BarCode + BarCode_Cnt
+              If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
+                sheet.SetRowBreak(Row_Cnt)
+                BarCode_Cnt = 0
+                If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+                  Return False
+                End If
+              End If
+              'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              '  Return False
+              'End If
+
+            Else
               If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
                 Return False
               End If
             End If
-            'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-            '  Return False
-            'End If
-
-          Else
-            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-              Return False
-            End If
           End If
+
+
+
+
+
+
 #End Region
 #End Region
         ElseIf ret_PlatForm = "Family" Then
@@ -626,7 +671,7 @@ Module Module_CreateBarCodeReport
 #Region "Family"
 #Region "BarCode4"
           'Dim _VALUE = GenCode128.Code128Rendering.MakeBarcodeImage(objStore_item.BarCode4, 2, True)
-          Dim _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt).BarCode1, "QRCODE")
+          Dim _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper, "QRCODE")
           Dim BYTE_Array As Byte() = BmpToBytes(_VALUE)
           Dim picInd = workbook.AddPicture(BYTE_Array, NPOI.SS.UserModel.PictureType.JPEG)
 
@@ -645,7 +690,7 @@ Module Module_CreateBarCodeReport
 
           If flg_lastOne = False Then
             '##############################################################
-            _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1, "QRCODE")
+            _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1.ToUpper, "QRCODE")
             BYTE_Array = BmpToBytes(_VALUE)
             picInd = workbook.AddPicture(BYTE_Array, NPOI.SS.UserModel.PictureType.JPEG)
 
@@ -676,35 +721,53 @@ Module Module_CreateBarCodeReport
             Return False
           End If
 
-          If BarCode_Cnt >= 12 Then
-            Total_BarCode = Total_BarCode + BarCode_Cnt
-            If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
-              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-                Return False
-              End If
-              sheet.SetRowBreak(Row_Cnt)
-              BarCode_Cnt = 0
-              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-                Return False
-              End If
-            End If
 
+          If Item_Cnt Mod 58 = 0 And Item_Cnt <> 0 Then
+            Dim sheet_Str = "Sheet" & page_cnt.ToString
+            Header = sheet.Header
+            'Header.Left = "平台：" & ret_PlatForm & "  賣場(Lot)：" & ret_LotNo
+            page_cnt = page_cnt + 1
+            Row_Cnt = 0
+            BarCode_Cnt = 0
+            sheet = workbook.CreateSheet(sheet_Str)
+            'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "3") = False Then
+            '  Return False
+            'End If
           Else
-            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-              Return False
-            End If
-            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-              Return False
-            End If
-            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-              Return False
+            If BarCode_Cnt >= 12 Then
+              Total_BarCode = Total_BarCode + BarCode_Cnt
+              If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
+                If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "2") = False Then
+                  Return False
+                End If
+                sheet.SetRowBreak(Row_Cnt)
+                BarCode_Cnt = 0
+                If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "2") = False Then
+                  Return False
+                End If
+              End If
+
+            Else
+              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+                Return False
+              End If
+              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+                Return False
+              End If
+              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+                Return False
+              End If
             End If
           End If
+
+
 #End Region
 #End Region
         End If
         'sheet.SetRowBreak(32)
+        Dim Now_Time_new As String = GetNewTime_DBFormat()
 
+        SendMessageToLog("第" & Item_Cnt & "筆時間：" & Now_Time_new, eCALogTool.ILogTool.enuTrcLevel.lvDEBUG)
       Next
 
 
@@ -797,13 +860,13 @@ Module Module_CreateBarCodeReport
     BCR = 1
     Palletizing = 2
   End Enum
-  Public Function Insert_Empty(ByRef workbook As XSSFWorkbook, ByRef sheet As XSSFSheet, ByRef ROW As XSSFRow, ByRef Row_Cnt As String, ByRef ret_strResultMsg As String) As Boolean
+  Public Function Insert_Empty(ByRef workbook As XSSFWorkbook, ByRef sheet As XSSFSheet, ByRef ROW As XSSFRow, ByRef Row_Cnt As String, ByRef ret_strResultMsg As String, Optional ByVal Debug_Str As String = "") As Boolean
     Try
       Dim colorRgb = New Byte() {255, 255, 255}
 
       Row_Cnt = Row_Cnt + 1
       ROW = sheet.CreateRow(Row_Cnt)
-      ROW.CreateCell(0).SetCellValue("")
+      ROW.CreateCell(0).SetCellValue(Debug_Str)
 
       Dim Empty_Style As XSSFCellStyle = workbook.CreateCellStyle()
       'Dim colorRgb = New Byte() {255, 255, 255}
