@@ -24,7 +24,7 @@ Module ModuleQRCode
       Select Case EncoderType
         Case "QRCODE"
           Dim ce As New QRCodeEncoder()
-          ce.QRCodeScale = 2
+          ce.QRCodeScale = 3
           ce.QRCodeVersion = 0
           Return ce.Encode(_InputDataString)
         Case "DATAMATRIX"

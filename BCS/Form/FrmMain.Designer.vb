@@ -225,7 +225,7 @@ Partial Class FrmMain
         '
         Me.ComboBox1.Font = New System.Drawing.Font("新細明體", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"7-11", "OK Mart", "Family"})
+        Me.ComboBox1.Items.AddRange(New Object() {"7-11BarCode", "7-11QRCode", "OK Mart", "Family"})
         Me.ComboBox1.Location = New System.Drawing.Point(50, 38)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(235, 48)
@@ -286,7 +286,7 @@ Partial Class FrmMain
         '
         Me.ComboBox2.Font = New System.Drawing.Font("新細明體", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
         Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Items.AddRange(New Object() {"7-11", "OK Mart", "Family"})
+        Me.ComboBox2.Items.AddRange(New Object() {"7-11BarCode", "7-11QRCode", "OK Mart", "Family"})
         Me.ComboBox2.Location = New System.Drawing.Point(198, 40)
         Me.ComboBox2.Name = "ComboBox2"
         Me.ComboBox2.Size = New System.Drawing.Size(235, 48)

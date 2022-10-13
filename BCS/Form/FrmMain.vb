@@ -318,10 +318,12 @@ Public Class FrmMain
       Dim PlatForm = ""
       Select Case ComboBox2.SelectedIndex
         Case 0
-          PlatForm = "7-11"
+          PlatForm = "7-11BarCode"
         Case 1
-          PlatForm = "OK Mart"
+          PlatForm = "7-11QRCode"
         Case 2
+          PlatForm = "OK Mart"
+        Case 3
           PlatForm = "Family"
         Case Else
           PlatForm = ""
@@ -336,9 +338,15 @@ Public Class FrmMain
       End If
       Dim Start_Date = DatePicker_Start.Value.Date.ToString("yyyy/MM/dd")
 
-      Dim Start_Time = TimePicker_Start.Value.TimeOfDay.ToString()
+      Dim Start_Hour = TimePicker_Start.Value.Hour.ToString.PadLeft(2, "0")
+      Dim Start_Min = TimePicker_Start.Value.Minute.ToString.PadLeft(2, "0")
+      Dim Start_Second = TimePicker_Start.Value.Second.ToString.PadLeft(2, "0")
+      Dim Start_Time = Start_Hour & ":" & Start_Min & ":" & Start_Second 'TimePicker_Start.Value.TimeOfDay.ToString("hh:mm:ss")
       Dim End_Date = DatePicker_End.Value.Date.ToString("yyyy/MM/dd")
-      Dim End_Time = TimePicker_End.Value.TimeOfDay.ToString()
+      Dim End_Hour = TimePicker_End.Value.Hour.ToString.PadLeft(2, "0")
+      Dim End_Min = TimePicker_End.Value.Minute.ToString.PadLeft(2, "0")
+      Dim End_Second = TimePicker_End.Value.Second.ToString.PadLeft(2, "0")
+      Dim End_Time = End_Hour & ":" & End_Min & ":" & End_Second ' TimePicker_End.Value.TimeOfDay.ToString("hh:mm:ss")
 
       Dim Start_DateTime = Start_Date & " " & Start_Time
       Dim End_DateTime = End_Date & " " & End_Time
@@ -350,20 +358,26 @@ Public Class FrmMain
         Return
       End If
 
-      Dim dicStore_Item_711 As New Dictionary(Of String, clsSTORE_ITEM)
+      Dim dicStore_Item_711BarCode As New Dictionary(Of String, clsSTORE_ITEM)
+      Dim dicStore_Item_711QRCode As New Dictionary(Of String, clsSTORE_ITEM)
       Dim dicStore_Item_OK As New Dictionary(Of String, clsSTORE_ITEM)
       Dim dicStore_Item_Family As New Dictionary(Of String, clsSTORE_ITEM)
 
       For Each obj In dicStore_Item.Values
-        If obj.PlatForm = "7-11" Then
-          dicStore_Item_711.Add(obj.gid, obj)
+        If obj.PlatForm = "7-11BarCode" Then
+          dicStore_Item_711BarCode.Add(obj.gid, obj)
+        ElseIf obj.PlatForm = "7-11QRCode" Then
+          dicStore_Item_711QRCode.Add(obj.gid, obj)
         ElseIf obj.PlatForm = "OK Mart" Then
           dicStore_Item_OK.Add(obj.gid, obj)
         ElseIf obj.PlatForm = "Family" Then
           dicStore_Item_Family.Add(obj.gid, obj)
         End If
       Next
-      result_msg = "7-11：" & dicStore_Item_711.Count & "件,OK：" & dicStore_Item_OK.Count & "件,全家：" & dicStore_Item_Family.Count & "件"
+      result_msg = "7-11 BarCode：" & dicStore_Item_711BarCode.Count & "件" & vbCrLf &
+                   "7-11 QRCode：" & dicStore_Item_711QRCode.Count & "件" & vbCrLf &
+                   "OK：" & dicStore_Item_OK.Count & "件" & vbCrLf &
+                   "全家：" & dicStore_Item_Family.Count & "件"
       'FormMsg.lb_ItemCount_Str.Text = result_msg
 
       Dim _form = FormMsg.CreateForm("FormMsg", result_msg)
@@ -383,7 +397,9 @@ Public Class FrmMain
     Dim PlatForm = ""
     Select Case ComboBox2.SelectedIndex
       Case 0
-        PlatForm = "7-11"
+        PlatForm = "7-11BarCode"
+      Case 1
+        PlatForm = "7-11QRCode"
       Case 1
         PlatForm = "OK Mart"
       Case 2
@@ -395,11 +411,22 @@ Public Class FrmMain
     Dim index = CB_Report_SHOP.SelectedIndex
     Dim SHOP_NO = CB_Report_SHOP.Items(index)
     Dim LotNo = SHOP_NO 'tb_LotNo_Report.Text
-    Dim Start_Date = DatePicker_Start.Value.Date.ToString("yyyy/MM/dd")
+    'Dim Start_Date = DatePicker_Start.Value.Date.ToString("yyyy/MM/dd")
 
-    Dim Start_Time = TimePicker_Start.Value.TimeOfDay.ToString()
+    'Dim Start_Time = TimePicker_Start.Value.TimeOfDay.ToString()
+    'Dim End_Date = DatePicker_End.Value.Date.ToString("yyyy/MM/dd")
+    'Dim End_Time = TimePicker_End.Value.TimeOfDay.ToString()
+    Dim Start_Date = DatePicker_Start.Value.Date.ToString("yyyy/MM/dd")
+    Dim Start_Hour = TimePicker_Start.Value.Hour.ToString.PadLeft(2, "0")
+    Dim Start_Min = TimePicker_Start.Value.Minute.ToString.PadLeft(2, "0")
+    Dim Start_Second = TimePicker_Start.Value.Second.ToString.PadLeft(2, "0")
+    Dim Start_Time = Start_Hour & ":" & Start_Min & ":" & Start_Second 'TimePicker_Start.Value.TimeOfDay.ToString("hh:mm:ss")
     Dim End_Date = DatePicker_End.Value.Date.ToString("yyyy/MM/dd")
-    Dim End_Time = TimePicker_End.Value.TimeOfDay.ToString()
+    Dim End_Hour = TimePicker_End.Value.Hour.ToString.PadLeft(2, "0")
+    Dim End_Min = TimePicker_End.Value.Minute.ToString.PadLeft(2, "0")
+    Dim End_Second = TimePicker_End.Value.Second.ToString.PadLeft(2, "0")
+    Dim End_Time = End_Hour & ":" & End_Min & ":" & End_Second ' TimePicker_End.Value.TimeOfDay.ToString("hh:mm:ss")
+
 
     Dim Start_DateTime = Start_Date & " " & Start_Time
     Dim End_DateTime = End_Date & " " & End_Time
@@ -424,9 +451,10 @@ Public Class FrmMain
       Dim SHOP_NO = CB_BarCode_SHOP.Items(index)
 
       Select Case int_PlatForm
-        Case 0  '7-11
-        Case 1  'OK
-        Case 2  '全家
+        Case 0  '7-11BarCode
+        Case 1  '7-11QRCode
+        Case 2  'OK
+        Case 3  '全家
       End Select
       'Dim BarCode1 = ""
       'Dim BarCode2 = ""
@@ -441,24 +469,42 @@ Public Class FrmMain
           Return
         End If
         tb_BarCodeInput.Text = ""
-        If int_PlatForm = 2 Then
+        If int_PlatForm = 3 Or int_PlatForm = 1 Then
           Input_Cnt = 0
           Dim ret_MSG = ""
-          If Module_ScanOKBarCode.O_Process_Message("Family", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, ret_MSG) = False Then
-            MsgBox(ret_MSG)
-            lb_BarCode1.Text = ""
-            lb_BarCode2.Text = ""
-            lb_BarCode3.Text = ""
-            lb_BarCode4.Text = ""
-          Else
-            lb_BarCode1.Text = ""
-            lb_BarCode2.Text = ""
-            lb_BarCode3.Text = ""
-            lb_BarCode4.Text = ""
+          If int_PlatForm = 3 Then
+            If Module_ScanOKBarCode.O_Process_Message("Family", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, ret_MSG) = False Then
+              MsgBox(ret_MSG)
+              lb_BarCode1.Text = ""
+              lb_BarCode2.Text = ""
+              lb_BarCode3.Text = ""
+              lb_BarCode4.Text = ""
+            Else
+              lb_BarCode1.Text = ""
+              lb_BarCode2.Text = ""
+              lb_BarCode3.Text = ""
+              lb_BarCode4.Text = ""
 
+            End If
           End If
+          If int_PlatForm = 1 Then
+            If Module_ScanOKBarCode.O_Process_Message("7-11QRCode", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, ret_MSG) = False Then
+              MsgBox(ret_MSG)
+              lb_BarCode1.Text = ""
+              lb_BarCode2.Text = ""
+              lb_BarCode3.Text = ""
+              lb_BarCode4.Text = ""
+            Else
+              lb_BarCode1.Text = ""
+              lb_BarCode2.Text = ""
+              lb_BarCode3.Text = ""
+              lb_BarCode4.Text = ""
+
+            End If
+          End If
+
         Else
-          Input_Cnt = Input_Cnt + 1
+            Input_Cnt = Input_Cnt + 1
         End If
 
 
@@ -481,7 +527,7 @@ Public Class FrmMain
           Return
         End If
         tb_BarCodeInput.Text = ""
-        If int_PlatForm = 1 Then
+        If int_PlatForm = 2 Then
           Input_Cnt = 0
           Dim ret_MSG = ""
           If Module_ScanOKBarCode.O_Process_Message("OK Mart", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, ret_MSG) = False Then
@@ -528,7 +574,7 @@ Public Class FrmMain
         Input_Cnt = 0
 
         Dim ret_MSG = ""
-        If Module_Scan711BarCode.O_Process_Message("7-11", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, lb_BarCode3.Text, lb_BarCode4.Text, ret_MSG) = False Then
+        If Module_Scan711BarCode.O_Process_Message("7-11BarCode", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, lb_BarCode3.Text, lb_BarCode4.Text, ret_MSG) = False Then
           MsgBox(ret_MSG)
           lb_BarCode1.Text = ""
           lb_BarCode2.Text = ""

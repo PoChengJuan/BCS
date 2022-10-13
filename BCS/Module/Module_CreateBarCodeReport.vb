@@ -90,8 +90,10 @@ Module Module_CreateBarCodeReport
       '取得檔名漂水號
       Dim UUID_NO_Str = ret_PlatForm
       Dim UUID_NO = ""
-      If ret_PlatForm = "7-11" Then
-        UUID_NO = enuUUID_No.Seven_SERIAL_NO.ToString
+      If ret_PlatForm = "7-11BarCode" Then
+        UUID_NO = enuUUID_No.Seven_BarCode_SERIAL_NO.ToString
+      ElseIf ret_PlatForm = "7-11QRCode" Then
+        UUID_NO = enuUUID_No.Seven_QRCode_SERIAL_NO.ToString
       ElseIf ret_PlatForm = "OK Mart" Then
         UUID_NO = enuUUID_No.OK_SERIAL_NO.ToString
       ElseIf ret_PlatForm = "Family" Then
@@ -152,16 +154,18 @@ Module Module_CreateBarCodeReport
       SendMessageToLog("開始時間：" & Now_Time, eCALogTool.ILogTool.enuTrcLevel.lvDEBUG)
       For Item_Cnt As Integer = 0 To lst_dicStore_Item.Count - 1 Step +2
 
-
+        'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "3") = False Then
+        '  Return False
+        'End If
         Row_Cnt = Row_Cnt + 1
         Row = sheet.CreateRow(Row_Cnt)
 
-        If ret_PlatForm = "7-11" Then
+        If ret_PlatForm = "7-11BarCode" Then
           If (lst_dicStore_Item.Count - Item_Cnt) < 2 Then
             flg_lastOne = True
           End If
 
-#Region "7-11"
+#Region "7-11BarCode"
 #Region "BarCode1"
           '=============================BarCode1====================================
 
@@ -258,20 +262,20 @@ Module Module_CreateBarCodeReport
             End If
             '##############################################################
             CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2.ToUpper, 5, workbook, sheet, Row_Cnt)
-              Row.CreateCell(5).SetCellValue("")
+            Row.CreateCell(5).SetCellValue("")
 
-              Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
-              Barcode_Style.FillPattern = FillPattern.SolidForeground
+            Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Barcode_Style.FillPattern = FillPattern.SolidForeground
 
-              Font.FontName = "Code 128"
-              Font.FontHeightInPoints = 36
-              Barcode_Style.SetFont(Font)
-              Row.Cells(1).CellStyle = Barcode_Style
-              '##############################################################
-            End If
+            Font.FontName = "Code 128"
+            Font.FontHeightInPoints = 36
+            Barcode_Style.SetFont(Font)
+            Row.Cells(1).CellStyle = Barcode_Style
+            '##############################################################
+          End If
 
-            '=============================================================
-            Row_Cnt = Row_Cnt + 1
+          '=============================================================
+          Row_Cnt = Row_Cnt + 1
           Row = sheet.CreateRow(Row_Cnt)
           Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode2.ToUpper)
 
@@ -434,43 +438,54 @@ Module Module_CreateBarCodeReport
 
 #End Region
           '切換Sheet，釋放記憶體
-          If Item_Cnt Mod 46 = 0 And Item_Cnt <> 0 Then
+          'If Item_Cnt Mod 46 = 0 And Item_Cnt <> 0 Then
+          If BarCode_Cnt >= 6 Then
             Dim sheet_Str = "Sheet" & page_cnt.ToString
             Header = sheet.Header
-            'Header.Left = "平台：" & ret_PlatForm & "  賣場(Lot)：" & ret_LotNo
+            Header.Left = "平台：" & ret_PlatForm & "  賣場(Lot)：" & ret_LotNo
             page_cnt = page_cnt + 1
             Row_Cnt = 0
             BarCode_Cnt = 0
             sheet = workbook.CreateSheet(sheet_Str)
+
             'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "3") = False Then
             '  Return False
             'End If
 
 
           Else
-            If BarCode_Cnt >= 6 Then
-              Total_BarCode = Total_BarCode + BarCode_Cnt
-              If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
-                If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-                  Return False
-                End If
-                sheet.SetRowBreak(Row_Cnt)
-                BarCode_Cnt = 0
-                If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-                  Return False
-                End If
-              End If
-            Else
-              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-                Return False
-              End If
-              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-                Return False
-              End If
-              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-                Return False
-              End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
             End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+            'If BarCode_Cnt >= 6 Then
+            '  Total_BarCode = Total_BarCode + BarCode_Cnt
+            '  If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
+            '    If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '      Return False
+            '    End If
+            '    sheet.SetRowBreak(Row_Cnt)
+            '    BarCode_Cnt = 0
+            '    If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '      Return False
+            '    End If
+            '  End If
+            'Else
+            '  If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '    Return False
+            '  End If
+            '  If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '    Return False
+            '  End If
+            '  If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '    Return False
+            '  End If
+            'End If
           End If
 
 
@@ -625,10 +640,11 @@ Module Module_CreateBarCodeReport
           '  Return False
           'End If
           '切換Sheet，釋放記憶體
-          If Item_Cnt Mod 50 = 0 And Item_Cnt <> 0 Then
+          'If Item_Cnt Mod 50 = 0 And Item_Cnt <> 0 Then
+          If BarCode_Cnt >= 10 Then
             Dim sheet_Str = "Sheet" & page_cnt.ToString
             Header = sheet.Header
-            'Header.Left = "平台：" & ret_PlatForm & "  賣場(Lot)：" & ret_LotNo
+            Header.Left = "平台：" & ret_PlatForm & "  賣場(Lot)：" & ret_LotNo
             page_cnt = page_cnt + 1
             Row_Cnt = 0
             BarCode_Cnt = 0
@@ -637,24 +653,27 @@ Module Module_CreateBarCodeReport
             '  Return False
             'End If
           Else
-            If BarCode_Cnt >= 10 Then
-              Total_BarCode = Total_BarCode + BarCode_Cnt
-              If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
-                sheet.SetRowBreak(Row_Cnt)
-                BarCode_Cnt = 0
-                If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-                  Return False
-                End If
-              End If
-              'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-              '  Return False
-              'End If
-
-            Else
-              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-                Return False
-              End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
             End If
+            'If BarCode_Cnt >= 10 Then
+            '  Total_BarCode = Total_BarCode + BarCode_Cnt
+            '  If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
+            '    sheet.SetRowBreak(Row_Cnt)
+            '    BarCode_Cnt = 0
+            '    If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '      Return False
+            '    End If
+            '  End If
+            '  'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '  '  Return False
+            '  'End If
+
+            'Else
+            '  If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '    Return False
+            '  End If
+            'End If
           End If
 
 
@@ -664,7 +683,7 @@ Module Module_CreateBarCodeReport
 
 #End Region
 #End Region
-        ElseIf ret_PlatForm = "Family" Then
+        ElseIf ret_PlatForm = "Family" Or ret_PlatForm = "7-11QRCode" Then
           If (lst_dicStore_Item.Count - Item_Cnt) < 2 Then
             flg_lastOne = True
           End If
@@ -707,25 +726,63 @@ Module Module_CreateBarCodeReport
             BarCode_Cnt = BarCode_Cnt + 1
             '##############################################################
           End If
+          If ret_PlatForm = "7-11QRCode" Then
+            '=============================================================
+            Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
+            Dim colorRgb = New Byte() {255, 255, 255}
+            Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Row_Cnt = Row_Cnt + 4
+            Row = sheet.CreateRow(Row_Cnt)
+            Row.CreateCell(0).SetCellValue(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper)
 
-          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-            Return False
-          End If
-          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-            Return False
-          End If
-          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-            Return False
-          End If
-          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-            Return False
+            Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
+            'Dim colorRgb = New Byte() {255, 255, 255}
+            Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Num_Style.FillPattern = FillPattern.SolidForeground
+
+
+            Dim Num_Font As IFont = workbook.CreateFont()
+            Num_Font.FontName = "Calibri"
+            Num_Font.FontHeightInPoints = 12
+            Num_Style.SetFont(Num_Font)
+            Row.Cells(0).CellStyle = Num_Style
+
+            If flg_lastOne = False Then
+              '##############################################################
+              Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1.ToUpper)
+
+              Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+              Num_Style.FillPattern = FillPattern.SolidForeground
+
+              Num_Font.FontName = "Calibri"
+              Num_Font.FontHeightInPoints = 12
+              Num_Style.SetFont(Num_Font)
+              Row.Cells(1).CellStyle = Num_Style
+              '##############################################################
+            End If
+          Else
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
           End If
 
 
-          If Item_Cnt Mod 58 = 0 And Item_Cnt <> 0 Then
+
+
+          'If Item_Cnt Mod 58 = 0 And Item_Cnt <> 0 Then
+          If BarCode_Cnt >= 12 Then
             Dim sheet_Str = "Sheet" & page_cnt.ToString
             Header = sheet.Header
-            'Header.Left = "平台：" & ret_PlatForm & "  賣場(Lot)：" & ret_LotNo
+            Header.Left = "平台：" & ret_PlatForm & "  賣場(Lot)：" & ret_LotNo
             page_cnt = page_cnt + 1
             Row_Cnt = 0
             BarCode_Cnt = 0
@@ -733,31 +790,54 @@ Module Module_CreateBarCodeReport
             'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "3") = False Then
             '  Return False
             'End If
-          Else
-            If BarCode_Cnt >= 12 Then
-              Total_BarCode = Total_BarCode + BarCode_Cnt
-              If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
-                If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "2") = False Then
-                  Return False
-                End If
-                sheet.SetRowBreak(Row_Cnt)
-                BarCode_Cnt = 0
-                If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "2") = False Then
-                  Return False
-                End If
-              End If
+            'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "2") = False Then
+            '  Return False
+            'End If
 
-            Else
-              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-                Return False
-              End If
-              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-                Return False
-              End If
-              If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-                Return False
-              End If
+            'Dim sheet_Str = "Sheet" & page_cnt.ToString
+            'Header = sheet.Header
+            ''Header.Left = "平台：" & ret_PlatForm & "  賣場(Lot)：" & ret_LotNo
+            'page_cnt = page_cnt + 1
+            'Row_Cnt = 0
+            'BarCode_Cnt = 0
+            'sheet = workbook.CreateSheet(sheet_Str)
+            ''If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "3") = False Then
+            ''  Return False
+            ''End If
+          Else
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
             End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+            'If BarCode_Cnt >= 12 Then
+            '  Total_BarCode = Total_BarCode + BarCode_Cnt
+            '  If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
+            '    If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "2") = False Then
+            '      Return False
+            '    End If
+            '    sheet.SetRowBreak(Row_Cnt)
+            '    BarCode_Cnt = 0
+            '    If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "2") = False Then
+            '      Return False
+            '    End If
+            '  End If
+
+            'Else
+            '  If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '    Return False
+            '  End If
+            '  If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '    Return False
+            '  End If
+            '  If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '    Return False
+            '  End If
+            'End If
           End If
 
 
@@ -860,7 +940,10 @@ Module Module_CreateBarCodeReport
     BCR = 1
     Palletizing = 2
   End Enum
-  Public Function Insert_Empty(ByRef workbook As XSSFWorkbook, ByRef sheet As XSSFSheet, ByRef ROW As XSSFRow, ByRef Row_Cnt As String, ByRef ret_strResultMsg As String, Optional ByVal Debug_Str As String = "") As Boolean
+  Public Function Insert_Empty(ByRef workbook As XSSFWorkbook, ByRef sheet As XSSFSheet,
+                               ByRef ROW As XSSFRow, ByRef Row_Cnt As String,
+                               ByRef ret_strResultMsg As String,
+                               Optional ByVal Debug_Str As String = "1") As Boolean
     Try
       Dim colorRgb = New Byte() {255, 255, 255}
 
