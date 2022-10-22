@@ -190,20 +190,20 @@ Module Module_CreateBarCodeReport
           Dim Font As IFont = workbook.CreateFont()
           Dim Font_BarCode As IFont = workbook.CreateFont()
           Font_BarCode.FontName = "Free 3 of 9"
-          Font_BarCode.FontHeightInPoints = 36
+          Font_BarCode.FontHeightInPoints = 28
           Barcode_Style_1.SetFont(Font_BarCode)
           Row.Cells(0).CellStyle = Barcode_Style_1
           If flg_lastOne = False Then
             '##############################################################
             'CreateBarCode_barcode1(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1.ToUpper, 5, workbook, sheet, Row_Cnt)
             BarCode1_Str = "*" & lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper & "*"
-            Row.CreateCell(5).SetCellValue(BarCode1_Str)
+            Row.CreateCell(6).SetCellValue(BarCode1_Str)
 
             Barcode_Style_1.SetFillForegroundColor(New XSSFColor(colorRgb))
             Barcode_Style_1.FillPattern = FillPattern.SolidForeground
 
             Font_BarCode.FontName = "Free 3 of 9"
-            Font_BarCode.FontHeightInPoints = 36
+            Font_BarCode.FontHeightInPoints = 28
             Barcode_Style_1.SetFont(Font_BarCode)
             Row.Cells(1).CellStyle = Barcode_Style_1
             '##############################################################
@@ -228,7 +228,7 @@ Module Module_CreateBarCodeReport
 
           If flg_lastOne = False Then
             '##############################################################
-            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1.ToUpper)
+            Row.CreateCell(6).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1.ToUpper)
 
             Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
             Num_Style.FillPattern = FillPattern.SolidForeground
@@ -252,9 +252,9 @@ Module Module_CreateBarCodeReport
           '=============================BarCode2====================================
           Row_Cnt = Row_Cnt + 1
           Row = sheet.CreateRow(Row_Cnt)
-          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode2.ToUpper, 0, workbook, sheet, Row_Cnt)
+          'CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode2.ToUpper, 0, workbook, sheet, Row_Cnt)
 
-          Row.CreateCell(0).SetCellValue("")
+          Row.CreateCell(0).SetCellValue(CreateCode39BarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode2.ToUpper))
           'Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
           'Dim colorRgb = New Byte() {255, 255, 255}
           Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
@@ -262,8 +262,8 @@ Module Module_CreateBarCodeReport
 
 
           'Dim Font As IFont = workbook.CreateFont()
-          Font.FontName = "Code 128"
-          Font.FontHeightInPoints = 36
+          Font.FontName = "Free 3 of 9"
+          Font.FontHeightInPoints = 28
           Barcode_Style.SetFont(Font)
           Row.Cells(0).CellStyle = Barcode_Style
           If flg_lastOne = False Then
@@ -271,14 +271,14 @@ Module Module_CreateBarCodeReport
               Dim a = 0
             End If
             '##############################################################
-            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2.ToUpper, 5, workbook, sheet, Row_Cnt)
-            Row.CreateCell(5).SetCellValue("")
+            'CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2.ToUpper, 5, workbook, sheet, Row_Cnt)
+            Row.CreateCell(6).SetCellValue(CreateCode39BarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2.ToUpper))
 
             Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
             Barcode_Style.FillPattern = FillPattern.SolidForeground
 
-            Font.FontName = "Code 128"
-            Font.FontHeightInPoints = 36
+            Font.FontName = "Free 3 of 9"
+            Font.FontHeightInPoints = 28
             Barcode_Style.SetFont(Font)
             Row.Cells(1).CellStyle = Barcode_Style
             '##############################################################
@@ -303,7 +303,7 @@ Module Module_CreateBarCodeReport
 
           If flg_lastOne = False Then
             '##############################################################
-            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2.ToUpper)
+            Row.CreateCell(6).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2.ToUpper)
 
             Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
             Num_Style.FillPattern = FillPattern.SolidForeground
@@ -327,9 +327,9 @@ Module Module_CreateBarCodeReport
           '=============================BarCode3====================================
           Row_Cnt = Row_Cnt + 1
           Row = sheet.CreateRow(Row_Cnt)
-          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode3.ToUpper, 0, workbook, sheet, Row_Cnt)
+          'CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode3.ToUpper, 0, workbook, sheet, Row_Cnt)
 
-          Row.CreateCell(0).SetCellValue("")
+          Row.CreateCell(0).SetCellValue(CreateCode39BarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode3.ToUpper))
           'Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
           'Dim colorRgb = New Byte() {255, 255, 255}
           Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
@@ -337,21 +337,21 @@ Module Module_CreateBarCodeReport
 
 
           'Dim Font As IFont = workbook.CreateFont()
-          Font.FontName = "Code 128"
-          Font.FontHeightInPoints = 36
+          Font.FontName = "Free 3 of 9"
+          Font.FontHeightInPoints = 28
           Barcode_Style.SetFont(Font)
           Row.Cells(0).CellStyle = Barcode_Style
           If flg_lastOne = False Then
             '##############################################################
-            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode3.ToUpper, 5, workbook, sheet, Row_Cnt)
+            'CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode3.ToUpper, 5, workbook, sheet, Row_Cnt)
 
-            Row.CreateCell(5).SetCellValue("")
+            Row.CreateCell(6).SetCellValue(CreateCode39BarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode3.ToUpper))
 
             Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
             Barcode_Style.FillPattern = FillPattern.SolidForeground
 
-            Font.FontName = "Code 128"
-            Font.FontHeightInPoints = 36
+            Font.FontName = "Free 3 of 9"
+            Font.FontHeightInPoints = 28
             Barcode_Style.SetFont(Font)
             Row.Cells(1).CellStyle = Barcode_Style
             '##############################################################
@@ -376,7 +376,7 @@ Module Module_CreateBarCodeReport
 
           If flg_lastOne = False Then
             '##############################################################
-            Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode3.ToUpper)
+            Row.CreateCell(6).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode3.ToUpper)
 
             Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
             Num_Style.FillPattern = FillPattern.SolidForeground
@@ -1182,4 +1182,7 @@ Module Module_CreateBarCodeReport
     Dim pict1 As XSSFPicture = drawing1.CreatePicture(anchor1, picInd1)
     pict1.Resize()
   End Sub
+  Private Function CreateCode39BarCode(ByVal BarCode As String) As String
+    Return "*" & BarCode & "*"
+  End Function
 End Module

@@ -304,7 +304,7 @@ Partial Class STORE_ITEMManagement
           Dim strSQL As String = String.Empty
           Dim rs As DataSet = Nothing
           Dim DatasetMessage As New DataSet
-          strSQL = String.Format("Select PlanForm,LotNo,count(LotNo) as Count from {1} {2} group by PLATFORM,LOTNO order by PLATFORM,LOTNO",
+          strSQL = String.Format("Select PlatForm,LotNo,count(LotNo) as Count from {1} {2} group by PLATFORM,LOTNO order by PLATFORM,LOTNO",
           strSQL,
           TableName,
           strWhere
