@@ -151,9 +151,15 @@ Module Module_CreateBarCodeReport
       Dim BarCode_Cnt = 0
       Dim page_cnt = 2
       Dim flg_Change_Sheet = False
+
+      'ProgressBar處理
+
+      FrmMain.ProBar_Report.Minimum = 0
+      FrmMain.ProBar_Report.Maximum = lst_dicStore_Item.Count
+      FrmMain.ProBar_Report.Value = 0
+      FrmMain.ProBar_Report.Visible = True
       SendMessageToLog("開始時間：" & Now_Time, eCALogTool.ILogTool.enuTrcLevel.lvDEBUG)
       For Item_Cnt As Integer = 0 To lst_dicStore_Item.Count - 1 Step +2
-
         'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "3") = False Then
         '  Return False
         'End If
@@ -170,32 +176,36 @@ Module Module_CreateBarCodeReport
           '=============================BarCode1====================================
 
 
-          CreateBarCode(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper, 0, workbook, sheet, Row_Cnt)
-
-          Row.CreateCell(0).SetCellValue("")
+          'CreateBarCode_barcode1(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper, 0, workbook, sheet, Row_Cnt)
+          Dim BarCode1_Str = "*" & lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper & "*"
+          Row.CreateCell(0).SetCellValue(BarCode1_Str)
           Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
+          Dim Barcode_Style_1 As XSSFCellStyle = workbook.CreateCellStyle()
+
           Dim colorRgb = New Byte() {255, 255, 255}
-          Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
-          Barcode_Style.FillPattern = FillPattern.SolidForeground
+          Barcode_Style_1.SetFillForegroundColor(New XSSFColor(colorRgb))
+          Barcode_Style_1.FillPattern = FillPattern.SolidForeground
 
 
           Dim Font As IFont = workbook.CreateFont()
-          Font.FontName = "Code 128"
-          Font.FontHeightInPoints = 12
-          Barcode_Style.SetFont(Font)
-          Row.Cells(0).CellStyle = Barcode_Style
+          Dim Font_BarCode As IFont = workbook.CreateFont()
+          Font_BarCode.FontName = "Free 3 of 9"
+          Font_BarCode.FontHeightInPoints = 36
+          Barcode_Style_1.SetFont(Font_BarCode)
+          Row.Cells(0).CellStyle = Barcode_Style_1
           If flg_lastOne = False Then
             '##############################################################
-            CreateBarCode(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1.ToUpper, 5, workbook, sheet, Row_Cnt)
-            Row.CreateCell(5).SetCellValue("")
+            'CreateBarCode_barcode1(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1.ToUpper, 5, workbook, sheet, Row_Cnt)
+            BarCode1_Str = "*" & lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper & "*"
+            Row.CreateCell(5).SetCellValue(BarCode1_Str)
 
-            Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
-            Barcode_Style.FillPattern = FillPattern.SolidForeground
+            Barcode_Style_1.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Barcode_Style_1.FillPattern = FillPattern.SolidForeground
 
-            Font.FontName = "Code 128"
-            Font.FontHeightInPoints = 36
-            Barcode_Style.SetFont(Font)
-            Row.Cells(1).CellStyle = Barcode_Style
+            Font_BarCode.FontName = "Free 3 of 9"
+            Font_BarCode.FontHeightInPoints = 36
+            Barcode_Style_1.SetFont(Font_BarCode)
+            Row.Cells(1).CellStyle = Barcode_Style_1
             '##############################################################
           End If
 
@@ -403,6 +413,7 @@ Module Module_CreateBarCodeReport
           Dim pict As XSSFPicture = drawing.CreatePicture(anchor, picInd)
           pict.Resize()
           BarCode_Cnt = BarCode_Cnt + 1
+          FrmMain.ProBar_Report.Value = FrmMain.ProBar_Report.Value + 1
           '=============================================================
 
 
@@ -423,6 +434,7 @@ Module Module_CreateBarCodeReport
             pict = drawing.CreatePicture(anchor, picInd)
             pict.Resize()
             BarCode_Cnt = BarCode_Cnt + 1
+            FrmMain.ProBar_Report.Value = FrmMain.ProBar_Report.Value + 1
             '##############################################################
           End If
 
@@ -616,6 +628,7 @@ Module Module_CreateBarCodeReport
           Num_Style.SetFont(Num_Font)
           Row.Cells(0).CellStyle = Num_Style
           BarCode_Cnt = BarCode_Cnt + 1
+          FrmMain.ProBar_Report.Value = FrmMain.ProBar_Report.Value + 1
           If flg_lastOne = False Then
             '##############################################################
             Row.CreateCell(5).SetCellValue(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode2.ToUpper)
@@ -628,6 +641,7 @@ Module Module_CreateBarCodeReport
             Num_Style.SetFont(Num_Font)
             Row.Cells(1).CellStyle = Num_Style
             BarCode_Cnt = BarCode_Cnt + 1
+            FrmMain.ProBar_Report.Value = FrmMain.ProBar_Report.Value + 1
             '##############################################################
           End If
 
@@ -683,14 +697,20 @@ Module Module_CreateBarCodeReport
 
 #End Region
 #End Region
-        ElseIf ret_PlatForm = "Family" Or ret_PlatForm = "7-11QRCode" Then
+        ElseIf ret_PlatForm = "7-11QRCode" Then
           If (lst_dicStore_Item.Count - Item_Cnt) < 2 Then
             flg_lastOne = True
           End If
 #Region "Family"
 #Region "BarCode4"
           'Dim _VALUE = GenCode128.Code128Rendering.MakeBarcodeImage(objStore_item.BarCode4, 2, True)
-          Dim _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper, "QRCODE")
+          Dim _VALUE As Bitmap = Nothing
+          If ret_PlatForm = "Family" Then
+            _VALUE = CodeEncoderFromString_Family(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper, "QRCODE")
+          ElseIf ret_PlatForm = "7-11QRCode" Then
+            _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper, "QRCODE")
+          End If
+          _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper, "QRCODE")
           Dim BYTE_Array As Byte() = BmpToBytes(_VALUE)
           Dim picInd = workbook.AddPicture(BYTE_Array, NPOI.SS.UserModel.PictureType.JPEG)
 
@@ -705,6 +725,7 @@ Module Module_CreateBarCodeReport
           Dim pict As XSSFPicture = drawing.CreatePicture(anchor, picInd)
           pict.Resize()
           BarCode_Cnt = BarCode_Cnt + 1
+          FrmMain.ProBar_Report.Value = FrmMain.ProBar_Report.Value + 1
           '=============================================================
 
           If flg_lastOne = False Then
@@ -724,6 +745,7 @@ Module Module_CreateBarCodeReport
             pict = drawing.CreatePicture(anchor, picInd)
             pict.Resize()
             BarCode_Cnt = BarCode_Cnt + 1
+            FrmMain.ProBar_Report.Value = FrmMain.ProBar_Report.Value + 1
             '##############################################################
           End If
           If ret_PlatForm = "7-11QRCode" Then
@@ -843,6 +865,148 @@ Module Module_CreateBarCodeReport
 
 #End Region
 #End Region
+        ElseIf ret_PlatForm = "Family" Then
+          If (lst_dicStore_Item.Count - Item_Cnt) < 2 Then
+            flg_lastOne = True
+          End If
+#Region "BarCode4"
+          'Dim _VALUE = GenCode128.Code128Rendering.MakeBarcodeImage(objStore_item.BarCode4, 2, True)
+          Dim _VALUE As Bitmap = Nothing
+          If ret_PlatForm = "Family" Then
+            _VALUE = CodeEncoderFromString_Family(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper, "QRCODE")
+          ElseIf ret_PlatForm = "7-11QRCode" Then
+            _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper, "QRCODE")
+          End If
+          _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper, "QRCODE")
+          Dim BYTE_Array As Byte() = BmpToBytes(_VALUE)
+          Dim picInd = workbook.AddPicture(BYTE_Array, NPOI.SS.UserModel.PictureType.JPEG)
+
+          Dim anchor As XSSFClientAnchor = New XSSFClientAnchor()
+          anchor.Dx1 = 1
+          anchor.Dy1 = 1
+
+
+          anchor.Col1 = 0
+          anchor.Row1 = Row_Cnt
+          Dim drawing As XSSFDrawing = sheet.CreateDrawingPatriarch
+          Dim pict As XSSFPicture = drawing.CreatePicture(anchor, picInd)
+          pict.Resize()
+          BarCode_Cnt = BarCode_Cnt + 1
+          FrmMain.ProBar_Report.Value = FrmMain.ProBar_Report.Value + 1
+          '=============================================================
+
+          If flg_lastOne = False Then
+            '##############################################################
+            _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1.ToUpper, "QRCODE")
+            BYTE_Array = BmpToBytes(_VALUE)
+            picInd = workbook.AddPicture(BYTE_Array, NPOI.SS.UserModel.PictureType.JPEG)
+
+            anchor = New XSSFClientAnchor()
+            anchor.Dx1 = 1
+            anchor.Dy1 = 1
+
+
+            anchor.Col1 = 5
+            anchor.Row1 = Row_Cnt
+            drawing = sheet.CreateDrawingPatriarch
+            pict = drawing.CreatePicture(anchor, picInd)
+            pict.Resize()
+            BarCode_Cnt = BarCode_Cnt + 1
+            FrmMain.ProBar_Report.Value = FrmMain.ProBar_Report.Value + 1
+            '##############################################################
+          End If
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            Return False
+          End If
+
+
+
+
+          'If Item_Cnt Mod 58 = 0 And Item_Cnt <> 0 Then
+          If BarCode_Cnt >= 8 Then
+            Dim sheet_Str = "Sheet" & page_cnt.ToString
+            Header = sheet.Header
+            Header.Left = "平台：" & ret_PlatForm & "  賣場(Lot)：" & ret_LotNo
+            page_cnt = page_cnt + 1
+            Row_Cnt = 0
+            BarCode_Cnt = 0
+            sheet = workbook.CreateSheet(sheet_Str)
+            'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "3") = False Then
+            '  Return False
+            'End If
+            'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "2") = False Then
+            '  Return False
+            'End If
+
+            'Dim sheet_Str = "Sheet" & page_cnt.ToString
+            'Header = sheet.Header
+            ''Header.Left = "平台：" & ret_PlatForm & "  賣場(Lot)：" & ret_LotNo
+            'page_cnt = page_cnt + 1
+            'Row_Cnt = 0
+            'BarCode_Cnt = 0
+            'sheet = workbook.CreateSheet(sheet_Str)
+            ''If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "3") = False Then
+            ''  Return False
+            ''End If
+          Else
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+            If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+              Return False
+            End If
+            'If BarCode_Cnt >= 12 Then
+            '  Total_BarCode = Total_BarCode + BarCode_Cnt
+            '  If lst_dicStore_Item.Count <> Total_BarCode Then  '防止剛好滿頁時，不會再多換一頁
+            '    If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "2") = False Then
+            '      Return False
+            '    End If
+            '    sheet.SetRowBreak(Row_Cnt)
+            '    BarCode_Cnt = 0
+            '    If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg, "2") = False Then
+            '      Return False
+            '    End If
+            '  End If
+
+            'Else
+            '  If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '    Return False
+            '  End If
+            '  If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '    Return False
+            '  End If
+            '  If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+            '    Return False
+            '  End If
+            'End If
+          End If
+
+
+#End Region
         End If
         'sheet.SetRowBreak(32)
         Dim Now_Time_new As String = GetNewTime_DBFormat()
@@ -850,7 +1014,7 @@ Module Module_CreateBarCodeReport
         SendMessageToLog("第" & Item_Cnt & "筆時間：" & Now_Time_new, eCALogTool.ILogTool.enuTrcLevel.lvDEBUG)
       Next
 
-
+      FrmMain.ProBar_Report.Visible = False
 
 
 
@@ -943,7 +1107,7 @@ Module Module_CreateBarCodeReport
   Public Function Insert_Empty(ByRef workbook As XSSFWorkbook, ByRef sheet As XSSFSheet,
                                ByRef ROW As XSSFRow, ByRef Row_Cnt As String,
                                ByRef ret_strResultMsg As String,
-                               Optional ByVal Debug_Str As String = "1") As Boolean
+                               Optional ByVal Debug_Str As String = "") As Boolean
     Try
       Dim colorRgb = New Byte() {255, 255, 255}
 
@@ -978,6 +1142,29 @@ Module Module_CreateBarCodeReport
       _VALUE1 = New Bitmap(GenCode128.Code128Rendering.MakeBarcodeImage(data, 1, False))
     Else
       _VALUE1 = New Bitmap(GenCode128.Code128Rendering.MakeBarcodeImage(data, 1, False), 200, 20)
+    End If
+
+    'Dim _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt).BarCode4, "QRCODE")
+    Dim BYTE_Array1 As Byte() = BmpToBytes(_VALUE1)
+    Dim picInd1 = workbook.AddPicture(BYTE_Array1, NPOI.SS.UserModel.PictureType.JPEG)
+
+    Dim anchor1 As XSSFClientAnchor = New XSSFClientAnchor()
+    anchor1.Dx1 = 1
+    anchor1.Dy1 = 1
+
+
+    anchor1.Col1 = Col
+    anchor1.Row1 = Row_Cnt
+    Dim drawing1 As XSSFDrawing = sheet.CreateDrawingPatriarch
+    Dim pict1 As XSSFPicture = drawing1.CreatePicture(anchor1, picInd1)
+    pict1.Resize()
+  End Sub
+  Private Sub CreateBarCode_barcode1(ByVal data As String, ByVal Col As String, ByRef workbook As XSSFWorkbook, ByRef sheet As XSSFSheet, ByRef Row_Cnt As Integer, Optional ByVal fisrtBarCode As Boolean = True)
+    Dim _VALUE1 As Bitmap = Nothing
+    If fisrtBarCode = True Then
+      _VALUE1 = New Bitmap(GenCode128.Code128Rendering.MakeBarcodeImage(data, 1, False))
+    Else
+      _VALUE1 = New Bitmap(GenCode128.Code128Rendering.MakeBarcodeImage(data, 1, True), 150, 20)
     End If
 
     'Dim _VALUE = CodeEncoderFromString(lst_dicStore_Item.Item(Item_Cnt).BarCode4, "QRCODE")

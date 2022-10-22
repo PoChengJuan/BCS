@@ -217,7 +217,7 @@ Public Class FrmMain
       lb_BarCode2.Text = ""
       lb_BarCode3.Text = ""
       lb_BarCode4.Text = ""
-      ComboBox1.SelectedIndex = 0
+      CB_BarCode_PlatForm.SelectedIndex = 0
       tb_BarCodeInput.Select()
 
       '報表頁面
@@ -308,15 +308,16 @@ Public Class FrmMain
     If e.TabPage.TabIndex = TabPage1.TabIndex Then
       tb_BarCodeInput.Select()
     ElseIf e.TabPage.TabIndex = TabPage3.TabIndex Then
-      TextBox2.Select()
+      tb_Search_Code1.Select()
     End If
 
   End Sub
   Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
     Try
+
       Dim result_msg = ""
       Dim PlatForm = ""
-      Select Case ComboBox2.SelectedIndex
+      Select Case CB_Report_PlatForm.SelectedIndex
         Case 0
           PlatForm = "7-11BarCode"
         Case 1
@@ -390,19 +391,57 @@ Public Class FrmMain
       MsgBox(ex.ToString)
     End Try
   End Sub
+#Region "報表頁面"
+  Private Sub btn_MonthReport_Click(sender As Object, e As EventArgs) Handles btn_MonthReport.Click
+    Try
+      Dim resultMsg = ""
+      Dim PlatForm = ""
+      If CB_Report_PlatForm.SelectedIndex = -1 Then
+        PlatForm = ""
+      Else
+        PlatForm = CB_Report_PlatForm.Items(CB_Report_PlatForm.SelectedIndex)
+      End If
 
 
+      Dim Start_Date = DatePicker_Start.Value.Date.ToString("yyyy/MM/dd")
+      Dim Start_Hour = TimePicker_Start.Value.Hour.ToString.PadLeft(2, "0")
+      Dim Start_Min = TimePicker_Start.Value.Minute.ToString.PadLeft(2, "0")
+      Dim Start_Second = TimePicker_Start.Value.Second.ToString.PadLeft(2, "0")
+      Dim Start_Time = Start_Hour & ":" & Start_Min & ":" & Start_Second 'TimePicker_Start.Value.TimeOfDay.ToString("hh:mm:ss")
+      Dim End_Date = DatePicker_End.Value.Date.ToString("yyyy/MM/dd")
+      Dim End_Hour = TimePicker_End.Value.Hour.ToString.PadLeft(2, "0")
+      Dim End_Min = TimePicker_End.Value.Minute.ToString.PadLeft(2, "0")
+      Dim End_Second = TimePicker_End.Value.Second.ToString.PadLeft(2, "0")
+      Dim End_Time = End_Hour & ":" & End_Min & ":" & End_Second ' TimePicker_End.Value.TimeOfDay.ToString("hh:mm:ss")
+
+
+      Dim Start_DateTime = Start_Date & " " & Start_Time
+      Dim End_DateTime = End_Date & " " & End_Time
+
+      Dim ret_Msg = ""
+      Dim FileName_PDF = ""
+
+      If Module_CreateMonthReport.O_Process_Message(PlatForm, Start_DateTime, End_DateTime, FileName_PDF, ret_Msg) = False Then
+        MsgBox(ret_Msg)
+      Else
+        MsgBox("檔案路徑" & vbCrLf & FileName_PDF)
+      End If
+
+    Catch ex As Exception
+      MsgBox(ex.ToString)
+    End Try
+  End Sub
   Private Sub btn_CreateReport_Click(sender As Object, e As EventArgs) Handles btn_CreateReport.Click
 
     Dim PlatForm = ""
-    Select Case ComboBox2.SelectedIndex
+    Select Case CB_Report_PlatForm.SelectedIndex
       Case 0
         PlatForm = "7-11BarCode"
       Case 1
         PlatForm = "7-11QRCode"
-      Case 1
-        PlatForm = "OK Mart"
       Case 2
+        PlatForm = "OK Mart"
+      Case 3
         PlatForm = "Family"
       Case Else
         MsgBox("請選擇平台")
@@ -440,6 +479,8 @@ Public Class FrmMain
     End If
   End Sub
 
+#End Region
+
   Private Sub TextBox1_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles tb_BarCodeInput.KeyPress
     If e.KeyChar = Microsoft.VisualBasic.ChrW(Keys.Return) Then
 
@@ -468,6 +509,11 @@ Public Class FrmMain
           tb_BarCodeInput.Text = ""
           Return
         End If
+        If int_PlatForm = 3 And lb_BarCode1.Text.Length < 10 Then
+          MsgBox("條碼錯誤")
+          tb_BarCodeInput.Text = ""
+          Return
+        End If
         tb_BarCodeInput.Text = ""
         If int_PlatForm = 3 Or int_PlatForm = 1 Then
           Input_Cnt = 0
@@ -475,36 +521,40 @@ Public Class FrmMain
           If int_PlatForm = 3 Then
             If Module_ScanOKBarCode.O_Process_Message("Family", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, ret_MSG) = False Then
               MsgBox(ret_MSG)
-              lb_BarCode1.Text = ""
-              lb_BarCode2.Text = ""
-              lb_BarCode3.Text = ""
-              lb_BarCode4.Text = ""
+              'lb_BarCode1.Text = ""
+              'lb_BarCode2.Text = ""
+              'lb_BarCode3.Text = ""
+              'lb_BarCode4.Text = ""
             Else
-              lb_BarCode1.Text = ""
-              lb_BarCode2.Text = ""
-              lb_BarCode3.Text = ""
-              lb_BarCode4.Text = ""
+              'lb_BarCode1.Text = ""
+              'lb_BarCode2.Text = ""
+              'lb_BarCode3.Text = ""
+              'lb_BarCode4.Text = ""
 
             End If
           End If
           If int_PlatForm = 1 Then
             If Module_ScanOKBarCode.O_Process_Message("7-11QRCode", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, ret_MSG) = False Then
               MsgBox(ret_MSG)
-              lb_BarCode1.Text = ""
-              lb_BarCode2.Text = ""
-              lb_BarCode3.Text = ""
-              lb_BarCode4.Text = ""
+              'lb_BarCode1.Text = ""
+              'lb_BarCode2.Text = ""
+              'lb_BarCode3.Text = ""
+              'lb_BarCode4.Text = ""
             Else
-              lb_BarCode1.Text = ""
-              lb_BarCode2.Text = ""
-              lb_BarCode3.Text = ""
-              lb_BarCode4.Text = ""
+              'lb_BarCode1.Text = ""
+              'lb_BarCode2.Text = ""
+              'lb_BarCode3.Text = ""
+              'lb_BarCode4.Text = ""
 
             End If
           End If
 
         Else
-            Input_Cnt = Input_Cnt + 1
+          Input_Cnt = Input_Cnt + 1
+          'lb_BarCode1.Text = ""
+          lb_BarCode2.Text = ""
+          lb_BarCode3.Text = ""
+          lb_BarCode4.Text = ""
         End If
 
 
@@ -532,15 +582,15 @@ Public Class FrmMain
           Dim ret_MSG = ""
           If Module_ScanOKBarCode.O_Process_Message("OK Mart", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, ret_MSG) = False Then
             MsgBox(ret_MSG)
-            lb_BarCode1.Text = ""
-            lb_BarCode2.Text = ""
-            lb_BarCode3.Text = ""
-            lb_BarCode4.Text = ""
+            'lb_BarCode1.Text = ""
+            'lb_BarCode2.Text = ""
+            'lb_BarCode3.Text = ""
+            'lb_BarCode4.Text = ""
           Else
-            lb_BarCode1.Text = ""
-            lb_BarCode2.Text = ""
-            lb_BarCode3.Text = ""
-            lb_BarCode4.Text = ""
+            'lb_BarCode1.Text = ""
+            'lb_BarCode2.Text = ""
+            'lb_BarCode3.Text = ""
+            'lb_BarCode4.Text = ""
 
           End If
         Else
@@ -576,15 +626,15 @@ Public Class FrmMain
         Dim ret_MSG = ""
         If Module_Scan711BarCode.O_Process_Message("7-11BarCode", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, lb_BarCode3.Text, lb_BarCode4.Text, ret_MSG) = False Then
           MsgBox(ret_MSG)
-          lb_BarCode1.Text = ""
-          lb_BarCode2.Text = ""
-          lb_BarCode3.Text = ""
-          lb_BarCode4.Text = ""
+          'lb_BarCode1.Text = ""
+          'lb_BarCode2.Text = ""
+          'lb_BarCode3.Text = ""
+          'lb_BarCode4.Text = ""
         Else
-          lb_BarCode1.Text = ""
-          lb_BarCode2.Text = ""
-          lb_BarCode3.Text = ""
-          lb_BarCode4.Text = ""
+          'lb_BarCode1.Text = ""
+          'lb_BarCode2.Text = ""
+          'lb_BarCode3.Text = ""
+          'lb_BarCode4.Text = ""
         End If
       ElseIf Input_Cnt = 3 Then
         lb_BarCode4.Text = tb_BarCodeInput.Text.ToUpper
@@ -594,15 +644,15 @@ Public Class FrmMain
         Dim ret_MSG = ""
         If Module_Scan711BarCode.O_Process_Message("7-11", SHOP_NO, lb_BarCode1.Text, lb_BarCode2.Text, lb_BarCode3.Text, lb_BarCode4.Text, ret_MSG) = False Then
           MsgBox(ret_MSG)
-          lb_BarCode1.Text = ""
-          lb_BarCode2.Text = ""
-          lb_BarCode3.Text = ""
-          lb_BarCode4.Text = ""
+          'lb_BarCode1.Text = ""
+          'lb_BarCode2.Text = ""
+          'lb_BarCode3.Text = ""
+          'lb_BarCode4.Text = ""
         Else
-          lb_BarCode1.Text = ""
-          lb_BarCode2.Text = ""
-          lb_BarCode3.Text = ""
-          lb_BarCode4.Text = ""
+          'lb_BarCode1.Text = ""
+          'lb_BarCode2.Text = ""
+          'lb_BarCode3.Text = ""
+          'lb_BarCode4.Text = ""
         End If
 
       End If
@@ -617,11 +667,11 @@ Public Class FrmMain
     End If
     Return True
   End Function
-  Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+  Private Sub CB_BarCode_PlatForm_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_BarCode_PlatForm.SelectedIndexChanged
     Try
-      int_PlatForm = ComboBox1.SelectedIndex
-
-
+      int_PlatForm = CB_BarCode_PlatForm.SelectedIndex
+      Input_Cnt = 0
+      Erase_BarCode_Label()
     Catch ex As Exception
       MsgBox(ex.ToString)
       SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
@@ -634,12 +684,18 @@ Public Class FrmMain
 
       Dim dicSHOP = BCS_M_SHOPManagement.GetDataDictionaryByKEY(SHOP_NO)
       lb_Memo_Str.Text = dicSHOP.First.Value.MEMO
-
-
+      Input_Cnt = 0
+      Erase_BarCode_Label()
     Catch ex As Exception
       MsgBox(ex.ToString)
       SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
     End Try
+  End Sub
+  Private Sub Erase_BarCode_Label()
+    lb_BarCode1.Text = ""
+    lb_BarCode2.Text = ""
+    lb_BarCode3.Text = ""
+    lb_BarCode4.Text = ""
   End Sub
   Private Sub CB_Report_SHOP_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Report_SHOP.SelectedIndexChanged
     Try
@@ -694,7 +750,7 @@ Public Class FrmMain
   Private Sub TSCBViewLogLevel_Click(sender As Object, e As EventArgs)
 
   End Sub
-
+#Region "新增賣家"
   Private Sub 新增賣場ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles 新增賣場ToolStripMenuItem.Click
     Try
       Dim _form = FormShop.CreateForm(FormShop.Name)
@@ -706,10 +762,93 @@ Public Class FrmMain
       SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
     End Try
   End Sub
+#End Region
+
 
   Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
 
   End Sub
 
+#Region "查詢頁面"
+  Private Sub CB_Search_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Search.SelectedIndexChanged
+    Try
+      Dim PlatForm = CB_Search.Items(CB_Search.SelectedIndex)
 
+      Select Case PlatForm
+        Case "7-11BarCode"
+          lb_Search_BarCode1.Text = "條碼1"
+          tb_Search_Code1.Enabled = True
+          tb_Search_Code2.Enabled = True
+          tb_Search_Code3.Enabled = True
+        Case "7-11QRCode"
+          lb_Search_BarCode1.Text = "條碼1"
+          tb_Search_Code1.Enabled = True
+          tb_Search_Code2.Enabled = False
+          tb_Search_Code3.Enabled = False
+        Case "OK Mart"
+          lb_Search_BarCode1.Text = "條碼1"
+          tb_Search_Code1.Enabled = True
+          tb_Search_Code2.Enabled = True
+          tb_Search_Code3.Enabled = False
+        Case "Family"
+          lb_Search_BarCode1.Text = "訂單編號"
+          tb_Search_Code1.Enabled = True
+          tb_Search_Code2.Enabled = False
+          tb_Search_Code3.Enabled = False
+      End Select
+
+
+    Catch ex As Exception
+      MsgBox(ex.ToString)
+      SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
+    End Try
+  End Sub
+  Private Sub btn_Search_Click(sender As Object, e As EventArgs) Handles btn_Search.Click
+    Try
+      Dim resultMsg = ""
+      If CB_Search.SelectedIndex = -1 Then
+        resultMsg = "請選取平台"
+        MsgBox(resultMsg)
+        Return
+      End If
+      Dim PlatForm = CB_Search.Items(CB_Search.SelectedIndex)
+
+      Dim LotNo = ""
+      Dim BarCode1 = tb_Search_Code1.Text
+      Dim BarCode2 = tb_Search_Code2.Text
+      Dim BarCode3 = tb_Search_Code3.Text
+      Dim dicSTORE_ITEM As New Dictionary(Of String, clsSTORE_ITEM)
+
+
+      If PlatForm <> "Family" Then
+        dicSTORE_ITEM = STORE_ITEMManagement.GetDataDictionaryBySearch_Data(PlatForm, BarCode1, BarCode2, BarCode3)
+      Else
+        dicSTORE_ITEM = STORE_ITEMManagement.GetDataDictionaryBySearch_FamilyData(PlatForm, BarCode1)
+      End If
+      If dicSTORE_ITEM.Any Then
+        resultMsg = "已刷取"
+      Else
+        resultMsg = "未刷取"
+      End If
+
+      MsgBox(resultMsg)
+    Catch ex As Exception
+      MsgBox(ex.ToString)
+      'SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
+    End Try
+  End Sub
+#End Region
+#Region "關於"
+  Private Sub 關於ToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles 關於ToolStripMenuItem.Click
+    Try
+      Dim _form = FormAbout.CreateForm(FormAbout.Name)
+      If _form IsNot Nothing Then
+        _form.Show()
+      End If
+    Catch ex As Exception
+      MsgBox(ex.ToString)
+      SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
+    End Try
+  End Sub
+#End Region
 End Class

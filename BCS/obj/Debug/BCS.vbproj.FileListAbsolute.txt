@@ -28,3 +28,4 @@ D:\WorkSpace2\BCS\BCS\bin\Debug\NPOI.dll
 D:\WorkSpace2\BCS\BCS\obj\Debug\BCS.FormShop.resources
 D:\WorkSpace2\BCS\BCS\obj\Debug\BCS.FormMsg.resources
 D:\WorkSpace2\BCS\BCS\obj\Debug\BCS.vbproj.AssemblyReference.cache
+D:\WorkSpace2\BCS\BCS\obj\Debug\BCS.FormAbout.resources

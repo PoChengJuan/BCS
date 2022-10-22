@@ -45,6 +45,7 @@ Partial Class FormMsg
     Me.ClientSize = New System.Drawing.Size(528, 298)
     Me.Controls.Add(Me.lb_ItemCnt_Str)
     Me.Name = "FormMsg"
+    Me.ShowIcon = False
     Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
     Me.Text = "訊息"
     Me.ResumeLayout(False)

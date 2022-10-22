@@ -161,7 +161,9 @@
     <Compile Include="Class\ClsInterfaceDB.vb" />
     <Compile Include="Class\DBManagement\BCS_M_SHOPManagement.vb" />
     <Compile Include="Class\DBManagement\BCS_M_UUIDManagement.vb" />
+    <Compile Include="Class\DBManagement\PLANFORM_LOTNO_LISTManagement.vb" />
     <Compile Include="Class\Object\clsBCS_M_SHOP.vb" />
+    <Compile Include="Class\Object\clsPLANFORM_LOTNO_LIST.vb" />
     <Compile Include="Class\Object\clsUUID.vb" />
     <Compile Include="Class\DBManagement\clsFromGUICommand.vb" />
     <Compile Include="Class\DBManagement\Common_DBManagement.vb" />
@@ -179,6 +181,12 @@
     <Compile Include="Enum\EnuPrintName.vb" />
     <Compile Include="Enum\EnuSystemType.vb" />
     <Compile Include="Enum\EnuInterfaceType.vb" />
+    <Compile Include="Form\FormAbout.Designer.vb">
+      <DependentUpon>FormAbout.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form\FormAbout.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form\FormMsg.Designer.vb">
       <DependentUpon>FormMsg.vb</DependentUpon>
     </Compile>
@@ -209,7 +217,9 @@
     <Compile Include="Form\FrmWait.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Module\Mode_Version.vb" />
     <Compile Include="Module\ModuleDeclaration.vb" />
+    <Compile Include="Module\Module_CreateMonthReport.vb" />
     <Compile Include="Module\Mod_System.vb" />
     <Compile Include="Module\Mod_HelpFunc.vb" />
     <Compile Include="Module\ModuleFunction.vb" />
@@ -240,6 +250,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Form\FormAbout.resx">
+      <DependentUpon>FormAbout.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\FormMsg.resx">
       <DependentUpon>FormMsg.vb</DependentUpon>
     </EmbeddedResource>
@@ -278,6 +291,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="printer_blue_10877.ico" />
+    <None Include="Resources\S__24240149.jpg" />
+    <None Include="Resources\S__24240149.png" />
+    <None Include="Resources\Logo_185.jpg" />
+    <None Include="Resources\Logo_185.png" />
+    <None Include="Resources\Logo_185New.png" />
+    <None Include="Resources\Logo_185New %281%29.png" />
     <Content Include="Scanner.ico" />
   </ItemGroup>
   <ItemGroup>

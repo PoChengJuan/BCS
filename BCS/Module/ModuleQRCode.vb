@@ -59,6 +59,53 @@ Module ModuleQRCode
     End Try
 
   End Function
+  ''' <summary>
+  ''' 將文字轉成QRCode Bitmap
+  ''' </summary>
+  ''' <param name="_InputDataString">欲轉換的文字</param>
+  ''' <returns></returns>
+  Public Function CodeEncoderFromString_Family(ByVal _InputDataString As String, ByVal EncoderType As String, Optional ByRef gLength As Integer = 0) As Bitmap
+    Try
+      'Dim ce As New DmtxImageEncoderOptions
+      'Dim encoder = New DmtxImageEncoder
+      Select Case EncoderType
+        Case "QRCODE"
+          Dim ce As New QRCodeEncoder()
+          ce.QRCodeScale = 6
+          ce.QRCodeVersion = 0
+          Return ce.Encode(_InputDataString)
+        Case "DATAMATRIX"
+          Dim ce As New DmtxImageEncoderOptions
+          Dim encoder = New DmtxImageEncoder
+          ce.ModuleSize = 2
+          ce.MarginSize = 0
+          Return encoder.EncodeImage(_InputDataString, ce)
+          'ce.QRCodeEncodeMode = QRCodeEncoder.ENCODE_MODE.BYTE
+        Case "Code128"
+          Return Code128Rendering.MakeBarcodeImage(_InputDataString, gLength, False)
+        Case "Code39"
+          Dim br As New ZXing.BarcodeWriter
+          br.Format = BarcodeFormat.CODE_39
+          br.Options.Width = gLength
+          br.Options.Height = 1
+          Return br.Write(_InputDataString)
+        Case "CODABAR"
+          Dim br As New ZXing.BarcodeWriter
+          br.Format = BarcodeFormat.CODABAR
+          br.Options.Width = gLength
+          br.Options.Height = 1
+          Return br.Write(_InputDataString)
+        Case Else
+          Return Nothing
+      End Select
+      'ce.QRCodeScale = 6
+      'ce.QRCodeVersion = 8
+      'ce.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.M
+    Catch ex As Exception
+
+    End Try
+
+  End Function
 
   ''' <summary>
   ''' 根據QRCode Bitmap解碼成原本文字內容

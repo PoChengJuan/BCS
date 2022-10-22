@@ -22,6 +22,36 @@ BCS
   使用這個強類型資源類別的資源查閱。
 </summary>
 </member>
+<member name="P:BCS.My.Resources.Resources.Logo_185">
+<summary>
+  查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+</summary>
+</member>
+<member name="P:BCS.My.Resources.Resources.Logo_1851">
+<summary>
+  查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+</summary>
+</member>
+<member name="P:BCS.My.Resources.Resources.Logo_185New">
+<summary>
+  查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+</summary>
+</member>
+<member name="P:BCS.My.Resources.Resources.Logo_185New__1_">
+<summary>
+  查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+</summary>
+</member>
+<member name="P:BCS.My.Resources.Resources.S__24240149">
+<summary>
+  查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+</summary>
+</member>
+<member name="P:BCS.My.Resources.Resources.S__242401491">
+<summary>
+  查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+</summary>
+</member>
 <member name="M:BCS.clsConfigTool.ReadStringValueKey(System.String,System.String)">
  <summary>
  回傳指定key的值
@@ -143,6 +173,13 @@ BCS
  <returns></returns>
 </member>
 <member name="M:BCS.ModuleQRCode.CodeEncoderFromString(System.String,System.String,System.Int32@)">
+ <summary>
+ 將文字轉成QRCode Bitmap
+ </summary>
+ <param name="_InputDataString">欲轉換的文字</param>
+ <returns></returns>
+</member>
+<member name="M:BCS.ModuleQRCode.CodeEncoderFromString_Family(System.String,System.String,System.Int32@)">
  <summary>
  將文字轉成QRCode Bitmap
  </summary>

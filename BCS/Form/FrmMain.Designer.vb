@@ -26,10 +26,12 @@ Partial Class FrmMain
     Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmMain))
     Me.WMSMenuStrip = New System.Windows.Forms.MenuStrip()
     Me.新增賣場ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-    Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-    Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
-    Me.TabControl1 = New System.Windows.Forms.TabControl()
-    Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.說明ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.關於ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+        Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.lb_Memo_Str = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.CB_BarCode_SHOP = New System.Windows.Forms.ComboBox()
@@ -40,25 +42,33 @@ Partial Class FrmMain
         Me.lb_BarCode2 = New System.Windows.Forms.Label()
         Me.lb_BarCode3 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
+        Me.CB_BarCode_PlatForm = New System.Windows.Forms.ComboBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.lb_Report_Memo_Str = New System.Windows.Forms.Label()
         Me.CB_Report_SHOP = New System.Windows.Forms.ComboBox()
         Me.Button2 = New System.Windows.Forms.Button()
-        Me.ComboBox2 = New System.Windows.Forms.ComboBox()
+        Me.CB_Report_PlatForm = New System.Windows.Forms.ComboBox()
         Me.TimePicker_End = New System.Windows.Forms.DateTimePicker()
         Me.TimePicker_Start = New System.Windows.Forms.DateTimePicker()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lbl_LotNo_Report = New System.Windows.Forms.Label()
+        Me.btn_MonthReport = New System.Windows.Forms.Button()
         Me.btn_CreateReport = New System.Windows.Forms.Button()
         Me.DatePicker_End = New System.Windows.Forms.DateTimePicker()
         Me.DatePicker_Start = New System.Windows.Forms.DateTimePicker()
         Me.lbl_EndTime = New System.Windows.Forms.Label()
         Me.lbl_StartTime = New System.Windows.Forms.Label()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.寄件編號 = New System.Windows.Forms.Label()
-        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.CB_Search = New System.Windows.Forms.ComboBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.btn_Search = New System.Windows.Forms.Button()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.lb_Search_BarCode1 = New System.Windows.Forms.Label()
+        Me.tb_Search_Code3 = New System.Windows.Forms.TextBox()
+        Me.tb_Search_Code2 = New System.Windows.Forms.TextBox()
+        Me.tb_Search_Code1 = New System.Windows.Forms.TextBox()
+        Me.ProBar_Report = New System.Windows.Forms.ProgressBar()
         Me.WMSMenuStrip.SuspendLayout()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -69,9 +79,8 @@ Partial Class FrmMain
         '
         'WMSMenuStrip
         '
-        Me.WMSMenuStrip.GripMargin = New System.Windows.Forms.Padding(2, 2, 0, 2)
         Me.WMSMenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.WMSMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.新增賣場ToolStripMenuItem})
+        Me.WMSMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.新增賣場ToolStripMenuItem, Me.說明ToolStripMenuItem})
         Me.WMSMenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.WMSMenuStrip.Name = "WMSMenuStrip"
         Me.WMSMenuStrip.Padding = New System.Windows.Forms.Padding(9, 2, 0, 2)
@@ -84,7 +93,20 @@ Partial Class FrmMain
         Me.新增賣場ToolStripMenuItem.Name = "新增賣場ToolStripMenuItem"
         Me.新增賣場ToolStripMenuItem.RightToLeftAutoMirrorImage = True
         Me.新增賣場ToolStripMenuItem.Size = New System.Drawing.Size(98, 27)
-        Me.新增賣場ToolStripMenuItem.Text = "新增賣場"
+        Me.新增賣場ToolStripMenuItem.Text = "新增賣家"
+        '
+        '說明ToolStripMenuItem
+        '
+        Me.說明ToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.關於ToolStripMenuItem})
+        Me.說明ToolStripMenuItem.Name = "說明ToolStripMenuItem"
+        Me.說明ToolStripMenuItem.Size = New System.Drawing.Size(62, 27)
+        Me.說明ToolStripMenuItem.Text = "說明"
+        '
+        '關於ToolStripMenuItem
+        '
+        Me.關於ToolStripMenuItem.Name = "關於ToolStripMenuItem"
+        Me.關於ToolStripMenuItem.Size = New System.Drawing.Size(146, 34)
+        Me.關於ToolStripMenuItem.Text = "關於"
         '
         'Timer1
         '
@@ -115,7 +137,7 @@ Partial Class FrmMain
         Me.TabPage1.Controls.Add(Me.tb_BarCodeInput)
         Me.TabPage1.Controls.Add(Me.Panel1)
         Me.TabPage1.Controls.Add(Me.Label1)
-        Me.TabPage1.Controls.Add(Me.ComboBox1)
+        Me.TabPage1.Controls.Add(Me.CB_BarCode_PlatForm)
         Me.TabPage1.Location = New System.Drawing.Point(4, 28)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
@@ -219,17 +241,17 @@ Partial Class FrmMain
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(137, 40)
         Me.Label1.TabIndex = 2
-        Me.Label1.Text = "賣場："
+        Me.Label1.Text = "賣家："
         '
-        'ComboBox1
+        'CB_BarCode_PlatForm
         '
-        Me.ComboBox1.Font = New System.Drawing.Font("新細明體", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
-        Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"7-11BarCode", "7-11QRCode", "OK Mart", "Family"})
-        Me.ComboBox1.Location = New System.Drawing.Point(50, 38)
-        Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(235, 48)
-        Me.ComboBox1.TabIndex = 1
+        Me.CB_BarCode_PlatForm.Font = New System.Drawing.Font("新細明體", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
+        Me.CB_BarCode_PlatForm.FormattingEnabled = True
+        Me.CB_BarCode_PlatForm.Items.AddRange(New Object() {"7-11BarCode", "7-11QRCode", "OK Mart", "Family"})
+        Me.CB_BarCode_PlatForm.Location = New System.Drawing.Point(50, 38)
+        Me.CB_BarCode_PlatForm.Name = "CB_BarCode_PlatForm"
+        Me.CB_BarCode_PlatForm.Size = New System.Drawing.Size(235, 48)
+        Me.CB_BarCode_PlatForm.TabIndex = 1
         '
         'TabPage2
         '
@@ -237,11 +259,12 @@ Partial Class FrmMain
         Me.TabPage2.Controls.Add(Me.lb_Report_Memo_Str)
         Me.TabPage2.Controls.Add(Me.CB_Report_SHOP)
         Me.TabPage2.Controls.Add(Me.Button2)
-        Me.TabPage2.Controls.Add(Me.ComboBox2)
+        Me.TabPage2.Controls.Add(Me.CB_Report_PlatForm)
         Me.TabPage2.Controls.Add(Me.TimePicker_End)
         Me.TabPage2.Controls.Add(Me.TimePicker_Start)
         Me.TabPage2.Controls.Add(Me.Label2)
         Me.TabPage2.Controls.Add(Me.lbl_LotNo_Report)
+        Me.TabPage2.Controls.Add(Me.btn_MonthReport)
         Me.TabPage2.Controls.Add(Me.btn_CreateReport)
         Me.TabPage2.Controls.Add(Me.DatePicker_End)
         Me.TabPage2.Controls.Add(Me.DatePicker_Start)
@@ -282,15 +305,15 @@ Partial Class FrmMain
         Me.Button2.Text = "件數查詢"
         Me.Button2.UseVisualStyleBackColor = True
         '
-        'ComboBox2
+        'CB_Report_PlatForm
         '
-        Me.ComboBox2.Font = New System.Drawing.Font("新細明體", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
-        Me.ComboBox2.FormattingEnabled = True
-        Me.ComboBox2.Items.AddRange(New Object() {"7-11BarCode", "7-11QRCode", "OK Mart", "Family"})
-        Me.ComboBox2.Location = New System.Drawing.Point(198, 40)
-        Me.ComboBox2.Name = "ComboBox2"
-        Me.ComboBox2.Size = New System.Drawing.Size(235, 48)
-        Me.ComboBox2.TabIndex = 9
+        Me.CB_Report_PlatForm.Font = New System.Drawing.Font("新細明體", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
+        Me.CB_Report_PlatForm.FormattingEnabled = True
+        Me.CB_Report_PlatForm.Items.AddRange(New Object() {"7-11BarCode", "7-11QRCode", "OK Mart", "Family"})
+        Me.CB_Report_PlatForm.Location = New System.Drawing.Point(198, 40)
+        Me.CB_Report_PlatForm.Name = "CB_Report_PlatForm"
+        Me.CB_Report_PlatForm.Size = New System.Drawing.Size(235, 48)
+        Me.CB_Report_PlatForm.TabIndex = 9
         '
         'TimePicker_End
         '
@@ -332,9 +355,19 @@ Partial Class FrmMain
         Me.lbl_LotNo_Report.Font = New System.Drawing.Font("新細明體", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
         Me.lbl_LotNo_Report.Location = New System.Drawing.Point(54, 116)
         Me.lbl_LotNo_Report.Name = "lbl_LotNo_Report"
-        Me.lbl_LotNo_Report.Size = New System.Drawing.Size(150, 28)
+        Me.lbl_LotNo_Report.Size = New System.Drawing.Size(96, 28)
         Me.lbl_LotNo_Report.TabIndex = 5
-        Me.lbl_LotNo_Report.Text = "賣場(Lot)："
+        Me.lbl_LotNo_Report.Text = "賣家："
+        '
+        'btn_MonthReport
+        '
+        Me.btn_MonthReport.Font = New System.Drawing.Font("新細明體", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
+        Me.btn_MonthReport.Location = New System.Drawing.Point(358, 352)
+        Me.btn_MonthReport.Name = "btn_MonthReport"
+        Me.btn_MonthReport.Size = New System.Drawing.Size(244, 94)
+        Me.btn_MonthReport.TabIndex = 4
+        Me.btn_MonthReport.Text = "月報生成"
+        Me.btn_MonthReport.UseVisualStyleBackColor = True
         '
         'btn_CreateReport
         '
@@ -387,55 +420,126 @@ Partial Class FrmMain
         'TabPage3
         '
         Me.TabPage3.BackColor = System.Drawing.Color.Transparent
-        Me.TabPage3.Controls.Add(Me.Button1)
-        Me.TabPage3.Controls.Add(Me.寄件編號)
-        Me.TabPage3.Controls.Add(Me.TextBox2)
+        Me.TabPage3.Controls.Add(Me.CB_Search)
+        Me.TabPage3.Controls.Add(Me.Label7)
+        Me.TabPage3.Controls.Add(Me.btn_Search)
+        Me.TabPage3.Controls.Add(Me.Label4)
+        Me.TabPage3.Controls.Add(Me.Label5)
+        Me.TabPage3.Controls.Add(Me.lb_Search_BarCode1)
+        Me.TabPage3.Controls.Add(Me.tb_Search_Code3)
+        Me.TabPage3.Controls.Add(Me.tb_Search_Code2)
+        Me.TabPage3.Controls.Add(Me.tb_Search_Code1)
         Me.TabPage3.Location = New System.Drawing.Point(4, 28)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Size = New System.Drawing.Size(1224, 494)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "查詢"
         '
-        'Button1
+        'CB_Search
         '
-        Me.Button1.AutoSize = True
-        Me.Button1.Enabled = False
-        Me.Button1.Font = New System.Drawing.Font("新細明體", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
-        Me.Button1.Location = New System.Drawing.Point(59, 363)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(160, 75)
-        Me.Button1.TabIndex = 2
-        Me.Button1.Text = "查詢"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.CB_Search.Font = New System.Drawing.Font("新細明體", 14.0!)
+        Me.CB_Search.FormattingEnabled = True
+        Me.CB_Search.Items.AddRange(New Object() {"7-11BarCode", "7-11QRCode", "OK Mart", "Family"})
+        Me.CB_Search.Location = New System.Drawing.Point(226, 30)
+        Me.CB_Search.Name = "CB_Search"
+        Me.CB_Search.Size = New System.Drawing.Size(235, 36)
+        Me.CB_Search.TabIndex = 11
         '
-        '寄件編號
+        'Label7
         '
-        Me.寄件編號.AutoSize = True
-        Me.寄件編號.Font = New System.Drawing.Font("新細明體", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
-        Me.寄件編號.Location = New System.Drawing.Point(34, 52)
-        Me.寄件編號.Name = "寄件編號"
-        Me.寄件編號.Size = New System.Drawing.Size(217, 40)
-        Me.寄件編號.TabIndex = 1
-        Me.寄件編號.Text = "寄件編號："
+        Me.Label7.AutoSize = True
+        Me.Label7.Font = New System.Drawing.Font("新細明體", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
+        Me.Label7.Location = New System.Drawing.Point(54, 38)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(96, 28)
+        Me.Label7.TabIndex = 10
+        Me.Label7.Text = "平台："
         '
-        'TextBox2
+        'btn_Search
         '
-        Me.TextBox2.Font = New System.Drawing.Font("新細明體", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
-        Me.TextBox2.Location = New System.Drawing.Point(258, 50)
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(642, 55)
-        Me.TextBox2.TabIndex = 0
+        Me.btn_Search.AutoSize = True
+        Me.btn_Search.Font = New System.Drawing.Font("新細明體", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
+        Me.btn_Search.Location = New System.Drawing.Point(59, 341)
+        Me.btn_Search.Name = "btn_Search"
+        Me.btn_Search.Size = New System.Drawing.Size(160, 75)
+        Me.btn_Search.TabIndex = 2
+        Me.btn_Search.Text = "查詢"
+        Me.btn_Search.UseVisualStyleBackColor = True
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Font = New System.Drawing.Font("新細明體", 14.0!)
+        Me.Label4.Location = New System.Drawing.Point(54, 166)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(109, 28)
+        Me.Label4.TabIndex = 1
+        Me.Label4.Text = "條碼2："
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Font = New System.Drawing.Font("新細明體", 14.0!)
+        Me.Label5.Location = New System.Drawing.Point(54, 228)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(109, 28)
+        Me.Label5.TabIndex = 1
+        Me.Label5.Text = "條碼3："
+        '
+        'lb_Search_BarCode1
+        '
+        Me.lb_Search_BarCode1.AutoSize = True
+        Me.lb_Search_BarCode1.Font = New System.Drawing.Font("新細明體", 14.0!)
+        Me.lb_Search_BarCode1.Location = New System.Drawing.Point(54, 98)
+        Me.lb_Search_BarCode1.Name = "lb_Search_BarCode1"
+        Me.lb_Search_BarCode1.Size = New System.Drawing.Size(109, 28)
+        Me.lb_Search_BarCode1.TabIndex = 1
+        Me.lb_Search_BarCode1.Text = "條碼1："
+        '
+        'tb_Search_Code3
+        '
+        Me.tb_Search_Code3.Font = New System.Drawing.Font("新細明體", 14.0!)
+        Me.tb_Search_Code3.Location = New System.Drawing.Point(226, 225)
+        Me.tb_Search_Code3.Name = "tb_Search_Code3"
+        Me.tb_Search_Code3.Size = New System.Drawing.Size(642, 41)
+        Me.tb_Search_Code3.TabIndex = 0
+        '
+        'tb_Search_Code2
+        '
+        Me.tb_Search_Code2.Font = New System.Drawing.Font("新細明體", 14.0!)
+        Me.tb_Search_Code2.Location = New System.Drawing.Point(226, 163)
+        Me.tb_Search_Code2.Name = "tb_Search_Code2"
+        Me.tb_Search_Code2.Size = New System.Drawing.Size(642, 41)
+        Me.tb_Search_Code2.TabIndex = 0
+        '
+        'tb_Search_Code1
+        '
+        Me.tb_Search_Code1.Font = New System.Drawing.Font("新細明體", 14.0!)
+        Me.tb_Search_Code1.Location = New System.Drawing.Point(226, 95)
+        Me.tb_Search_Code1.Name = "tb_Search_Code1"
+        Me.tb_Search_Code1.Size = New System.Drawing.Size(642, 41)
+        Me.tb_Search_Code1.TabIndex = 0
+        '
+        'ProBar_Report
+        '
+        Me.ProBar_Report.Location = New System.Drawing.Point(16, 577)
+        Me.ProBar_Report.Name = "ProBar_Report"
+        Me.ProBar_Report.Size = New System.Drawing.Size(1224, 11)
+        Me.ProBar_Report.TabIndex = 12
+        Me.ProBar_Report.Visible = False
         '
         'FrmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1256, 580)
+        Me.ClientSize = New System.Drawing.Size(1256, 597)
+        Me.Controls.Add(Me.ProBar_Report)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.WMSMenuStrip)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Name = "FrmMain"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "BCS"
         Me.WMSMenuStrip.ResumeLayout(False)
         Me.WMSMenuStrip.PerformLayout()
@@ -460,11 +564,11 @@ Partial Class FrmMain
     Friend WithEvents TabPage1 As Windows.Forms.TabPage
   Friend WithEvents TabPage2 As Windows.Forms.TabPage
   Friend WithEvents TabPage3 As Windows.Forms.TabPage
-  Friend WithEvents 寄件編號 As Windows.Forms.Label
-  Friend WithEvents TextBox2 As Windows.Forms.TextBox
-  Friend WithEvents Button1 As Windows.Forms.Button
+  Friend WithEvents lb_Search_BarCode1 As Windows.Forms.Label
+  Friend WithEvents tb_Search_Code1 As Windows.Forms.TextBox
+  Friend WithEvents btn_Search As Windows.Forms.Button
   Friend WithEvents Label1 As Windows.Forms.Label
-  Friend WithEvents ComboBox1 As Windows.Forms.ComboBox
+  Friend WithEvents CB_BarCode_PlatForm As Windows.Forms.ComboBox
   Friend WithEvents lb_BarCode3 As Windows.Forms.Label
   Friend WithEvents lb_BarCode2 As Windows.Forms.Label
   Friend WithEvents lb_BarCode1 As Windows.Forms.Label
@@ -479,7 +583,7 @@ Partial Class FrmMain
     Friend WithEvents TimePicker_End As Windows.Forms.DateTimePicker
     Friend WithEvents TimePicker_Start As Windows.Forms.DateTimePicker
     Friend WithEvents tb_BarCodeInput As Windows.Forms.TextBox
-    Friend WithEvents ComboBox2 As Windows.Forms.ComboBox
+    Friend WithEvents CB_Report_PlatForm As Windows.Forms.ComboBox
     Friend WithEvents Label2 As Windows.Forms.Label
     Friend WithEvents 新增賣場ToolStripMenuItem As Windows.Forms.ToolStripMenuItem
     Friend WithEvents Button2 As Windows.Forms.Button
@@ -488,4 +592,14 @@ Partial Class FrmMain
     Friend WithEvents Label3 As Windows.Forms.Label
     Friend WithEvents lb_Memo_Str As Windows.Forms.Label
     Friend WithEvents lb_Report_Memo_Str As Windows.Forms.Label
+    Friend WithEvents ProBar_Report As Windows.Forms.ProgressBar
+    Friend WithEvents CB_Search As Windows.Forms.ComboBox
+    Friend WithEvents Label7 As Windows.Forms.Label
+    Friend WithEvents Label4 As Windows.Forms.Label
+    Friend WithEvents Label5 As Windows.Forms.Label
+    Friend WithEvents tb_Search_Code3 As Windows.Forms.TextBox
+    Friend WithEvents tb_Search_Code2 As Windows.Forms.TextBox
+    Friend WithEvents btn_MonthReport As Windows.Forms.Button
+    Friend WithEvents 說明ToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+    Friend WithEvents 關於ToolStripMenuItem As Windows.Forms.ToolStripMenuItem
 End Class
