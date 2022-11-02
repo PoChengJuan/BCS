@@ -21,6 +21,7 @@ Public Module ModuleDeclaration
   Public strPDFPath As String = ""
   Public gFileRootPath As String = ""
   Public gReportFunction As String = ""
+  Public gMonthReportTime As String = ""
   'DateTime
   Public Const DBFullTimeUUIDFormat As String = "yyyyMMddHHmmssfff"
   Public Const DBFullTimeFormat As String = "yyyy/MM/dd HH:mm:ss.fff"

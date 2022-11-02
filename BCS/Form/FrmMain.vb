@@ -68,6 +68,7 @@ Public Class FrmMain
           UpLoadKey = Pub.<HTTPUpLoadKey>.Value
           gFileRootPath = Pub.<FileRootPath>.Value
           gReportFunction = Pub.<ReportFunction>.Value
+          gMonthReportTime = Pub.<MonthReportTime>.Value
           If Strings.Right(LogPath, 1) <> "\" Then
             LogPath = LogPath & "\"
           End If
@@ -402,26 +403,35 @@ Public Class FrmMain
         PlatForm = CB_Report_PlatForm.Items(CB_Report_PlatForm.SelectedIndex)
       End If
 
-
-      Dim Start_Date = DatePicker_Start.Value.Date.ToString("yyyy/MM/dd")
-      Dim Start_Hour = TimePicker_Start.Value.Hour.ToString.PadLeft(2, "0")
-      Dim Start_Min = TimePicker_Start.Value.Minute.ToString.PadLeft(2, "0")
-      Dim Start_Second = TimePicker_Start.Value.Second.ToString.PadLeft(2, "0")
-      Dim Start_Time = Start_Hour & ":" & Start_Min & ":" & Start_Second 'TimePicker_Start.Value.TimeOfDay.ToString("hh:mm:ss")
-      Dim End_Date = DatePicker_End.Value.Date.ToString("yyyy/MM/dd")
-      Dim End_Hour = TimePicker_End.Value.Hour.ToString.PadLeft(2, "0")
-      Dim End_Min = TimePicker_End.Value.Minute.ToString.PadLeft(2, "0")
-      Dim End_Second = TimePicker_End.Value.Second.ToString.PadLeft(2, "0")
-      Dim End_Time = End_Hour & ":" & End_Min & ":" & End_Second ' TimePicker_End.Value.TimeOfDay.ToString("hh:mm:ss")
+      'Dim Start_Month = Report_DatePicker.Value.Date.ToString("yyyy/MM")
+      'Dim Start_Day = Start_Month & "/01"
+      'Dim Date_Start_Day = Convert.ToDateTime(Start_Day)
+      Dim Report_Start_Day = DateAdd("d", -1, Format(Report_DatePicker.Value.Date, "yyyy/MM/01")).ToString("yyyy/MM/dd") & " " & gMonthReportTime 'Report_DatePicker.Value.Date.ToString("yyyy/MM")
 
 
-      Dim Start_DateTime = Start_Date & " " & Start_Time
-      Dim End_DateTime = End_Date & " " & End_Time
+      Dim Report_End_Day = DateAdd("d", -1, DateAdd("m", 1, Format(Report_DatePicker.Value.Date, "yyyy/MM/01"))) & " " & gMonthReportTime
+
+
+
+      'Dim Start_Date = DatePicker_Start.Value.Date.ToString("yyyy/MM/dd")
+      'Dim Start_Hour = TimePicker_Start.Value.Hour.ToString.PadLeft(2, "0")
+      'Dim Start_Min = TimePicker_Start.Value.Minute.ToString.PadLeft(2, "0")
+      'Dim Start_Second = TimePicker_Start.Value.Second.ToString.PadLeft(2, "0")
+      'Dim Start_Time = Start_Hour & ":" & Start_Min & ":" & Start_Second 'TimePicker_Start.Value.TimeOfDay.ToString("hh:mm:ss")
+      'Dim End_Date = DatePicker_End.Value.Date.ToString("yyyy/MM/dd")
+      'Dim End_Hour = TimePicker_End.Value.Hour.ToString.PadLeft(2, "0")
+      'Dim End_Min = TimePicker_End.Value.Minute.ToString.PadLeft(2, "0")
+      'Dim End_Second = TimePicker_End.Value.Second.ToString.PadLeft(2, "0")
+      'Dim End_Time = End_Hour & ":" & End_Min & ":" & End_Second ' TimePicker_End.Value.TimeOfDay.ToString("hh:mm:ss")
+
+
+      'Dim Start_DateTime = Start_Date & " " & Start_Time
+      'Dim End_DateTime = End_Date & " " & End_Time
 
       Dim ret_Msg = ""
       Dim FileName_PDF = ""
 
-      If Module_CreateMonthReport.O_Process_Message(PlatForm, Start_DateTime, End_DateTime, FileName_PDF, ret_Msg) = False Then
+      If Module_CreateMonthReport.O_Process_Message(PlatForm, Report_Start_Day, Report_End_Day, FileName_PDF, ret_Msg) = False Then
         MsgBox(ret_Msg)
       Else
         MsgBox("檔案路徑" & vbCrLf & FileName_PDF)
@@ -508,6 +518,13 @@ Public Class FrmMain
           MsgBox("條碼1長度過短")
           tb_BarCodeInput.Text = ""
           Return
+        End If
+        If int_PlatForm = 3 Then
+          If CheckBarcodeLength_Family(BarCode1) = False Then
+            MsgBox("全家條碼錯誤")
+            tb_BarCodeInput.Text = ""
+            Return
+          End If
         End If
         If int_PlatForm = 3 And lb_BarCode1.Text.Length < 10 Then
           MsgBox("條碼錯誤")
@@ -663,6 +680,13 @@ Public Class FrmMain
   Private Function CheckBarcodeLength(ByVal Barcode As String) As Boolean
 
     If Barcode.Length < 5 Then
+      Return False
+    End If
+    Return True
+  End Function
+  Private Function CheckBarcodeLength_Family(ByVal Barcode As String) As Boolean
+
+    If Barcode.Length < 150 Then
       Return False
     End If
     Return True

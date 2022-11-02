@@ -116,6 +116,47 @@ Partial Class BCS_M_SHOPManagement
       Return Nothing
     End Try
   End Function
+  Public Shared Function GetDataDictionaryByAll() As Dictionary(Of String, clsBCS_M_SHOP)
+    Try
+      Dim ret_dic As New Dictionary(Of String, clsBCS_M_SHOP)
+      If DBTool IsNot Nothing Then
+        If DBTool.isConnection(DBTool.m_CN) = True Then
+          Dim strWhere As String = ""
+
+          Dim strSQL As String = String.Empty
+          Dim rs As DataSet = Nothing
+          Dim DatasetMessage As New DataSet
+          strSQL = String.Format("Select * from {1} {2} ",
+          strSQL,
+          TableName,
+          strWhere
+          )
+          SendMessageToLog(strSQL, eCALogTool.ILogTool.enuTrcLevel.lvDEBUG)
+          DBTool.SQLExcute(strSQL, DatasetMessage)
+          If DatasetMessage.Tables.Item(0).Rows.Count > 0 Then
+            For RowIndex = 0 To DatasetMessage.Tables.Item(0).Rows.Count - 1
+              Dim Info As clsBCS_M_SHOP = Nothing
+              If SetInfoFromDB(Info, DatasetMessage.Tables.Item(0).Rows(RowIndex)) = True Then
+                If Info IsNot Nothing Then
+                  If ret_dic.ContainsKey(Info.gid) = False Then
+                    ret_dic.Add(Info.gid, Info)
+                  End If
+                Else
+                  SendMessageToLog("Get clsBCS_M_SHOP Info Is Nothing", eCALogTool.ILogTool.enuTrcLevel.lvWARN)
+                End If
+              Else
+                SendMessageToLog("Get clsBCS_M_SHOP Info Failed", eCALogTool.ILogTool.enuTrcLevel.lvWARN)
+              End If
+            Next
+          End If
+        End If
+      End If
+      Return ret_dic
+    Catch ex As Exception
+      SendMessageToLog(ex.ToString, eCALogTool.ILogTool.enuTrcLevel.lvError)
+      Return Nothing
+    End Try
+  End Function
 
   '-不要動
   Private Shared Function SetInfoFromDB(ByRef Info As clsBCS_M_SHOP, ByRef RowData As DataRow) As Boolean

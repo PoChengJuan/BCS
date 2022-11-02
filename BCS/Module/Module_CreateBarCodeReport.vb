@@ -893,7 +893,26 @@ Module Module_CreateBarCodeReport
           pict.Resize()
           BarCode_Cnt = BarCode_Cnt + 1
           FrmMain.ProBar_Report.Value = FrmMain.ProBar_Report.Value + 1
-          '=============================================================
+          ''=============================================================
+          'Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
+          Dim colorRgb = New Byte() {255, 255, 255}
+          'Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+          'Row_Cnt = Row_Cnt + 8
+          'Row = sheet.CreateRow(Row_Cnt)
+          'Dim str_Order = GetOrder(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper)
+          'Row.CreateCell(0).SetCellValue(str_Order)
+
+          'Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
+          ''Dim colorRgb = New Byte() {255, 255, 255}
+          'Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+          'Num_Style.FillPattern = FillPattern.SolidForeground
+
+
+          'Dim Num_Font As IFont = workbook.CreateFont()
+          'Num_Font.FontName = "Calibri"
+          'Num_Font.FontHeightInPoints = 12
+          'Num_Style.SetFont(Num_Font)
+          'Row.Cells(0).CellStyle = Num_Style
 
           If flg_lastOne = False Then
             '##############################################################
@@ -936,10 +955,43 @@ Module Module_CreateBarCodeReport
           If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
             Return False
           End If
-          If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
-            Return False
+          'If Insert_Empty(workbook, sheet, Row, Row_Cnt, ret_strResultMsg) = False Then
+          '  Return False
+          'End If
+          '=============================================================
+          Row_Cnt = Row_Cnt + 1
+          Row = sheet.CreateRow(Row_Cnt)
+          Dim strOrder = GetOrder(lst_dicStore_Item.Item(Item_Cnt).BarCode1.ToUpper)
+          Row.CreateCell(0).SetCellValue(strOrder)
+
+          Dim Num_Style As XSSFCellStyle = workbook.CreateCellStyle()
+          'Dim colorRgb = New Byte() {255, 255, 255}
+          Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+          Num_Style.FillPattern = FillPattern.SolidForeground
+
+
+          Dim Num_Font As IFont = workbook.CreateFont()
+          Num_Font.FontName = "Calibri"
+          Num_Font.FontHeightInPoints = 12
+          Num_Style.SetFont(Num_Font)
+          Row.Cells(0).CellStyle = Num_Style
+
+          If flg_lastOne = False Then
+            '##############################################################
+            strOrder = GetOrder(lst_dicStore_Item.Item(Item_Cnt + 1).BarCode1.ToUpper)
+            Row.CreateCell(5).SetCellValue(strOrder)
+
+            Num_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+            Num_Style.FillPattern = FillPattern.SolidForeground
+
+            Num_Font.FontName = "Calibri"
+            Num_Font.FontHeightInPoints = 12
+            Num_Style.SetFont(Num_Font)
+            Row.Cells(1).CellStyle = Num_Style
+            '##############################################################
           End If
 
+          '=============================================================
 
 
 
@@ -1184,5 +1236,10 @@ Module Module_CreateBarCodeReport
   End Sub
   Private Function CreateCode39BarCode(ByVal BarCode As String) As String
     Return "*" & BarCode & "*"
+  End Function
+  Private Function GetOrder(ByVal FullStr As String) As String
+    Dim strOrder = FullStr
+    strOrder = strOrder.Substring(10, 11)
+    Return strOrder
   End Function
 End Module

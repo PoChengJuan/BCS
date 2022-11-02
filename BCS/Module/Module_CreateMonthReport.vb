@@ -31,7 +31,7 @@ Module Module_CreateMonthReport
         Return False
       End If
       ''取得更新資料
-      If Get_Data(PlatForm, dicStore_Item, File_Path, File_Name, ret_strResultMsg) = False Then
+      If Get_Data(PlatForm, dicPlatForm_LotNo_Count, File_Path, File_Name, ret_strResultMsg) = False Then
         Return False
       End If
       ''取得要更新到DB的SQL
@@ -64,10 +64,10 @@ Module Module_CreateMonthReport
                               ByRef ret_strResultMsg As String) As Boolean
     Try
       ret_dicPlatForm_LotNo_Count = STORE_ITEMManagement.GetGroupDataDictionaryByTime(ret_PlatForm, ret_StartTime, ret_EndTime)
-      'If ret_dicStore_Item.Any = False Then
-      '  ret_strResultMsg = "查無條碼"
-      '  Return False
-      'End If
+      If ret_dicPlatForm_LotNo_Count.Any = False Then
+        ret_strResultMsg = "查無資料"
+        Return False
+      End If
       Return True
     Catch ex As Exception
       ret_strResultMsg = ex.ToString
@@ -77,60 +77,232 @@ Module Module_CreateMonthReport
   End Function
   ''取得更新資料
   Private Function Get_Data(ByVal ret_PlatForm As String,
-                            ByVal ret_dicStore_Item As Dictionary(Of String, clsSTORE_ITEM),
+                            ByVal ret_dicPlatForm_LotNo_Count As Dictionary(Of String, clsPLANFORM_LOTNO_LIST),
                             ByRef ret_File_Path As String,
                             ByRef ret_File_Name As String,
                             ByRef ret_strResultMsg As String) As Boolean
     Try
-      '      Dim Now_Time As String = GetNewTime_DBFormat()
-      '      Dim Now_Date As String = GetNewDate_DBFormat()
+      Dim Now_Time As String = GetNewTime_DBFormat()
+      Dim Now_Date As String = GetNewDate_DBFormat()
+      Dim Str_711 = "7-11"
+      Dim Str_Family = "Family"
+      Dim Str_OK = "OK Mart"
+      '整理資料
+      Dim dic711Data As New Dictionary(Of String, clsPLANFORM_LOTNO_LIST)
+      Dim dicOK As New Dictionary(Of String, clsPLANFORM_LOTNO_LIST)
+      Dim dicFamily As New Dictionary(Of String, clsPLANFORM_LOTNO_LIST)
 
-      '      '取得檔名漂水號
-      '      Dim UUID_NO_Str = ret_PlatForm
-      '      Dim UUID_NO = ""
-      '      If ret_PlatForm = "7-11BarCode" Then
-      '        UUID_NO = enuUUID_No.Seven_BarCode_SERIAL_NO.ToString
-      '      ElseIf ret_PlatForm = "7-11QRCode" Then
-      '        UUID_NO = enuUUID_No.Seven_QRCode_SERIAL_NO.ToString
-      '      ElseIf ret_PlatForm = "OK Mart" Then
-      '        UUID_NO = enuUUID_No.OK_SERIAL_NO.ToString
-      '      ElseIf ret_PlatForm = "Family" Then
-      '        UUID_NO = enuUUID_No.FAMILY_SERIAL_NO.ToString
-      '      End If
-      '      Dim dicUUID As Dictionary(Of String, clsUUID) = BCS_M_UUIDManagement.GetclsUUIDListByUUID_NO(UUID_NO)
+      For Each obj In ret_dicPlatForm_LotNo_Count.Values
+        If obj.PlanForm = "7-11BarCode" Then
+          dic711Data.Add(obj.gid, obj)
+        ElseIf obj.PlanForm = "Family" Then
+          dicFamily.Add(obj.gid, obj)
+        ElseIf obj.PlanForm = "OK Mart" Then
+          dicOK.Add(obj.gid, obj)
+        End If
+      Next
+
+      Dim dicUUID As Dictionary(Of String, clsUUID) = BCS_M_UUIDManagement.GetclsUUIDListByUUID_NO("Month_Report")
+
+      If dicUUID.Any = False Then
+        ret_strResultMsg = "Get UUID False"
+        SendMessageToLog(ret_strResultMsg, eCALogTool.ILogTool.enuTrcLevel.lvWARN)
+        Return False
+      End If
+      Dim objUUID = dicUUID.Values(0)
+      Dim UUID = objUUID.Get_NewUUID
+      Dim FileName = "月報" & UUID & ".xlsx"
+      Dim FilePath = gFileRootPath & Now_Date & "\"
+      ret_File_Name = FilePath & FileName
+      ret_File_Path = FilePath
+      If System.IO.Directory.Exists(ret_File_Path) = False Then
+        System.IO.Directory.CreateDirectory(ret_File_Path)
+      End If
+      Dim fs = New FileStream(FilePath & FileName, FileMode.Create)
+      Dim workbook As XSSFWorkbook = New XSSFWorkbook()
+      Dim sheet As XSSFSheet = workbook.CreateSheet("Sheet1") ' 新增試算表 Sheet名稱
+      Dim footer = sheet.Footer
+      Dim Header = sheet.Header
+      'footer.Center = "第" & "&P" & "頁"
+      Dim xlStyle As XSSFCellStyle = workbook.CreateCellStyle()
+      Dim HeadStyle As XSSFCellStyle = workbook.CreateCellStyle()
+
+      Dim TitleStyle As XSSFCellStyle = workbook.CreateCellStyle()
+      Dim TitleFont As IFont = workbook.CreateFont()
+
+      sheet.SetColumnWidth(0, 2000)
+      sheet.SetColumnWidth(1, 17000)
+      sheet.SetColumnWidth(2, 3000)
+      'xlStyle.FillPattern = FillPattern.SolidForeground
+      xlStyle.BorderTop = BorderStyle.Thin
+      xlStyle.BorderBottom = BorderStyle.Thin
+      xlStyle.BorderLeft = BorderStyle.Thin
+      xlStyle.BorderRight = BorderStyle.Thin
+
+      Dim HeadcolorRgb = New Byte() {217, 217, 217}
+      HeadStyle.SetFillForegroundColor(New XSSFColor(HeadcolorRgb))
+      HeadStyle.FillPattern = FillPattern.SolidForeground
+      HeadStyle.BorderTop = BorderStyle.Thin
+      HeadStyle.BorderBottom = BorderStyle.Thin
+      HeadStyle.BorderLeft = BorderStyle.Thin
+      HeadStyle.BorderRight = BorderStyle.Thin
+
+      TitleFont.FontHeightInPoints = 20
+      TitleStyle.SetFont(TitleFont)
+
+      Dim Row_Cnt = 0
+      Dim Row As XSSFRow = sheet.CreateRow(Row_Cnt)
+
+      '=========================7-11=====================================================
+#Region "7-11"
+      Row.CreateCell(1).SetCellValue("平台：" & Str_711)
+      Row.Cells(0).CellStyle = TitleStyle
+      Row_Cnt = Row_Cnt + 1
+      Row = sheet.CreateRow(Row_Cnt)
+      Row.CreateCell(0).SetCellValue("賣場：")
+      Row.CreateCell(1).SetCellValue("備註：")
+      Row.CreateCell(2).SetCellValue("件數：")
+      For i As Integer = 0 To 2
+        Row.Cells(i).CellStyle = HeadStyle
+      Next
+      Dim dicShop As New Dictionary(Of String, clsBCS_M_SHOP)
+      dicShop = BCS_M_SHOPManagement.GetDataDictionaryByAll
+      Dim TotalCount = 0
+      For Each Data711 In dic711Data.Values
+        Row_Cnt = Row_Cnt + 1
+        Row = sheet.CreateRow(Row_Cnt)
+        Row.CreateCell(0).SetCellValue(Data711.LotNo)
+        'SendMessageToLog(Data711.LotNo, eCALogTool.ILogTool.enuTrcLevel.lvDEBUG)
+        Row.CreateCell(1).SetCellValue(dicShop.Item(Data711.LotNo).MEMO)
+        Row.CreateCell(2).SetCellValue(Data711.Count)
+        Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
+        Dim colorRgb = New Byte() {255, 255, 255}
+        Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+        Barcode_Style.FillPattern = FillPattern.SolidForeground
+        For i As Integer = 0 To 2
+          Row.Cells(i).CellStyle = xlStyle
+        Next
+        TotalCount = TotalCount + Data711.Count
+      Next
+      Row_Cnt = Row_Cnt + 1
+      Row = sheet.CreateRow(Row_Cnt)
+      Row.CreateCell(1).SetCellValue("共計：")
+      Row.CreateCell(2).SetCellValue(TotalCount)
+      Dim FootStyle As XSSFCellStyle = workbook.CreateCellStyle()
+      Dim FootFont As IFont = workbook.CreateFont()
+
+      FootFont.FontHeightInPoints = 14
+      FootFont.Color = NPOI.HSSF.Util.HSSFColor.Red.Index
+      FootStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Right
+      'FootStyle.color
+      FootStyle.SetFont(FootFont)
+      Row.Cells(0).CellStyle = FootStyle
+      Row.Cells(1).CellStyle = FootStyle
+#End Region
+
+      '=========================Family=====================================================
+#Region "Family"
+      sheet = workbook.CreateSheet("Family")
+      sheet.SetColumnWidth(0, 2000)
+      sheet.SetColumnWidth(1, 17000)
+      sheet.SetColumnWidth(2, 3000)
+      Row_Cnt = 0
+      Row = sheet.CreateRow(Row_Cnt)
+      Row.CreateCell(1).SetCellValue("平台：" & Str_Family)
+      Row.Cells(0).CellStyle = TitleStyle
+      Row_Cnt = Row_Cnt + 1
+      Row = sheet.CreateRow(Row_Cnt)
+      Row.CreateCell(0).SetCellValue("賣場：")
+      Row.CreateCell(1).SetCellValue("備註：")
+      Row.CreateCell(2).SetCellValue("件數：")
+      For i As Integer = 0 To 2
+        Row.Cells(i).CellStyle = HeadStyle
+      Next
+      TotalCount = 0
+      For Each DataFamily In dicFamily.Values
+        Row_Cnt = Row_Cnt + 1
+        Row = sheet.CreateRow(Row_Cnt)
+        Row.CreateCell(0).SetCellValue(DataFamily.LotNo)
+        Row.CreateCell(1).SetCellValue(dicShop.Item(DataFamily.LotNo).MEMO)
+        Row.CreateCell(2).SetCellValue(DataFamily.Count)
+        Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
+        Dim colorRgb = New Byte() {255, 255, 255}
+        Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+        Barcode_Style.FillPattern = FillPattern.SolidForeground
+        For i As Integer = 0 To 2
+          Row.Cells(i).CellStyle = xlStyle
+        Next
+        TotalCount = TotalCount + DataFamily.Count
+      Next
+      Row_Cnt = Row_Cnt + 1
+      Row = sheet.CreateRow(Row_Cnt)
+      Row.CreateCell(1).SetCellValue("共計：")
+      Row.CreateCell(2).SetCellValue(TotalCount)
 
 
-      '      'If objHandling.O_Get_UUID(enuUUID_No.Seven_SERIAL_NO.ToString, dicUUID) = False Then
-      '      '  ret_strResultMsg = "Get UUID False"
-      '      '  SendMessageToLog(ret_strResultMsg, eCALogTool.ILogTool.enuTrcLevel.lvWARN)
-      '      '  Return False
-      '      'End If
-      '      If dicUUID.Any = False Then
-      '        ret_strResultMsg = "Get UUID False"
-      '        SendMessageToLog(ret_strResultMsg, eCALogTool.ILogTool.enuTrcLevel.lvWARN)
-      '        Return False
-      '      End If
-      '      Dim objUUID = dicUUID.Values(0)
-      '      Dim UUID = objUUID.Get_NewUUID
-      '      Dim FileName = UUID_NO_Str & "-" & ret_LotNo & "-" & UUID & ".xlsx"
-      '      Dim FilePath = gFileRootPath & Now_Date & "\" & UUID_NO_Str & "\"
-      '      ret_File_Name = FilePath & FileName
-      '      ret_File_Path = FilePath
-      '      If System.IO.Directory.Exists(ret_File_Path) = False Then
-      '        System.IO.Directory.CreateDirectory(ret_File_Path)
-      '      End If
-      '      Dim fs = New FileStream(FilePath & FileName, FileMode.Create)
-      '      Dim workbook As XSSFWorkbook = New XSSFWorkbook()
-      '      Dim sheet As XSSFSheet = workbook.CreateSheet("Sheet1") ' 新增試算表 Sheet名稱
-      '      Dim footer = sheet.Footer
-      '      Dim Header = sheet.Header
-      '      'footer.Center = "第" & "&P" & "頁"
-      '      Dim xlStyle As XSSFCellStyle = workbook.CreateCellStyle()
+      FootFont.FontHeightInPoints = 14
+      FootFont.Color = NPOI.HSSF.Util.HSSFColor.Red.Index
+      FootStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Right
+      'FootStyle.color
+      FootStyle.SetFont(FootFont)
+      Row.Cells(0).CellStyle = FootStyle
+      Row.Cells(1).CellStyle = FootStyle
+#End Region
 
-      '      Dim Row_Cnt = 0
-      '      Dim Row As XSSFRow = sheet.CreateRow(Row_Cnt)
+      '=========================OK Mart=====================================================
+#Region "OK Mart"
+      sheet = workbook.CreateSheet("OK Mart")
+      sheet.SetColumnWidth(0, 2000)
+      sheet.SetColumnWidth(1, 17000)
+      sheet.SetColumnWidth(2, 3000)
+      Row_Cnt = 0
+      Row = sheet.CreateRow(Row_Cnt)
+      Row.CreateCell(1).SetCellValue("平台：" & Str_OK)
+      Row.Cells(0).CellStyle = TitleStyle
+      Row_Cnt = Row_Cnt + 1
+      Row = sheet.CreateRow(Row_Cnt)
+      Row.CreateCell(0).SetCellValue("賣場：")
+      Row.CreateCell(1).SetCellValue("備註：")
+      Row.CreateCell(2).SetCellValue("件數：")
+      For i As Integer = 0 To 2
+        Row.Cells(i).CellStyle = HeadStyle
+      Next
+      TotalCount = 0
+      For Each DataOK In dicOK.Values
+        Row_Cnt = Row_Cnt + 1
+        If Row_Cnt = 2 Then
+          SendMessageToLog(Row_Cnt, eCALogTool.ILogTool.enuTrcLevel.lvTRACE)
 
-      '      'Row.CreateCell(0).SetCellValue("平台：" & ret_PlatForm)
+        End If
+        SendMessageToLog(Row_Cnt, eCALogTool.ILogTool.enuTrcLevel.lvTRACE)
+        Row = sheet.CreateRow(Row_Cnt)
+        Row.CreateCell(0).SetCellValue(DataOK.LotNo)
+        Row.CreateCell(1).SetCellValue(dicShop.Item(DataOK.LotNo).MEMO)
+        Row.CreateCell(2).SetCellValue(DataOK.Count)
+        Dim Barcode_Style As XSSFCellStyle = workbook.CreateCellStyle()
+        Dim colorRgb = New Byte() {255, 255, 255}
+        Barcode_Style.SetFillForegroundColor(New XSSFColor(colorRgb))
+        Barcode_Style.FillPattern = FillPattern.SolidForeground
+        For i As Integer = 0 To 2
+          Row.Cells(i).CellStyle = xlStyle
+        Next
+        TotalCount = TotalCount + DataOK.Count
+      Next
+      Row_Cnt = Row_Cnt + 1
+      Row = sheet.CreateRow(Row_Cnt)
+      Row.CreateCell(1).SetCellValue("共計：")
+      Row.CreateCell(2).SetCellValue(TotalCount)
+
+
+      FootFont.FontHeightInPoints = 14
+      FootFont.Color = NPOI.HSSF.Util.HSSFColor.Red.Index
+      FootStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Right
+      'FootStyle.color
+      FootStyle.SetFont(FootFont)
+      Row.Cells(0).CellStyle = FootStyle
+      Row.Cells(1).CellStyle = FootStyle
+#End Region
+
       '      'Row.CreateCell(3).SetCellValue("賣場(Lot)：" & ret_LotNo)
       '      Header.Left = "平台：" & ret_PlatForm & "  賣場(Lot)：" & ret_LotNo
       '      Dim cnt = 0
@@ -1015,8 +1187,8 @@ Module Module_CreateMonthReport
 
 
 
-      '      workbook.Write(fs)
-      '      fs.Close()
+      workbook.Write(fs)
+      fs.Close()
 
 
       If ret_strResultMsg.Length > 0 Then

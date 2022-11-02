@@ -44,6 +44,7 @@ Partial Class FrmMain
         Me.Label1 = New System.Windows.Forms.Label()
         Me.CB_BarCode_PlatForm = New System.Windows.Forms.ComboBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.Report_DatePicker = New System.Windows.Forms.DateTimePicker()
         Me.lb_Report_Memo_Str = New System.Windows.Forms.Label()
         Me.CB_Report_SHOP = New System.Windows.Forms.ComboBox()
         Me.Button2 = New System.Windows.Forms.Button()
@@ -79,6 +80,7 @@ Partial Class FrmMain
         '
         'WMSMenuStrip
         '
+        Me.WMSMenuStrip.GripMargin = New System.Windows.Forms.Padding(2, 2, 0, 2)
         Me.WMSMenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.WMSMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.新增賣場ToolStripMenuItem, Me.說明ToolStripMenuItem})
         Me.WMSMenuStrip.Location = New System.Drawing.Point(0, 0)
@@ -256,6 +258,7 @@ Partial Class FrmMain
         'TabPage2
         '
         Me.TabPage2.BackColor = System.Drawing.Color.Transparent
+        Me.TabPage2.Controls.Add(Me.Report_DatePicker)
         Me.TabPage2.Controls.Add(Me.lb_Report_Memo_Str)
         Me.TabPage2.Controls.Add(Me.CB_Report_SHOP)
         Me.TabPage2.Controls.Add(Me.Button2)
@@ -276,6 +279,16 @@ Partial Class FrmMain
         Me.TabPage2.Size = New System.Drawing.Size(1224, 494)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "報表"
+        '
+        'Report_DatePicker
+        '
+        Me.Report_DatePicker.CustomFormat = "yyyy-MM"
+        Me.Report_DatePicker.Font = New System.Drawing.Font("新細明體", 14.0!)
+        Me.Report_DatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.Report_DatePicker.Location = New System.Drawing.Point(959, 285)
+        Me.Report_DatePicker.Name = "Report_DatePicker"
+        Me.Report_DatePicker.Size = New System.Drawing.Size(157, 41)
+        Me.Report_DatePicker.TabIndex = 12
         '
         'lb_Report_Memo_Str
         '
@@ -362,7 +375,7 @@ Partial Class FrmMain
         'btn_MonthReport
         '
         Me.btn_MonthReport.Font = New System.Drawing.Font("新細明體", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
-        Me.btn_MonthReport.Location = New System.Drawing.Point(358, 352)
+        Me.btn_MonthReport.Location = New System.Drawing.Point(872, 352)
         Me.btn_MonthReport.Name = "btn_MonthReport"
         Me.btn_MonthReport.Size = New System.Drawing.Size(244, 94)
         Me.btn_MonthReport.TabIndex = 4
@@ -602,4 +615,5 @@ Partial Class FrmMain
     Friend WithEvents btn_MonthReport As Windows.Forms.Button
     Friend WithEvents 說明ToolStripMenuItem As Windows.Forms.ToolStripMenuItem
     Friend WithEvents 關於ToolStripMenuItem As Windows.Forms.ToolStripMenuItem
+    Friend WithEvents Report_DatePicker As Windows.Forms.DateTimePicker
 End Class

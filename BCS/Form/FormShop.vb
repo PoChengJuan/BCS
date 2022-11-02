@@ -30,7 +30,7 @@ Public Class FormShop
       'If _form IsNot Nothing Then
       '  _form.Close()
       'End If
-      Dim SHOP_NO = tb_SHOP_NO.Text
+      Dim SHOP_NO = tb_SHOP_NO.Text.ToUpper
       Dim SHOP_MEMO = tb_SHOP_MEMO.Text
       Dim Now_Time As String = GetNewTime_DBFormat()
       Dim lstSQL As New List(Of String)

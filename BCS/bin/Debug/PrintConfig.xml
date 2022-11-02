@@ -29,6 +29,7 @@
 		<!--HTTP上傳時,指定Key值在哪個Tag,例如:Tag31,指定Tag31是上傳的Key,不指定的話系統自動以時間當Key-->
 		<FileRootPath>D:\BCS\</FileRootPath>
 		<ReportFunction>1</ReportFunction>
+		<MonthReportTime>12:00:00</MonthReportTime>
 	</Public>  
 	<DBList>  
 		<DBINFO>   <!--DB連線資訊-->
